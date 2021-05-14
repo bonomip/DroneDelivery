@@ -1,0 +1,32 @@
+REST/services/MGMTInfo.java
+ REST.services.MGMTInfo
+MQTT/PubExample.java
+ MQTT.PubExample
+REST/beans/Drone.java
+ REST.beans.Drone
+utils/Uri.java
+ utils.Uri
+ utils.Uri$AdminServer
+ utils.Uri$AdminServer$DroneService
+ utils.Uri$AdminServer$InfoService
+REST/beans/Info.java
+ REST.beans.Info
+MQTT/PubSubExample.java
+ MQTT.PubSubExample
+ MQTT.PubSubExample$1
+REST/beans/response/AddDroneResponse.java
+ REST.beans.response.AddDroneResponse
+MQTT/SubExample.java
+ MQTT.SubExample
+ MQTT.SubExample$1
+REST/AdminServer.java
+ REST.AdminServer
+MQTT/PubExampleCallback.java
+ MQTT.PubExampleCallback
+ MQTT.PubExampleCallback$1
+REST/services/MGMTDrones.java
+ REST.services.MGMTDrones
+REST/beans/SmartCity.java
+ REST.beans.SmartCity
+REST/test/ClientTest.java
+ REST.test.ClientTest
