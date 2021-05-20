@@ -7,13 +7,23 @@ import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Stats {
+public class Statistics {
 
 
-    private ArrayList<Stat> statList;
+    private ArrayList<Statistic> statList;
 
-
-    public Stats(){
+    public Statistics(){
         this.statList = new ArrayList<>();
+    }
+
+    public Statistics getLast(int n) {
+        //todo
+        return new Statistics();
+    }
+
+    public boolean add(Statistic stat) {
+        //todo
+        this.statList.add(stat);
+        return true;
     }
 }

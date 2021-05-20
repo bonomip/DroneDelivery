@@ -1,5 +1,6 @@
 package REST.services;
 
+import REST.beans.SmartCity;
 import utils.Uri;
 
 import javax.ws.rs.*;
@@ -22,9 +23,8 @@ public class MGMTInfo {
     @Path(Uri.AdminServer.InfoService.LAST_STATS+"{n}")
     @Produces({"application/json, application/xml"})
     public Response getLastStats(@PathParam("n") int n){
-        //return last n info with timestamps
         //todo
-        return Response.ok().build();
+        return Response.ok(SmartCity.getInstance().getLastStatistics(n)).build();
     }
 
     @GET

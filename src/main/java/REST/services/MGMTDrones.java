@@ -2,7 +2,7 @@ package REST.services;
 
 import REST.beans.Drone;
 import REST.beans.response.AddDroneResponse;
-import REST.beans.Info;
+import REST.beans.Statistic;
 import REST.beans.SmartCity;
 import utils.Uri;
 
@@ -33,7 +33,7 @@ public class MGMTDrones {
     @POST
     @Path("/master")
     @Produces({"application/json, application/xml"})
-    public Response setSmartCityInfo(Info info){
+    public Response setSmartCityInfo(Statistic info){
         //put the info in ad hoc data structure
         ////it's going to be used for further processing operations
         //todo

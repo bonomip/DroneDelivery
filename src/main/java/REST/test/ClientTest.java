@@ -1,16 +1,14 @@
 package REST.test;
 
 import REST.beans.Drone;
+import REST.beans.Statistics;
 import REST.beans.response.AddDroneResponse;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import utils.Uri;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.net.URI;
 
 public class ClientTest {
 
@@ -23,6 +21,20 @@ public class ClientTest {
                     + response.getStatus());
 
         return response.getEntity(String.class);
+    }
+
+    public static Statistics getLastStats(Client client, int n){
+        WebResource resource = client.resource(Uri.AdminServer.InfoService.getLastStats(n));
+        ClientResponse response = resource
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .get(ClientResponse.class);
+
+        if(response.getStatus() != 200){
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatus());
+        }
+
+        return response.getEntity(Statistics.class);
     }
 
     public static Drone newRndDrone(int max_id, int max_port){
@@ -111,7 +123,7 @@ public class ClientTest {
 
         try {
             Client client = Client.create();
-            createThreadThatCreatesAndDeleteDrones(client, 40);
+
         } catch (Exception e){e.printStackTrace();}
     }
 

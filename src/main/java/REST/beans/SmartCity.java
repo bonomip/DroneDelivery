@@ -6,29 +6,33 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SmartCity {
 
     private ArrayList<Drone> drones;
-    private ArrayList<Info> infos;
+    private Statistics stats;
 
     private static SmartCity instance;
 
     private SmartCity(){
         this.drones = new ArrayList<>();
-        this.infos = new ArrayList<>();
+        this.stats = new Statistics();
     }
 
     public synchronized static SmartCity getInstance(){
         if(SmartCity.instance == null)
             SmartCity.instance = new SmartCity();
         return SmartCity.instance;
+    }
+
+    public boolean addStatistic(Statistic stat){
+        return this.stats.add(stat);
+    }
+
+    public Statistics getLastStatistics(int n){
+        return this.stats.getLast(n);
     }
 
     public synchronized AddDroneResponse addDrone(Drone drone) {
