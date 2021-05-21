@@ -2,6 +2,9 @@ package MQTT;
 
 import org.eclipse.paho.client.mqttv3.*;
 
+//TODO STEP 2 IMPLEEMENTING DRONAZON WITH MQTT
+//Implementation of Dronazon and the MQTT protocol to publish and receive orders
+
 public class PubExample {
     public static void main(String[] args) {
         MqttClient client;

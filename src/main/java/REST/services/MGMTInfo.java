@@ -14,38 +14,29 @@ public class MGMTInfo {
     @Path(Uri.AdminServer.InfoService.DRONES)
     @Produces({"application/json, application/xml"})
     public Response getDrones(){
-        //return list of the drones in the smart city
-        //todo
-        return Response.ok().build();
+        return Response.ok(SmartCity.getInstance().getDroneList()).build();
     }
 
     @GET
     @Path(Uri.AdminServer.InfoService.LAST_STATS+"{n}")
     @Produces({"application/json, application/xml"})
     public Response getLastStats(@PathParam("n") int n){
-        //todo
         return Response.ok(SmartCity.getInstance().getLastStatistics(n)).build();
     }
 
     @GET
     @Path(Uri.AdminServer.InfoService.AVG_DEL+"{t1}/{t2}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAvgDelivery(@PathParam("t1") int t1, @PathParam("t2") int t2){
-        //return average delivery of all drones in smart city timestamp t1 and t2
-        //todo
-        return Response.ok().build();
+        return Response.ok(SmartCity.getInstance().getAvgDeliveries(t1, t2)).build();
     }
 
     @GET
     @Path(Uri.AdminServer.InfoService.AVG_KM+"{t1}/{t2}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAvgKm(@PathParam("t1") int t1, @PathParam("t2") int t2){
-        //return average kilometers of all drone in smart city between timestamp t1 and t2
-        //todo
-        //debug
-        String res = Float.toString((float) (t1+t2)/2);
-
-        return Response.ok(res).build();
+        //todo this method only return an integer not a float
+        return Response.ok(SmartCity.getInstance().getAvgKm(t1, t2)).build();
     }
 
 

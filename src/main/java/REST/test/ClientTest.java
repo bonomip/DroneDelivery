@@ -1,6 +1,7 @@
 package REST.test;
 
 import REST.beans.Drone;
+import REST.beans.Drones;
 import REST.beans.Statistics;
 import REST.beans.response.AddDroneResponse;
 import com.sun.jersey.api.client.Client;
@@ -13,28 +14,32 @@ import javax.ws.rs.core.MediaType;
 public class ClientTest {
 
     public static String getAvgKm(Client client, int t1, int t2){
-        WebResource resource = client.resource(Uri.AdminServer.InfoService.getAvgKm(t1, t2));
-        ClientResponse response = resource.accept(MediaType.TEXT_PLAIN).get(ClientResponse.class);
+        return getRequest(client,Uri.AdminServer.InfoService.getAvgKm(t1, t2), MediaType.APPLICATION_JSON)
+                .getEntity(String.class);
+    }
 
-        if(response.getStatus() != 200)
-            throw new RuntimeException("Failed : HTTP error code : "
-                    + response.getStatus());
+    public static String getAvgDeliveries(Client client, int t1, int t2){
+        return getRequest(client, Uri.AdminServer.InfoService.getAvgDel(t1,t2), MediaType.APPLICATION_JSON)
+                .getEntity(String.class);
+    }
 
-        return response.getEntity(String.class);
+    public static Drones getDroneList(Client client){
+        return getRequest(client, Uri.AdminServer.InfoService.getDrones(), MediaType.APPLICATION_JSON)
+                .getEntity(Drones.class);
     }
 
     public static Statistics getLastStats(Client client, int n){
-        WebResource resource = client.resource(Uri.AdminServer.InfoService.getLastStats(n));
-        ClientResponse response = resource
-                .accept(MediaType.APPLICATION_JSON_TYPE)
-                .get(ClientResponse.class);
+        return getRequest(client, Uri.AdminServer.InfoService.getLastStats(n), MediaType.APPLICATION_JSON)
+                .getEntity(Statistics.class);
+    }
 
-        if(response.getStatus() != 200){
-            throw new RuntimeException("Failed : HTTP error code : "
-                    + response.getStatus());
-        }
+    public static AddDroneResponse postDrone(Client client, Drone drone){
+        return postRequest(client, Uri.AdminServer.DroneService.postDrone(), drone )
+                .getEntity(AddDroneResponse.class);
+    }
 
-        return response.getEntity(Statistics.class);
+    public static void removeDrone(Client client, Drone drone){
+        deleteRequest(client, Uri.AdminServer.DroneService.postDrone(), drone);
     }
 
     public static Drone newRndDrone(int max_id, int max_port){
@@ -45,27 +50,7 @@ public class ClientTest {
 
     // ADD AND REMOVE DRONES
 
-    public static AddDroneResponse postDrone(Client client, Drone drone){
-        WebResource resource = client.resource(Uri.AdminServer.DroneService.postDrone());
-
-        System.out.println("[TRY] \t\t Drone ID => "+drone.getId());
-        ClientResponse response = resource
-                .accept("application/json")
-                .type("application/json")
-                .post(ClientResponse.class, drone);
-
-        if(response.getStatus() != 200){
-            System.out.println("[ERROR] \t\t Drone ID "+drone.getId()+" already exist!");
-            throw new RuntimeException("Failed : HTTP error code : "
-                    + response.getStatus() + " -- " + response.getEntity(String.class));
-        }
-
-        System.out.println("[ADD] \t\t Drone ID => "+drone.getId());
-
-        return response.getEntity(AddDroneResponse.class);
-    }
-
-    public static void removeDrone(Client client, Drone drone){
+    public static void removeDrone2(Client client, Drone drone){
         WebResource resource = client.resource(Uri.AdminServer.DroneService.postDrone());
 
         ClientResponse response = resource
@@ -119,10 +104,67 @@ public class ClientTest {
         }
     }
 
+
+    public static ClientResponse getRequest(Client client, String url, String type){
+        ClientResponse response = client.resource(url)
+                .type(type)
+                .get(ClientResponse.class);
+
+        if(response.getStatus() != 200)
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatus());
+
+        return response;
+    }
+
+    public static ClientResponse postRequest(Client client, String url, Drone drone){
+        ClientResponse response = client.resource(url)
+                .type(MediaType.APPLICATION_JSON)
+                .post(ClientResponse.class, drone);
+
+        if(response.getStatus() != 200)
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatus());
+
+        return response;
+    }
+
+    public static ClientResponse deleteRequest(Client client, String url, Drone drone){
+        ClientResponse response = client.resource(url)
+                .type(MediaType.APPLICATION_JSON)
+                .delete(ClientResponse.class, drone);
+
+        if(response.getStatus() != 200)
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatus());
+
+        return response;
+    }
+
+
+
     public static void main(String[] args) {
 
         try {
             Client client = Client.create();
+
+            System.out.println(getLastStats(client, 10));
+            System.out.println(getAvgKm(client, 10, 3));
+            System.out.println(getAvgDeliveries(client, 4, 7));
+
+            Drone d1 = newRndDrone(1000, 4000);
+            Drone d2 = newRndDrone(1000, 4000);
+            Drone d3 = newRndDrone(1000, 4000);
+            System.out.println(postDrone(client, d1));
+            System.out.println(postDrone(client, d2));
+            System.out.println(postDrone(client, d3));
+
+
+            System.out.println(getDroneList(client));
+
+            removeDrone(client, d1);
+
+            System.out.println(getDroneList(client));
 
         } catch (Exception e){e.printStackTrace();}
     }

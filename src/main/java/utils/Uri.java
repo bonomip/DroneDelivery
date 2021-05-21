@@ -22,7 +22,7 @@ public class Uri {
             }
 
             public static String getLastStats(int n){
-                return SERVER_URL+INFO_SERVICE+LAST_STATS+"/"+n;
+                return SERVER_URL+INFO_SERVICE+LAST_STATS+n;
             }
 
             public static String getAvgKm(int t1, int t2){
@@ -30,7 +30,7 @@ public class Uri {
             }
 
             public static String getAvgDel(int t1, int t2){
-                return SERVER_URL+INFO_SERVICE+AVG_DEL+"/"+t1+"/"+t2;
+                return SERVER_URL+INFO_SERVICE+AVG_DEL+t1+"/"+t2;
             }
         }
 
@@ -39,6 +39,10 @@ public class Uri {
             public static final String DRONE_SERVICE = "drones";
 
             public static String postDrone(){
+                return SERVER_URL+DRONE_SERVICE;
+            }
+
+            public static String deleteDrone(){
                 return SERVER_URL+DRONE_SERVICE;
             }
 

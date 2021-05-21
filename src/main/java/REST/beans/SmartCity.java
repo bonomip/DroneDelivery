@@ -11,13 +11,13 @@ import java.util.ArrayList;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SmartCity {
 
-    private ArrayList<Drone> drones;
+    private Drones drones;
     private Statistics stats;
 
     private static SmartCity instance;
 
     private SmartCity(){
-        this.drones = new ArrayList<>();
+        this.drones = new Drones();
         this.stats = new Statistics();
     }
 
@@ -27,7 +27,7 @@ public class SmartCity {
         return SmartCity.instance;
     }
 
-    public boolean addStatistic(Statistic stat){
+    public synchronized boolean addStatistic(Statistic stat){
         return this.stats.add(stat);
     }
 
@@ -35,30 +35,30 @@ public class SmartCity {
         return this.stats.getLast(n);
     }
 
+    public float getAvgKm(int t1, int t2){
+        //todo
+        return ((float)(t1+t2))/2;
+    }
+
+    public float getAvgDeliveries(int t1, int t2){
+        //todo
+        return ((float)(t1+t2))/2;
+    }
+
+    public synchronized Drones getDroneList(){
+        return this.drones;
+    }
+
     public synchronized AddDroneResponse addDrone(Drone drone) {
 
-        try{ Thread.sleep((int)(Math.random()*20));} catch (Exception e){e.printStackTrace();}
-
-        for(Drone d : this.drones)
-            if(d.getId() == drone.getId())
-                return null;
-
-        this.drones.add(drone);
-
-        //the list is passed as a copy to avoid memory conflict
-        // note : java passes list as reference
-        return new AddDroneResponse(new ArrayList<>(this.drones), RNDMPOS());
+        //the constructor passes the object as a completly different copy
+        if(this.drones.add(drone))
+            return new AddDroneResponse(new Drones(this.drones), RNDMPOS());
+        return null;
     }
 
     public synchronized boolean removeDrone(Drone drone){
-
-        try{ Thread.sleep((int)(Math.random()*20));} catch (Exception e){e.printStackTrace();}
-
-        for(Drone d : this.drones)
-            if(d.getId() == drone.getId())
-                return this.drones.remove(d);
-
-        return false;
+        return this.drones.remove(drone);
     }
 
     private static int[] RNDMPOS(){

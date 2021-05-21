@@ -1,6 +1,7 @@
 package REST.beans.response;
 
 import REST.beans.Drone;
+import REST.beans.Drones;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,17 +13,17 @@ import java.util.Arrays;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AddDroneResponse {
 
-    private ArrayList<Drone> drones;
+    private Drones drones;
     private int[] startPosition;
 
     public AddDroneResponse(){}
 
-    public AddDroneResponse(ArrayList<Drone> drones, int[] position){
+    public AddDroneResponse(Drones drones, int[] position){
         this.drones = drones;
         this.startPosition = position;
     }
 
-    public ArrayList<Drone> getDrones() {
+    public Drones getDrones() {
         return drones;
     }
 

@@ -27,7 +27,7 @@ public class MGMTDrones {
     public Response removeDrone(Drone drone){
         if(SmartCity.getInstance().removeDrone(drone))
             return Response.ok().build();
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.CONFLICT).build();
     }
 
     @POST
