@@ -17,7 +17,7 @@ public class MGMTDrones {
     public Response addDrone(Drone drone){
         AddDroneResponse response = SmartCity.getInstance().addDrone(drone);
         if(response == null)
-            return Response.ok(drone.getId()).status(Response.Status.CONFLICT).build();
+            return Response.ok().status(Response.Status.BAD_REQUEST).build();
 
         return Response.ok(response).build();
     }
@@ -27,7 +27,7 @@ public class MGMTDrones {
     public Response removeDrone(Drone drone){
         if(SmartCity.getInstance().removeDrone(drone))
             return Response.ok().build();
-        return Response.status(Response.Status.CONFLICT).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @POST

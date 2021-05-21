@@ -19,7 +19,7 @@ public class Drones {
         this.drones = new ArrayList<>(copy.getList());
     }
 
-    private ArrayList<Drone> getList() {
+    public ArrayList<Drone> getList() {
         return this.drones;
     }
 

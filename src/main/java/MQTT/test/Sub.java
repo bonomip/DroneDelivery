@@ -1,25 +1,29 @@
-package MQTT;
+package MQTT.test;
 
+import MQTT.message.Delivery;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.sql.Timestamp;
 import java.util.Scanner;
 
-public class SubExample {
-    public static void main(String[] args) {
-        MqttClient client;
-        String broker = "tcp://localhost:1883";
-        String clientId = MqttClient.generateClientId();
-        String topic = "home/sensors/#";
-        int qos = 2;
+public class Sub {
 
+    public static final String BROKER = "tcp://localhost:1883";
+    public static final String TOPIC = "dronazon/smartcity/orders/";
+    public static final int QOS = 2;
+
+    public static void main(String[] args) {
+
+
+        MqttClient client;
+        String clientId = MqttClient.generateClientId();
         try {
-            client = new MqttClient(broker, clientId);
+            client = new MqttClient(BROKER, clientId);
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
 
             // Connect the client
-            System.out.println(clientId + " Connecting Broker " + broker);
+            System.out.println(clientId + " Connecting Broker " + BROKER);
             client.connect(connOpts);
             System.out.println(clientId + " Connected - Thread PID: " + Thread.currentThread().getId());
 
@@ -29,7 +33,7 @@ public class SubExample {
                 public void messageArrived(String topic, MqttMessage message) {
                     // Called when a message arrives from the server that matches any subscription made by the client
                     String time = new Timestamp(System.currentTimeMillis()).toString();
-                    String receivedMessage = new String(message.getPayload());
+                    Delivery receivedMessage = Delivery.fromJSON(new String(message.getPayload()));
                     System.out.println(clientId +" Received a Message! - Callback - Thread PID: " + Thread.currentThread().getId() +
                             "\n\tTime:    " + time +
                             "\n\tTopic:   " + topic +
@@ -50,8 +54,8 @@ public class SubExample {
 
             });
             System.out.println(clientId + " Subscribing ... - Thread PID: " + Thread.currentThread().getId());
-            client.subscribe(topic,qos);
-            System.out.println(clientId + " Subscribed to topics : " + topic);
+            client.subscribe(TOPIC,QOS);
+            System.out.println(clientId + " Subscribed to topics : " + TOPIC);
 
 
             System.out.println("\n ***  Press a random key to exit *** \n");
@@ -68,8 +72,6 @@ public class SubExample {
             me.printStackTrace();
         }
 
-
     }
-
 
 }
