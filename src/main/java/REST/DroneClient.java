@@ -1,14 +1,12 @@
 package REST;
 
-import GRPC.drones.DroneData;
-import REST.beans.Drone;
+import REST.beans.drone.Drone;
 import REST.beans.response.AddDroneResponse;
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import utils.Request;
-import utils.Uri;
+import REST.utils.Request;
+import REST.utils.Uri;
 
-import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
 
 public class DroneClient {
 
@@ -19,24 +17,28 @@ public class DroneClient {
         this.client = Client.create();
     }
 
-    public DroneData addDroneToNetwork(int id, int port) {
-            AddDroneResponse serverResponse = postDrone(this.client, new Drone(id, "localhost", port));
-            DroneData data = new DroneData(id, port);
-            for(Drone bean : serverResponse.getDrones().getList())
-                data.addKnownDrone(bean.getId(), bean.getPort());
-            return data;
+    public HashMap<String, Object> addDroneToNetwork(int id, String ip, int port) {
+        HashMap<String, Object> result = new HashMap<>();
+
+        AddDroneResponse serverResponse = postDrone(this.client, new Drone(id, ip, port));
+
+        result.put("drone", new Drone(id, ip, port));
+        result.put("drones", serverResponse.getDrones());
+        result.put("position", serverResponse.getStartPosition());
+
+        return result;
     }
 
-    public void removeDroneFromNetwork(DroneData drone){
-
+    public void removeDroneFromNetwork(Drone drone){
+        removeDrone(this.client, drone);
     }
 
-    public static AddDroneResponse postDrone(Client client, Drone drone){
+    private static AddDroneResponse postDrone(Client client, Drone drone){
         return Request.postRequest(client, Uri.AdminServer.DroneService.postDrone(), drone )
                 .getEntity(AddDroneResponse.class);
     }
 
-    public static void removeDrone(Client client, Drone drone){
+    private static void removeDrone(Client client, Drone drone){
         Request.deleteRequest(client, Uri.AdminServer.DroneService.postDrone(), drone);
     }
 

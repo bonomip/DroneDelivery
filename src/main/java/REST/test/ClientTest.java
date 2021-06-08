@@ -1,14 +1,14 @@
 package REST.test;
 
-import REST.beans.Drone;
-import REST.beans.Drones;
-import REST.beans.Statistics;
+import REST.beans.drone.Drone;
+import REST.beans.drone.Drones;
+import REST.beans.statistic.Statistics;
 import REST.beans.response.AddDroneResponse;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import utils.Request;
-import utils.Uri;
+import REST.utils.Request;
+import REST.utils.Uri;
 
 import javax.ws.rs.core.MediaType;
 

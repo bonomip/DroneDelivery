@@ -1,55 +1,80 @@
-GRPC/drones/DroneData.java
- GRPC.drones.DroneData
-utils/Request.java
- utils.Request
-REST/beans/Statistic.java
- REST.beans.Statistic
-REST/services/MGMTInfo.java
- REST.services.MGMTInfo
-REST/beans/Statistics.java
- REST.beans.Statistics
-GRPC/drones/DronePeer.java
- GRPC.drones.DronePeer
-REST/DroneClient.java
- REST.DroneClient
-MQTT/PubExample.java
- MQTT.PubExample
-REST/beans/Drones.java
- REST.beans.Drones
+REST/beans/statistic/Statistic.java
+ REST.beans.statistic.Statistic
+GRPC/drones/threads/Behaviour.java
+ GRPC.drones.threads.Behaviour
+REST/beans/drone/Drones.java
+ REST.beans.drone.Drones
+REST/beans/statistic/Statistics.java
+ REST.beans.statistic.Statistics
+REST/utils/Uri.java
+ REST.utils.Uri
+ REST.utils.Uri$AdminServer
+ REST.utils.Uri$AdminServer$DroneService
+ REST.utils.Uri$AdminServer$InfoService
+GRPC/drones/Sensor.java
+ GRPC.drones.Sensor
 MQTT/test/Sub.java
  MQTT.test.Sub
  MQTT.test.Sub$1
-REST/beans/Drone.java
- REST.beans.Drone
+GRPC/drones/RingList.java
+ GRPC.drones.RingList
+ GRPC.drones.RingList$1
 REST/AdminClient.java
  REST.AdminClient
-utils/Uri.java
- utils.Uri
- utils.Uri$AdminServer
- utils.Uri$AdminServer$DroneService
- utils.Uri$AdminServer$InfoService
+GRPC/drones/threads/Slave.java
+ GRPC.drones.threads.Slave
+GRPC/test/MultipleDrones.java
+ GRPC.test.MultipleDrones
+REST/beans/SmartCity.java
+ REST.beans.SmartCity
+REST/beans/response/AddDroneResponse.java
+ REST.beans.response.AddDroneResponse
+REST/utils/Request.java
+ REST.utils.Request
+GRPC/drones/threads/Master.java
+ GRPC.drones.threads.Master
+REST/beans/drone/Drone.java
+ REST.beans.drone.Drone
+REST/services/MGMTInfo.java
+ REST.services.MGMTInfo
+drone/grpc/greeterservice/GreeterGrpc.java
+ drone.grpc.greeterservice.GreeterGrpc
+ drone.grpc.greeterservice.GreeterGrpc$1
+ drone.grpc.greeterservice.GreeterGrpc$GreeterBaseDescriptorSupplier
+ drone.grpc.greeterservice.GreeterGrpc$GreeterBlockingStub
+ drone.grpc.greeterservice.GreeterGrpc$GreeterFileDescriptorSupplier
+ drone.grpc.greeterservice.GreeterGrpc$GreeterFutureStub
+ drone.grpc.greeterservice.GreeterGrpc$GreeterImplBase
+ drone.grpc.greeterservice.GreeterGrpc$GreeterMethodDescriptorSupplier
+ drone.grpc.greeterservice.GreeterGrpc$GreeterStub
+ drone.grpc.greeterservice.GreeterGrpc$MethodHandlers
+REST/DroneClient.java
+ REST.DroneClient
+drone/grpc/greeterservice/DroneService.java
+ drone.grpc.greeterservice.DroneService
+ drone.grpc.greeterservice.DroneService$1
+ drone.grpc.greeterservice.DroneService$HelloRequest
+ drone.grpc.greeterservice.DroneService$HelloRequest$1
+ drone.grpc.greeterservice.DroneService$HelloRequest$Builder
+ drone.grpc.greeterservice.DroneService$HelloRequestOrBuilder
+ drone.grpc.greeterservice.DroneService$HelloResponse
+ drone.grpc.greeterservice.DroneService$HelloResponse$1
+ drone.grpc.greeterservice.DroneService$HelloResponse$Builder
+ drone.grpc.greeterservice.DroneService$HelloResponseOrBuilder
 MQTT/message/Delivery.java
  MQTT.message.Delivery
 MQTT/Dronazon.java
  MQTT.Dronazon
 REST/test/ClientTest.java
  REST.test.ClientTest
-REST/beans/SmartCity.java
- REST.beans.SmartCity
-GRPC/drones/Drone.java
- GRPC.drones.Drone
-MQTT/SubExample.java
- MQTT.SubExample
- MQTT.SubExample$1
+MQTT/DeliverySubscriber.java
+ MQTT.DeliverySubscriber
 REST/AdminServer.java
  REST.AdminServer
 REST/services/MGMTDrones.java
  REST.services.MGMTDrones
-REST/beans/response/AddDroneResponse.java
- REST.beans.response.AddDroneResponse
-MQTT/PubExampleCallback.java
- MQTT.PubExampleCallback
- MQTT.PubExampleCallback$1
-MQTT/PubSubExample.java
- MQTT.PubSubExample
- MQTT.PubSubExample$1
+GRPC/drones/GreeterImpl.java
+ GRPC.drones.GreeterImpl
+GRPC/drones/Peer.java
+ GRPC.drones.Peer
+ GRPC.drones.Peer$1

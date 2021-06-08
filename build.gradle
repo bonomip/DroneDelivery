@@ -1,4 +1,5 @@
 plugins {
+    id "com.google.protobuf" version "0.8.10" // for GRPC
     id "java"
     id "war" // for REST
 }
@@ -54,6 +55,37 @@ dependencies {
     // MQTT Dependencies
     // https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3
     compile group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
+}
+
+// GRPC
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/java/GRPC/proto'
+        }
+        java {
+            srcDirs 'build/generated/source/proto/main/grpc'
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.10.1'
+    }
+
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.25.0'
+        }
+    }
+
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
 }
 
 

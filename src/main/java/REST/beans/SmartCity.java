@@ -1,11 +1,14 @@
 package REST.beans;
 
+import REST.beans.drone.Drone;
+import REST.beans.drone.Drones;
 import REST.beans.response.AddDroneResponse;
+import REST.beans.statistic.Statistic;
+import REST.beans.statistic.Statistics;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

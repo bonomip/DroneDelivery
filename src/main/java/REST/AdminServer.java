@@ -1,8 +1,8 @@
 package REST;
 
+import REST.utils.Uri;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
-import utils.Uri;
 
 import java.io.IOException;
 

@@ -1,10 +1,10 @@
 package REST.services;
 
-import REST.beans.Drone;
+import REST.beans.drone.Drone;
 import REST.beans.response.AddDroneResponse;
-import REST.beans.Statistic;
+import REST.beans.statistic.Statistic;
 import REST.beans.SmartCity;
-import utils.Uri;
+import REST.utils.Uri;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
