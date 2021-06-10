@@ -8,7 +8,6 @@ public class Drone {
     private int id;
     private String ip;
     private int port;
-    //protected int[] position;
 
     public Drone(){}
 

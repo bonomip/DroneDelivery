@@ -6,9 +6,6 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 
-/**
- * Created by civi on 26/04/16.
- */
 public class AdminServer {
 
     public static void main(String[] args) throws IOException {

@@ -28,17 +28,17 @@ public class Dronazon {
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
 
-            System.out.println(clientId + " Connecting Broker " + BROKER);
+            System.out.println("[ MQTT ] "+clientId + " Connecting Broker " + BROKER);
             client.connect(connOpts);
-            System.out.println(clientId + " Connected");
+            System.out.println("[ MQTT ] "+clientId + " Connected");
 
             while(true){ //sending loop
                 Delivery delivery = createDelivery();
                 MqttMessage message = new MqttMessage(delivery.toJSON().getBytes());
                 message.setQos(QOS);
-                System.out.println(clientId + " Publishing message: "+ delivery.toJSON());
+                System.out.println("[ MQTT ] "+clientId + " Publishing message: "+ delivery.getId());
                 client.publish(TOPIC, message);
-                System.out.println(clientId + " Message published");
+                System.out.println("[ MQTT ] "+clientId + " Message published");
                 Thread.sleep(5000);
             }
         } catch (MqttException | InterruptedException me ) {

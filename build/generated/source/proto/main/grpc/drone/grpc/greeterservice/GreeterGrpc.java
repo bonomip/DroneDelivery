@@ -19,7 +19,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.25.0)",
-    comments = "Source: DroneService.proto")
+    comments = "Source: GreetService.proto")
 public final class GreeterGrpc {
 
   private GreeterGrpc() {}
@@ -27,29 +27,29 @@ public final class GreeterGrpc {
   public static final String SERVICE_NAME = "drone.grpc.greeterservice.Greeter";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<drone.grpc.greeterservice.DroneService.HelloRequest,
-      drone.grpc.greeterservice.DroneService.HelloResponse> getGreetingMethod;
+  private static volatile io.grpc.MethodDescriptor<drone.grpc.greeterservice.GreetService.HelloRequest,
+      drone.grpc.greeterservice.GreetService.HelloResponse> getGreetingMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "Greeting",
-      requestType = drone.grpc.greeterservice.DroneService.HelloRequest.class,
-      responseType = drone.grpc.greeterservice.DroneService.HelloResponse.class,
+      requestType = drone.grpc.greeterservice.GreetService.HelloRequest.class,
+      responseType = drone.grpc.greeterservice.GreetService.HelloResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-  public static io.grpc.MethodDescriptor<drone.grpc.greeterservice.DroneService.HelloRequest,
-      drone.grpc.greeterservice.DroneService.HelloResponse> getGreetingMethod() {
-    io.grpc.MethodDescriptor<drone.grpc.greeterservice.DroneService.HelloRequest, drone.grpc.greeterservice.DroneService.HelloResponse> getGreetingMethod;
+  public static io.grpc.MethodDescriptor<drone.grpc.greeterservice.GreetService.HelloRequest,
+      drone.grpc.greeterservice.GreetService.HelloResponse> getGreetingMethod() {
+    io.grpc.MethodDescriptor<drone.grpc.greeterservice.GreetService.HelloRequest, drone.grpc.greeterservice.GreetService.HelloResponse> getGreetingMethod;
     if ((getGreetingMethod = GreeterGrpc.getGreetingMethod) == null) {
       synchronized (GreeterGrpc.class) {
         if ((getGreetingMethod = GreeterGrpc.getGreetingMethod) == null) {
           GreeterGrpc.getGreetingMethod = getGreetingMethod =
-              io.grpc.MethodDescriptor.<drone.grpc.greeterservice.DroneService.HelloRequest, drone.grpc.greeterservice.DroneService.HelloResponse>newBuilder()
+              io.grpc.MethodDescriptor.<drone.grpc.greeterservice.GreetService.HelloRequest, drone.grpc.greeterservice.GreetService.HelloResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Greeting"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  drone.grpc.greeterservice.DroneService.HelloRequest.getDefaultInstance()))
+                  drone.grpc.greeterservice.GreetService.HelloRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  drone.grpc.greeterservice.DroneService.HelloResponse.getDefaultInstance()))
+                  drone.grpc.greeterservice.GreetService.HelloResponse.getDefaultInstance()))
               .setSchemaDescriptor(new GreeterMethodDescriptorSupplier("Greeting"))
               .build();
         }
@@ -87,8 +87,8 @@ public final class GreeterGrpc {
 
     /**
      */
-    public void greeting(drone.grpc.greeterservice.DroneService.HelloRequest request,
-        io.grpc.stub.StreamObserver<drone.grpc.greeterservice.DroneService.HelloResponse> responseObserver) {
+    public void greeting(drone.grpc.greeterservice.GreetService.HelloRequest request,
+        io.grpc.stub.StreamObserver<drone.grpc.greeterservice.GreetService.HelloResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGreetingMethod(), responseObserver);
     }
 
@@ -98,8 +98,8 @@ public final class GreeterGrpc {
             getGreetingMethod(),
             asyncServerStreamingCall(
               new MethodHandlers<
-                drone.grpc.greeterservice.DroneService.HelloRequest,
-                drone.grpc.greeterservice.DroneService.HelloResponse>(
+                drone.grpc.greeterservice.GreetService.HelloRequest,
+                drone.grpc.greeterservice.GreetService.HelloResponse>(
                   this, METHODID_GREETING)))
           .build();
     }
@@ -125,8 +125,8 @@ public final class GreeterGrpc {
 
     /**
      */
-    public void greeting(drone.grpc.greeterservice.DroneService.HelloRequest request,
-        io.grpc.stub.StreamObserver<drone.grpc.greeterservice.DroneService.HelloResponse> responseObserver) {
+    public void greeting(drone.grpc.greeterservice.GreetService.HelloRequest request,
+        io.grpc.stub.StreamObserver<drone.grpc.greeterservice.GreetService.HelloResponse> responseObserver) {
       asyncServerStreamingCall(
           getChannel().newCall(getGreetingMethod(), getCallOptions()), request, responseObserver);
     }
@@ -152,8 +152,8 @@ public final class GreeterGrpc {
 
     /**
      */
-    public java.util.Iterator<drone.grpc.greeterservice.DroneService.HelloResponse> greeting(
-        drone.grpc.greeterservice.DroneService.HelloRequest request) {
+    public java.util.Iterator<drone.grpc.greeterservice.GreetService.HelloResponse> greeting(
+        drone.grpc.greeterservice.GreetService.HelloRequest request) {
       return blockingServerStreamingCall(
           getChannel(), getGreetingMethod(), getCallOptions(), request);
     }
@@ -198,8 +198,8 @@ public final class GreeterGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_GREETING:
-          serviceImpl.greeting((drone.grpc.greeterservice.DroneService.HelloRequest) request,
-              (io.grpc.stub.StreamObserver<drone.grpc.greeterservice.DroneService.HelloResponse>) responseObserver);
+          serviceImpl.greeting((drone.grpc.greeterservice.GreetService.HelloRequest) request,
+              (io.grpc.stub.StreamObserver<drone.grpc.greeterservice.GreetService.HelloResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -223,7 +223,7 @@ public final class GreeterGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return drone.grpc.greeterservice.DroneService.getDescriptor();
+      return drone.grpc.greeterservice.GreetService.getDescriptor();
     }
 
     @java.lang.Override

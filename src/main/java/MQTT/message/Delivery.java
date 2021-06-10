@@ -31,13 +31,24 @@ public class Delivery {
         this.destination = destination;
     }
 
+    public boolean isOnProcessing() {
+        return onProcessing;
+    }
+
+    public void setOnProcessing(boolean b) {
+        this.onProcessing = b;
+    }
+
     private int id;
     private int[] origin, destination;
+
+    private boolean onProcessing;
 
     public Delivery(int id, int[] origin, int[] destination){
         this.id = id;
         this.origin = origin;
         this.destination = destination;
+        this.onProcessing = false;
     }
 
     public String toJSON(){
