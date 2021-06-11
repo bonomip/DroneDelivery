@@ -6,10 +6,13 @@ import GRPC.drones.service.Deliver;
 import MQTT.DeliverySubscriber;
 import MQTT.message.Delivery;
 import REST.beans.drone.Drone;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.util.Arrays;
 
 public class TMaster extends Behaviour {
+
+    public static final Object DELIVERY_LOCK = new Object();
 
     DeliverySubscriber deliverySubscriber;
 
@@ -25,9 +28,7 @@ public class TMaster extends Behaviour {
 
     @Override
     public void run() {
-
         while(!this.exit){
-
             if(this.areDeliveriesPending())
             {
                 Delivery delivery = this.deliverySubscriber.HeadDelivery();
@@ -36,18 +37,24 @@ public class TMaster extends Behaviour {
                 Deliver.assignDelivery(this.deliverySubscriber, delivery);
             } else
             {
-                //System.out.println(" [ INFO ] no pending deliveries");
-            }
-
-            try {
-                //todo remove sleep
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                synchronized (DELIVERY_LOCK){
+                    try {
+                        DELIVERY_LOCK.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
 
-        //exit procedures
+        try {
+            this.deliverySubscriber.closeConnection();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+
+        //assign pending deliveries
+        //send global stats to
 
     }
 

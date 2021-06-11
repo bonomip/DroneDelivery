@@ -7,21 +7,13 @@ import drone.grpc.deliveryservice.DeliverGrpc;
 import drone.grpc.deliveryservice.DeliveryService;
 import io.grpc.stub.StreamObserver;
 
-import java.util.Arrays;
-import java.util.Random;
-
 public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
     @Override
     public void assign(
             DeliveryService.DeliveryRequest request,
             StreamObserver<DeliveryService.DeliveryResponse> responseObserver) {
 
-        int[] position = new int[] {request.getXDestination(), request.getYDestination()};
-        int[] origin = new int[] {request.getXOrigin(), request.getYOrigin()};
-        int meters = (int) (Deliver.distance(origin, position) * 1000);
-        int id = request.getId();
-
-        System.out.println("[ DELIVERY ] assigned to drone id "+Peer.ME.getId()+" @ "+id);
+        System.out.println("[ DELIVERY ] assigned to drone id "+Peer.ME.getId()+" @ "+request.getId());
 
         try {
             Thread.sleep(5000);
@@ -29,8 +21,11 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
             e.printStackTrace();
         }
 
+        int[] position = new int[] {request.getXDestination(), request.getYDestination()};
+        int[] origin = new int[] {request.getXOrigin(), request.getYOrigin()};
+        int meters = (int) (Deliver.distance(origin, position) * 1000);
+        int id = request.getId();
         long time = System.currentTimeMillis();
-
 
         //todo 10% di 100 o 10% di Peer.BATTERY ?
         Peer.BATTERY -= 10;
@@ -38,9 +33,13 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
         DeliveryService.DeliveryResponse response =
                 createDeliveryResponse(id, time, position, meters, Peer.BATTERY, Math.random()*10, time);
 
-        //todo exit from the network if battery < 15
-
         System.out.println("[ DELIVERY ] done by drone id "+Peer.ME.getId()+" @ "+id);
+
+        if(Peer.BATTERY < 15)
+            synchronized (Peer.EXIT_LOCK) {
+                Peer.EXIT = true;
+                Peer.EXIT_LOCK.notify();
+            }
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();

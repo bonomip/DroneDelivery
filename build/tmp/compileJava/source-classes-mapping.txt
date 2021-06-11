@@ -23,8 +23,8 @@ GRPC/drones/RingList.java
  GRPC.drones.RingList$1
 REST/AdminClient.java
  REST.AdminClient
-GRPC/drones/threads/TMaster.java
- GRPC.drones.threads.TMaster
+REST/test/ClientTest.java
+ REST.test.ClientTest
 GRPC/test/MultipleDrones.java
  GRPC.test.MultipleDrones
 REST/beans/SmartCity.java
@@ -44,8 +44,8 @@ REST/beans/response/AddDroneResponse.java
  REST.beans.response.AddDroneResponse
 REST/utils/Request.java
  REST.utils.Request
-GRPC/drones/threads/TSlave.java
- GRPC.drones.threads.TSlave
+MQTT/Dronazon.java
+ MQTT.Dronazon
 REST/beans/drone/Drone.java
  REST.beans.drone.Drone
 REST/services/MGMTInfo.java
@@ -61,8 +61,9 @@ drone/grpc/greeterservice/GreeterGrpc.java
  drone.grpc.greeterservice.GreeterGrpc$GreeterMethodDescriptorSupplier
  drone.grpc.greeterservice.GreeterGrpc$GreeterStub
  drone.grpc.greeterservice.GreeterGrpc$MethodHandlers
-GRPC/drones/data/Slave.java
- GRPC.drones.data.Slave
+MQTT/DeliverySubscriber.java
+ MQTT.DeliverySubscriber
+ MQTT.DeliverySubscriber$1
 REST/DroneClient.java
  REST.DroneClient
 drone/grpc/deliveryservice/DeliveryService.java
@@ -89,22 +90,21 @@ drone/grpc/greeterservice/GreetService.java
  drone.grpc.greeterservice.GreetService$HelloResponseOrBuilder
 MQTT/message/Delivery.java
  MQTT.message.Delivery
+REST/AdminServer.java
+ REST.AdminServer
+GRPC/drones/threads/TSlave.java
+ GRPC.drones.threads.TSlave
+GRPC/drones/threads/TMaster.java
+ GRPC.drones.threads.TMaster
 GRPC/drones/imp/GreeterImpl.java
  GRPC.drones.imp.GreeterImpl
-MQTT/Dronazon.java
- MQTT.Dronazon
 GRPC/drones/service/Deliver.java
  GRPC.drones.service.Deliver
  GRPC.drones.service.Deliver$1
-REST/test/ClientTest.java
- REST.test.ClientTest
-MQTT/DeliverySubscriber.java
- MQTT.DeliverySubscriber
- MQTT.DeliverySubscriber$1
+GRPC/drones/data/Slave.java
+ GRPC.drones.data.Slave
 GRPC/drones/imp/DeliveryImpl.java
  GRPC.drones.imp.DeliveryImpl
-REST/AdminServer.java
- REST.AdminServer
 GRPC/drones/service/Greeter.java
  GRPC.drones.service.Greeter
  GRPC.drones.service.Greeter$1

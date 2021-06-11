@@ -11,6 +11,7 @@ public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
 
     @Override
     public void greeting(GreetService.HelloRequest request, StreamObserver<GreetService.HelloResponse> responseObserver) {
+
         GreetService.HelloResponse response = createHelloResponse(Peer.ME, Peer.MASTER);
 
         Drone drone = getDroneFromHelloRequest(request);

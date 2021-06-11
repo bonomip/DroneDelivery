@@ -4,6 +4,7 @@ import GRPC.drones.imp.DeliveryImpl;
 import GRPC.drones.imp.GreeterImpl;
 import GRPC.drones.service.Greeter;
 import GRPC.drones.threads.Behaviour;
+import GRPC.drones.threads.TInput;
 import GRPC.drones.threads.TMaster;
 import GRPC.drones.data.Slave;
 import GRPC.drones.threads.TSlave;
@@ -13,9 +14,7 @@ import REST.beans.drone.Drones;
 
 import io.grpc.*;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,13 +34,36 @@ public class Peer {
         return MASTER.getId() == ME.getId();
     }
 
+
+    /*
+      String time = new Timestamp(System.currentTimeMillis()).toString();
+     */
+
     public static Drone MASTER;
     public static Drone ME;
     public static RingList MY_FRIENDS;
     public static ArrayList<Slave> MY_SLAVES = new ArrayList<>();
     public static int[] MY_POSITION;
     public static int BATTERY = 100;
-    public static Behaviour THREAD;
+    public static Behaviour BTHREAD;
+    public static TInput ITHREAD;
+    public static boolean EXIT = false;
+    public static final Object EXIT_LOCK = new Object();
+    public static DroneClient REST_CLIENT;
+    public static Server GRPC_SERVER;
+
+    public static void exit(){
+        System.out.println("[ INFO ] quitting drone id "+ ME.getId());
+        GRPC_SERVER.shutdown();
+        REST_CLIENT.removeDroneFromNetwork(ME);
+        BTHREAD.quit();
+        try {
+            BTHREAD.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
+    }
 
     private static Server startGrpcServer() throws IOException {
         Server server = ServerBuilder.forPort(ME.getPort())
@@ -75,37 +97,31 @@ public class Peer {
         int port = (int)(Math.random()*2000);   //in this case, we are using the same ip for all the drones,
                                                 //so all the ports trought all the application need to be different
 
-        DroneClient restClient = serverRestRegistrationWithDataUnmarshalling(id, ip, port);
+        REST_CLIENT = serverRestRegistrationWithDataUnmarshalling(id, ip, port);
 
-        Server grpcServer = startGrpcServer();
+        GRPC_SERVER = startGrpcServer();
 
         Greeter.joinOverlayNetwork(MY_FRIENDS, ME, MY_POSITION);
 
         MY_SLAVES.add(new Slave(ME, MY_POSITION));
 
         if(isMaster())
-            THREAD = new TMaster();
+            BTHREAD = new TMaster();
         else
-            THREAD = new TSlave();
+            BTHREAD = new TSlave();
 
-        THREAD.start();
+        BTHREAD.start();
 
-        //LIFE CYCLE
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        while(true){
+        //thread for handle input from keyboard
+        ITHREAD = new TInput();
+        ITHREAD.start();
 
-            THREAD.printStatus();
-
-            String in = br.readLine();
-            if(in.equals("quit")){
-                System.out.println("[ INFO ] quitting drone id "+ ME.getId());
-                restClient.removeDroneFromNetwork(ME);
-                grpcServer.shutdown();
-                THREAD.quit();
-                break;
+        synchronized (EXIT_LOCK){
+            while(!EXIT){
+                EXIT_LOCK.wait();
             }
         }
+
+        exit();
     }
-
-
 }

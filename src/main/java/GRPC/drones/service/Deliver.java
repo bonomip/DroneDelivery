@@ -7,13 +7,9 @@ import MQTT.DeliverySubscriber;
 import MQTT.message.Delivery;
 import drone.grpc.deliveryservice.DeliverGrpc;
 import drone.grpc.deliveryservice.DeliveryService;
-import drone.grpc.greeterservice.GreeterGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-
-import java.util.Arrays;
-
 
 public class Deliver {
 

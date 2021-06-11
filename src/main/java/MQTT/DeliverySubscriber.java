@@ -1,5 +1,6 @@
 package MQTT;
 
+import GRPC.drones.threads.TMaster;
 import MQTT.message.Delivery;
 import org.eclipse.paho.client.mqttv3.*;
 
@@ -63,17 +64,14 @@ public class DeliverySubscriber {
 
                 public void messageArrived(String topic, MqttMessage message) {
                     // Called when a message arrives from the server that matches any subscription made by the client
-                    String time = new Timestamp(System.currentTimeMillis()).toString();
+
                     Delivery receivedMessage = Delivery.fromJSON(new String(message.getPayload()));
-                    /*System.out.println(clientId +" Received a Message! - Callback - Thread PID: " + Thread.currentThread().getId() +
-                            "\n\tTime:    " + time +
-                            "\n\tTopic:   " + topic +
-                            "\n\tMessage: " + receivedMessage +
-                            "\n\tQoS:     " + message.getQos() + "\n");
-                    */
                     System.out.println("[ MQTT ] recived delivery @ "+ receivedMessage.getId());
                     addDelivery(receivedMessage);
 
+                    synchronized (TMaster.DELIVERY_LOCK){
+                        TMaster.DELIVERY_LOCK.notify();
+                    }
                 }
 
                 public void connectionLost(Throwable cause) {
