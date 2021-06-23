@@ -9,7 +9,8 @@ public class Slave {
 
     public Drone drone;
     public int[] position;
-    public boolean delivering;
+    private boolean delivering;
+    private int battery;
 
     public Slave(Drone drone, int[] position){
         this.drone = drone;
@@ -17,10 +18,17 @@ public class Slave {
         this.delivering = false;
     }
 
+    public boolean isDelivering(){
+        return this.delivering;
+    }
+
     public void setDelivering(boolean b){
         this.delivering = b;
     }
 
+    public void setBattery(int i){ this.battery = i; }
+
+    public int getBattery() { return this.battery; }
     @Override
     public String toString() {
         return "{" +

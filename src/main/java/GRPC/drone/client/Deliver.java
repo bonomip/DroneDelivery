@@ -81,10 +81,11 @@ public class Deliver {
         return Math.sqrt( Math.pow(p2[0]-p1[0] , 2) + Math.pow(p2[1]-p1[1], 2));
     }
 
-
     private static Slave findCourier(int[] origin){
         if(Peer.MY_SLAVES.size() == 0)
             return null;
+
+
 
         return null;
     }
