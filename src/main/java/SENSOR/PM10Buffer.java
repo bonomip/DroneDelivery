@@ -2,6 +2,7 @@ package SENSOR;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PM10Buffer implements Buffer {
 
@@ -50,5 +51,11 @@ public class PM10Buffer implements Buffer {
         ArrayList<Measurement> result = new ArrayList<>(this.window);
         this.window.clear();
         return result;
+    }
+
+    public static List<Double> fromMeasurementToDouble(List<Measurement> measurement_list){
+        return measurement_list.stream()
+                .map(Measurement::getValue)
+                .collect(Collectors.toList());
     }
 }

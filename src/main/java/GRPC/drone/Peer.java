@@ -115,6 +115,8 @@ public class Peer {
 
         GRPC_SERVER = startGrpcServer();
 
+        setUpSensor();
+
         Greeter.joinOverlayNetwork(MY_FRIENDS, ME, MY_POSITION);
 
         MY_SLAVES.add(new Slave(ME, MY_POSITION));

@@ -19,6 +19,12 @@ public class Deliver {
         //todo get stats and save it in ad hoc structure
         System.out.println("[ RESPONSE ] delivery done by drone id "
                 + slave.drone.getId()+" @ "+delivery.getId());
+
+        System.out.println(" [ PM10 ] ");
+        for(int i = 0; i < value.getPm10Count(); i++){
+            System.out.println(value.getPm10(i).getValue() + " - " + value.getPm10(i).getTime());
+        }
+
         slave.setDelivering(false);
         ds.popDelivery(delivery);
 
@@ -37,6 +43,7 @@ public class Deliver {
         //System.out.println("[ CONNECTION ] end connection with drone id "+slave.drone.getId());
         channel.shutdown();
     }
+
 
     private static void sendDelivertRequestTo(DeliverySubscriber ds, Slave courier, Delivery delivery) {
         DeliveryService.DeliveryRequest request = DeliveryImpl
