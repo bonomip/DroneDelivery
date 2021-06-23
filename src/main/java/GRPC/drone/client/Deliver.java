@@ -11,7 +11,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Deliver {
 
@@ -85,9 +85,27 @@ public class Deliver {
         if(Peer.MY_SLAVES.size() == 0)
             return null;
 
+        List<Integer> courier_ids = Peer.MY_SLAVES.getSlaveNotInDelivery();
 
+        if(courier_ids.size() == 0) return null;
 
-        return null;
+        if(courier_ids.size() == 1) return Peer.MY_SLAVES.getDroneWithId(courier_ids.get(0));
+
+        courier_ids = Peer.MY_SLAVES.getNearestSlave(courier_ids, origin);
+
+        if(courier_ids.size() == 0) return null;
+
+        if(courier_ids.size() == 1) return Peer.MY_SLAVES.getDroneWithId(courier_ids.get(0));
+
+        courier_ids = Peer.MY_SLAVES.getMostCharged(courier_ids);
+
+        if(courier_ids.size() == 0) return null;
+
+        if(courier_ids.size() == 1) return Peer.MY_SLAVES.getDroneWithId(courier_ids.get(0));
+
+        courier_ids.sort(Collections.reverseOrder());
+
+        return Peer.MY_SLAVES.getDroneWithId(courier_ids.get(0));
     }
 
     public synchronized static void assignDelivery(DeliverySubscriber ds, Delivery delivery){

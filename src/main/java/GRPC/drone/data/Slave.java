@@ -22,6 +22,10 @@ public class Slave {
         return this.delivering;
     }
 
+    public int getId(){
+        return this.drone.getId();
+    }
+
     public void setDelivering(boolean b){
         this.delivering = b;
     }
