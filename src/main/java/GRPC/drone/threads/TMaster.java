@@ -8,7 +8,9 @@ import MQTT.message.Delivery;
 import REST.beans.drone.Drone;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class TMaster extends Behaviour {
 
@@ -29,7 +31,9 @@ public class TMaster extends Behaviour {
     public void run() {
 
         Runnable sendInfo = () -> Peer.REST_CLIENT.sendInfo(Peer.MY_SLAVES.getGlobalStatistic());
-
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(sendInfo, 0, 10, TimeUnit.SECONDS);
+        
         while(!this.exit){
             if(this.areDeliveriesPending())
             {
