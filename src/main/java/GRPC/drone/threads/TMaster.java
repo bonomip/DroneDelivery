@@ -8,6 +8,8 @@ import MQTT.message.Delivery;
 import REST.beans.drone.Drone;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+import java.util.concurrent.ScheduledExecutorService;
+
 public class TMaster extends Behaviour {
 
     public static final Object DELIVERY_LOCK = new Object();
@@ -19,13 +21,15 @@ public class TMaster extends Behaviour {
         this.deliverySubscriber = new DeliverySubscriber();
     }
 
-
     public boolean areDeliveriesPending(){
         return this.deliverySubscriber.queueIsEmpty();
     }
 
     @Override
     public void run() {
+
+        Runnable sendInfo = () -> Peer.REST_CLIENT.sendInfo(Peer.MY_SLAVES.getGlobalStatistic());
+
         while(!this.exit){
             if(this.areDeliveriesPending())
             {

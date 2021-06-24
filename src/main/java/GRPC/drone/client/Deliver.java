@@ -13,21 +13,22 @@ import io.grpc.stub.StreamObserver;
 
 import java.util.*;
 
-public class Deliver {
+public class Deliver { /// MASTER DRONE
 
     private static void onNext(DeliverySubscriber ds, Slave slave, Delivery delivery, DeliveryService.DeliveryResponse value){
         //todo get stats and save it in ad hoc structure
         System.out.println("[ RESPONSE ] delivery done by drone id "
                 + slave.drone.getId()+" @ "+delivery.getId());
-        slave.setDelivering(false);
-        ds.popDelivery(delivery);
 
+        slave.onDeliveryTerminated(value);
+
+        ds.popDelivery(delivery);
 
     }
 
     private static void onError(Slave slave, Delivery delivery){
         System.out.println("[ ERROR ] delivery with drone id "+ slave.drone.getId()+ " @ "+delivery.getId());
-        slave.setDelivering(false); //technically useless
+        slave.setDelivering(false);
         Peer.MY_SLAVES.removeIdFromList(slave.drone.getId());
         Peer.MY_FRIENDS.removeWithId(slave.drone.getId());
         delivery.setOnProcessing(false);
@@ -37,6 +38,7 @@ public class Deliver {
         //System.out.println("[ CONNECTION ] end connection with drone id "+slave.drone.getId());
         channel.shutdown();
     }
+
 
     private static void sendDelivertRequestTo(DeliverySubscriber ds, Slave courier, Delivery delivery) {
         DeliveryService.DeliveryRequest request = DeliveryImpl

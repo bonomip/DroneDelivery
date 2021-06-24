@@ -59,7 +59,7 @@ public class SlaveList {
             if(s == null)
                 continue;
 
-            double curr = Deliver.distance(s.position, position);
+            double curr = Deliver.distance(s.getPosition(), position);
 
             if (curr < min){
                 min = curr;
@@ -94,6 +94,11 @@ public class SlaveList {
         }
 
         return result;
+    }
+
+    public synchronized GlobalStat getGlobalStatistic(){
+        //todo
+        return null;
     }
 
     public void print() {

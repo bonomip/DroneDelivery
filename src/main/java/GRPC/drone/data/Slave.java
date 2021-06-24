@@ -1,6 +1,8 @@
 package GRPC.drone.data;
 
+import GRPC.drone.server.DeliveryImpl;
 import REST.beans.drone.Drone;
+import drone.grpc.deliveryservice.DeliveryService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,17 +10,19 @@ import java.util.Arrays;
 public class Slave {
 
     public Drone drone;
-    public int[] position;
     private boolean delivering;
+    private int[] position;
     private int battery;
+    public ArrayList<LocalStats> stats;
 
     public Slave(Drone drone, int[] position){
         this.drone = drone;
-        this.position = position;
         this.delivering = false;
+        this.stats = new ArrayList<>();
+        this.position = position;
     }
 
-    public boolean isDelivering(){
+    public synchronized boolean isDelivering(){
         return this.delivering;
     }
 
@@ -26,18 +30,35 @@ public class Slave {
         return this.drone.getId();
     }
 
-    public void setDelivering(boolean b){
+    public synchronized void setDelivering(boolean b){
         this.delivering = b;
     }
 
-    public void setBattery(int i){ this.battery = i; }
+    public synchronized int[] getPosition(){
+        return this.position;
+    }
 
-    public int getBattery() { return this.battery; }
+    public int getBattery(){
+        return this.battery;
+    }
+
+    public synchronized void onDeliveryTerminated(DeliveryService.DeliveryResponse value){
+        LocalStats s = new LocalStats();
+        this.delivering = false;
+        s.setBattery(value.getBatteryLevel());
+        s.addDelivery();
+        s.setPosition(new int[] { value.getXPosition(), value.getYPosition() } );
+        s.addMeters(value.getMetersDone());
+        s.setPm10_avg(DeliveryImpl.unpackPm10(value));
+        s.setTime(value.getDeliveryTime());
+        this.battery = value.getBatteryLevel();
+    }
+
     @Override
     public String toString() {
         return "{" +
                 "\"id\":" + drone.getId() +
-                ", \"position\":" + Arrays.toString(position) +
+                ", \"position\":" + Arrays.toString(this.position) +
                 ", \"delivering\":" + delivering +
                 "}";
     }
