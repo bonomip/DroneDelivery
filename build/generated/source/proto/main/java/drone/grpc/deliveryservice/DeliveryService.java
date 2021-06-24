@@ -973,6 +973,40 @@ public final class DeliveryService {
      * @return The time.
      */
     long getTime();
+
+    /**
+     * <code>required string id = 3;</code>
+     * @return Whether the id field is set.
+     */
+    boolean hasId();
+    /**
+     * <code>required string id = 3;</code>
+     * @return The id.
+     */
+    java.lang.String getId();
+    /**
+     * <code>required string id = 3;</code>
+     * @return The bytes for id.
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    /**
+     * <code>required string type = 4;</code>
+     * @return Whether the type field is set.
+     */
+    boolean hasType();
+    /**
+     * <code>required string type = 4;</code>
+     * @return The type.
+     */
+    java.lang.String getType();
+    /**
+     * <code>required string type = 4;</code>
+     * @return The bytes for type.
+     */
+    com.google.protobuf.ByteString
+        getTypeBytes();
   }
   /**
    * Protobuf type {@code drone.grpc.deliveryservice.Pm10}
@@ -987,6 +1021,8 @@ public final class DeliveryService {
       super(builder);
     }
     private Pm10() {
+      id_ = "";
+      type_ = "";
     }
 
     @java.lang.Override
@@ -1028,6 +1064,18 @@ public final class DeliveryService {
             case 16: {
               bitField0_ |= 0x00000002;
               time_ = input.readInt64();
+              break;
+            }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000004;
+              id_ = bs;
+              break;
+            }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000008;
+              type_ = bs;
               break;
             }
             default: {
@@ -1097,6 +1145,96 @@ public final class DeliveryService {
       return time_;
     }
 
+    public static final int ID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object id_;
+    /**
+     * <code>required string id = 3;</code>
+     * @return Whether the id field is set.
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>required string id = 3;</code>
+     * @return The id.
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          id_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string id = 3;</code>
+     * @return The bytes for id.
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 4;
+    private volatile java.lang.Object type_;
+    /**
+     * <code>required string type = 4;</code>
+     * @return Whether the type field is set.
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>required string type = 4;</code>
+     * @return The type.
+     */
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          type_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string type = 4;</code>
+     * @return The bytes for type.
+     */
+    public com.google.protobuf.ByteString
+        getTypeBytes() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        type_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1112,6 +1250,14 @@ public final class DeliveryService {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1124,6 +1270,12 @@ public final class DeliveryService {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt64(2, time_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, id_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, type_);
       }
       unknownFields.writeTo(output);
     }
@@ -1141,6 +1293,12 @@ public final class DeliveryService {
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, time_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, id_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, type_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1168,6 +1326,16 @@ public final class DeliveryService {
         if (getTime()
             != other.getTime()) return false;
       }
+      if (hasId() != other.hasId()) return false;
+      if (hasId()) {
+        if (!getId()
+            .equals(other.getId())) return false;
+      }
+      if (hasType() != other.hasType()) return false;
+      if (hasType()) {
+        if (!getType()
+            .equals(other.getType())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1188,6 +1356,14 @@ public final class DeliveryService {
         hash = (37 * hash) + TIME_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getTime());
+      }
+      if (hasId()) {
+        hash = (37 * hash) + ID_FIELD_NUMBER;
+        hash = (53 * hash) + getId().hashCode();
+      }
+      if (hasType()) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getType().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1326,6 +1502,10 @@ public final class DeliveryService {
         bitField0_ = (bitField0_ & ~0x00000001);
         time_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
+        id_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        type_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1362,6 +1542,14 @@ public final class DeliveryService {
           result.time_ = time_;
           to_bitField0_ |= 0x00000002;
         }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.type_ = type_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1417,6 +1605,16 @@ public final class DeliveryService {
         if (other.hasTime()) {
           setTime(other.getTime());
         }
+        if (other.hasId()) {
+          bitField0_ |= 0x00000004;
+          id_ = other.id_;
+          onChanged();
+        }
+        if (other.hasType()) {
+          bitField0_ |= 0x00000008;
+          type_ = other.type_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -1428,6 +1626,12 @@ public final class DeliveryService {
           return false;
         }
         if (!hasTime()) {
+          return false;
+        }
+        if (!hasId()) {
+          return false;
+        }
+        if (!hasType()) {
           return false;
         }
         return true;
@@ -1523,6 +1727,174 @@ public final class DeliveryService {
       public Builder clearTime() {
         bitField0_ = (bitField0_ & ~0x00000002);
         time_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object id_ = "";
+      /**
+       * <code>required string id = 3;</code>
+       * @return Whether the id field is set.
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>required string id = 3;</code>
+       * @return The id.
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            id_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string id = 3;</code>
+       * @return The bytes for id.
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string id = 3;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 3;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object type_ = "";
+      /**
+       * <code>required string type = 4;</code>
+       * @return Whether the type field is set.
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>required string type = 4;</code>
+       * @return The type.
+       */
+      public java.lang.String getType() {
+        java.lang.Object ref = type_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            type_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string type = 4;</code>
+       * @return The bytes for type.
+       */
+      public com.google.protobuf.ByteString
+          getTypeBytes() {
+        java.lang.Object ref = type_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          type_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string type = 4;</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
+       */
+      public Builder setType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string type = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        type_ = getDefaultInstance().getType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string type = 4;</code>
+       * @param value The bytes for type to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        type_ = value;
         onChanged();
         return this;
       }
@@ -3022,15 +3394,16 @@ public final class DeliveryService {
       "veryservice\"o\n\017DeliveryRequest\022\020\n\010x_orig" +
       "in\030\001 \002(\005\022\020\n\010y_origin\030\002 \002(\005\022\025\n\rx_destinat" +
       "ion\030\003 \002(\005\022\025\n\ry_destination\030\004 \002(\005\022\n\n\002id\030\005" +
-      " \002(\005\"#\n\004Pm10\022\r\n\005value\030\001 \002(\001\022\014\n\004time\030\002 \002(" +
-      "\003\"\271\001\n\020DeliveryResponse\022\025\n\rdelivery_time\030" +
-      "\001 \002(\003\022\022\n\nx_position\030\002 \002(\005\022\022\n\ny_position\030" +
-      "\003 \002(\005\022\023\n\013meters_done\030\004 \002(\005\022\025\n\rbattery_le" +
-      "vel\030\005 \002(\005\022.\n\004pm10\030\006 \003(\0132 .drone.grpc.del" +
-      "iveryservice.Pm10\022\n\n\002id\030\007 \002(\0052r\n\007Deliver" +
-      "\022g\n\006Assign\022+.drone.grpc.deliveryservice." +
-      "DeliveryRequest\032,.drone.grpc.deliveryser" +
-      "vice.DeliveryResponse\"\0000\001"
+      " \002(\005\"=\n\004Pm10\022\r\n\005value\030\001 \002(\001\022\014\n\004time\030\002 \002(" +
+      "\003\022\n\n\002id\030\003 \002(\t\022\014\n\004type\030\004 \002(\t\"\271\001\n\020Delivery" +
+      "Response\022\025\n\rdelivery_time\030\001 \002(\003\022\022\n\nx_pos" +
+      "ition\030\002 \002(\005\022\022\n\ny_position\030\003 \002(\005\022\023\n\013meter" +
+      "s_done\030\004 \002(\005\022\025\n\rbattery_level\030\005 \002(\005\022.\n\004p" +
+      "m10\030\006 \003(\0132 .drone.grpc.deliveryservice.P" +
+      "m10\022\n\n\002id\030\007 \002(\0052r\n\007Deliver\022g\n\006Assign\022+.d" +
+      "rone.grpc.deliveryservice.DeliveryReques" +
+      "t\032,.drone.grpc.deliveryservice.DeliveryR" +
+      "esponse\"\0000\001"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3047,7 +3420,7 @@ public final class DeliveryService {
     internal_static_drone_grpc_deliveryservice_Pm10_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_drone_grpc_deliveryservice_Pm10_descriptor,
-        new java.lang.String[] { "Value", "Time", });
+        new java.lang.String[] { "Value", "Time", "Id", "Type", });
     internal_static_drone_grpc_deliveryservice_DeliveryResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_drone_grpc_deliveryservice_DeliveryResponse_fieldAccessorTable = new

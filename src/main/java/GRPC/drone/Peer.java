@@ -1,14 +1,12 @@
 package GRPC.drone;
 
-import GRPC.drone.data.FirendList;
-import GRPC.drone.data.SlaveList;
+import GRPC.drone.data.*;
 import GRPC.drone.server.DeliveryImpl;
 import GRPC.drone.server.GreeterImpl;
 import GRPC.drone.client.Greeter;
 import GRPC.drone.threads.Behaviour;
 import GRPC.drone.threads.TInput;
 import GRPC.drone.threads.TMaster;
-import GRPC.drone.data.Slave;
 import GRPC.drone.threads.TSlave;
 import REST.DroneClient;
 import REST.beans.drone.Drone;
@@ -45,10 +43,10 @@ public class Peer {
     public static Drone MASTER;
     public static Drone ME;
     public static FirendList MY_FRIENDS;
-    //todo make my_slave and object and synch it
     public static SlaveList MY_SLAVES = new SlaveList();
-    public static int[] MY_POSITION;
-    public static int BATTERY = 100;
+
+    public static LocalStats MY_STATS = new LocalStats();
+
     public static Behaviour BTHREAD;
     public static TInput ITHREAD;
     public static boolean EXIT = false;
@@ -96,9 +94,10 @@ public class Peer {
         HashMap<String, Object> data = client.addDroneToNetwork(id, ip, port);
 
         ME = (Drone) data.get("drone");
-        MY_POSITION = (int[]) data.get("position");
-        MY_FRIENDS = new FirendList(((Drones) data.get("drones")).getList());
 
+        MY_STATS.setPosition((int[]) data.get("position"));
+
+        MY_FRIENDS = new FirendList(((Drones) data.get("drones")).getList());
         MY_FRIENDS.removeWithId(ME.getId()); //remove myself from the list of the drone in the network
 
         return client;
@@ -117,9 +116,9 @@ public class Peer {
 
         setUpSensor();
 
-        Greeter.joinOverlayNetwork(MY_FRIENDS, ME, MY_POSITION);
+        Greeter.joinOverlayNetwork(MY_FRIENDS, ME, MY_STATS.getPosition());
 
-        MY_SLAVES.add(new Slave(ME, MY_POSITION));
+        MY_SLAVES.add(new Slave(ME, MY_STATS.getPosition()));
 
         if(isMaster())
             BTHREAD = new TMaster();

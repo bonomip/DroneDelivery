@@ -54,6 +54,8 @@ REST/beans/response/AddDroneResponse.java
  REST.beans.response.AddDroneResponse
 REST/utils/Request.java
  REST.utils.Request
+GRPC/drone/data/LocalStats.java
+ GRPC.drone.data.LocalStats
 GRPC/drone/client/Deliver.java
  GRPC.drone.client.Deliver
  GRPC.drone.client.Deliver$1
@@ -119,6 +121,8 @@ REST/test/ClientTest.java
  REST.test.ClientTest
 GRPC/drone/server/DeliveryImpl.java
  GRPC.drone.server.DeliveryImpl
+GRPC/drone/data/GlobalStats.java
+ GRPC.drone.data.GlobalStats
 MQTT/DeliverySubscriber.java
  MQTT.DeliverySubscriber
  MQTT.DeliverySubscriber$1

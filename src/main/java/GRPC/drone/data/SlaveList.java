@@ -59,7 +59,7 @@ public class SlaveList {
             if(s == null)
                 continue;
 
-            double curr = Deliver.distance(s.position, position);
+            double curr = Deliver.distance(s.getPosition(), position);
 
             if (curr < min){
                 min = curr;
