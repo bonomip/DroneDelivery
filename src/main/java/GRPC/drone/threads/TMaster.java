@@ -27,7 +27,8 @@ public class TMaster extends Behaviour {
 
     @Override
     public void run() {
-        
+
+        Runnable sendInfo = () -> Peer.REST_CLIENT.sendInfo(Peer.MY_SLAVES.getGlobalStatistic());
 
         while(!this.exit){
             if(this.areDeliveriesPending())

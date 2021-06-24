@@ -96,6 +96,11 @@ public class SlaveList {
         return result;
     }
 
+    public synchronized GlobalStat getGlobalStatistic(){
+        //todo
+        return null;
+    }
+
     public void print() {
         for(Slave s : Peer.MY_SLAVES.list)
             System.out.println(s.toString());

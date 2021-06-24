@@ -22,7 +22,7 @@ public class Slave {
         this.position = position;
     }
 
-    public boolean isDelivering(){
+    public synchronized boolean isDelivering(){
         return this.delivering;
     }
 
@@ -30,11 +30,11 @@ public class Slave {
         return this.drone.getId();
     }
 
-    public void setDelivering(boolean b){
+    public synchronized void setDelivering(boolean b){
         this.delivering = b;
     }
 
-    public int[] getPosition(){
+    public synchronized int[] getPosition(){
         return this.position;
     }
 
@@ -42,7 +42,7 @@ public class Slave {
         return this.battery;
     }
 
-    public void onDeliveryTerminated(DeliveryService.DeliveryResponse value){
+    public synchronized void onDeliveryTerminated(DeliveryService.DeliveryResponse value){
         LocalStats s = new LocalStats();
         this.delivering = false;
         s.setBattery(value.getBatteryLevel());
