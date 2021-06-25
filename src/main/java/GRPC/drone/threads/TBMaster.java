@@ -34,12 +34,11 @@ public class TBMaster extends Behaviour {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(sendInfo, 0, 10, TimeUnit.SECONDS);
         */
-        while(!this.exit){
+        while(!this.exit) {
             if(this.areDeliveriesPending())
             {
                 Delivery delivery = this.deliverySubscriber.HeadDelivery();
                 delivery.setOnProcessing(true);
-                //todo can be done by a thread
                 Deliver.assignDelivery(this.deliverySubscriber, delivery);
             } else
             {
@@ -59,9 +58,14 @@ public class TBMaster extends Behaviour {
             e.printStackTrace();
         }
 
-        //todo
-        //assign pending deliveries
-        //send global stats to
+        if(this.areDeliveriesPending())
+        {
+            Delivery delivery = this.deliverySubscriber.HeadDelivery();
+            delivery.setOnProcessing(true);
+            Deliver.assignDelivery(this.deliverySubscriber, delivery);
+        }
+
+        //todo send global stats to
 
     }
 
