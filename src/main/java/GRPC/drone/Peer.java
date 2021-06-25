@@ -64,18 +64,26 @@ public class Peer {
     public static PM10Buffer SENSOR_BUFFER;
 
     public static void exit(){
-        System.out.println("[ QUIT ] [ START ] id "+ ME.getId());
-        GRPC_SERVER.shutdown();
-        REST_CLIENT.removeDroneFromNetwork(ME);
+        System.out.println("\t\t[ QUIT ] [ START ] id "+ ME.getId());
+
         BTHREAD.quit();
         SENSOR.stopMeGently();
         try {
-            BTHREAD.join();
             SENSOR.join();
+            System.out.println("\t\t[ QUIT ] [ MID ] assign pending deliveries");
+            BTHREAD.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("[ QUIT ] [ FINISH ] id "+ ME.getId());
+
+        System.out.println("\t\t[ QUIT ] [ MID ] block incoming grpc");
+        GRPC_SERVER.shutdown();
+
+        System.out.println("\t\t[ QUIT ] [ MID ] remove drone from network");
+        REST_CLIENT.removeDroneFromNetwork(ME);
+
+        System.out.println("\t\t[ QUIT ] [ FINISH ] id "+ ME.getId());
+
         System.exit(0);
     }
 
