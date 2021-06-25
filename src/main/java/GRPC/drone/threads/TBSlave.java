@@ -3,7 +3,7 @@ package GRPC.drone.threads;
 import GRPC.drone.Peer;
 import REST.beans.drone.Drone;
 
-public class TSlave extends Behaviour {
+public class TBSlave extends Behaviour {
     @Override
     public void run() {
 
@@ -24,9 +24,6 @@ public class TSlave extends Behaviour {
         System.out.println("---- I'M A SLAVE "+ Peer.ME.getId());
         System.out.println("-------- MY MASTER IS:");
         System.out.println(Peer.MASTER.toString());
-        System.out.println("-------- MY FRIENDS ARE:");
-        for(Drone d : Peer.MY_FRIENDS){
-            System.out.println(d.toString());
-        }
+        super.printStatus();
     }
 }

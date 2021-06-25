@@ -84,7 +84,7 @@ public class FirendList implements  Iterable<Drone> {
     public synchronized void removeWithId(int id){
         if( !containsId(id))
             throw new IllegalAccessError("Trying to remove drone id "+id+"," +
-                    " \n\t but id is already present");
+                    " \n\t but id is not present");
 
         this.elements.removeIf(d -> d.getId() == id);
     }
@@ -119,7 +119,7 @@ public class FirendList implements  Iterable<Drone> {
         return false;
     }
 
-    public void print() {
+    public synchronized void print() {
         for (Drone d : Peer.MY_FRIENDS)
             System.out.println(d.toString());
     }

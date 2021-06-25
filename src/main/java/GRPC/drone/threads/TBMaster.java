@@ -12,14 +12,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class TMaster extends Behaviour {
+public class TBMaster extends Behaviour {
 
     public static final Object DELIVERY_LOCK = new Object();
 
     DeliverySubscriber deliverySubscriber;
 
     //remember : if im master im also encarged with slaves duties
-    public TMaster(){
+    public TBMaster(){
         this.deliverySubscriber = new DeliverySubscriber();
     }
 
@@ -30,10 +30,10 @@ public class TMaster extends Behaviour {
     @Override
     public void run() {
 
-        Runnable sendInfo = () -> Peer.REST_CLIENT.sendInfo(Peer.MY_SLAVES.getGlobalStatistic());
+        /*Runnable sendInfo = () -> Peer.REST_CLIENT.sendInfo(Peer.MY_SLAVES.getGlobalStatistic());
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(sendInfo, 0, 10, TimeUnit.SECONDS);
-        
+        */
         while(!this.exit){
             if(this.areDeliveriesPending())
             {
@@ -70,7 +70,6 @@ public class TMaster extends Behaviour {
         System.out.println("---- I'M THE MASTER "+Peer.ME.getId());
         System.out.println("-------- MY SLAVES ARE:");
         Peer.MY_SLAVES.print();
-        System.out.println("-------- MY FRIENDS ARE:");
-        Peer.MY_FRIENDS.print();
+        super.printStatus();
     }
 }

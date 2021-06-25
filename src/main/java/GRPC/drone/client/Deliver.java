@@ -16,26 +16,28 @@ import java.util.*;
 public class Deliver { /// MASTER DRONE
 
     private static void onNext(DeliverySubscriber ds, Slave slave, Delivery delivery, DeliveryService.DeliveryResponse value){
-        //todo get stats and save it in ad hoc structure
-        System.out.println("[ RESPONSE ] delivery done by drone id "
+        System.out.println("[ DELIVERY ] [ ON_NEXT ] by "
                 + slave.drone.getId()+" @ "+delivery.getId());
-
-        slave.onDeliveryTerminated(value);
 
         ds.popDelivery(delivery);
 
+        slave.onDeliveryTerminated(value);
     }
 
     private static void onError(Slave slave, Delivery delivery){
-        System.out.println("[ ERROR ] delivery with drone id "+ slave.drone.getId()+ " @ "+delivery.getId());
+        System.out.println("[ DELIVERY ] [ ON_ERROR ] by "+ slave.drone.getId()+ " @ "+delivery.getId());
         slave.setDelivering(false);
+
         Peer.MY_SLAVES.removeIdFromList(slave.drone.getId());
-        Peer.MY_FRIENDS.removeWithId(slave.drone.getId());
+
+        if(slave.drone.getId() != Peer.ME.getId())
+            Peer.MY_FRIENDS.removeWithId(slave.drone.getId());
+
         delivery.setOnProcessing(false);
     }
 
-    private static void onCompleted(Slave slave, ManagedChannel channel){
-        //System.out.println("[ CONNECTION ] end connection with drone id "+slave.drone.getId());
+    private static void onCompleted(Slave slave, ManagedChannel channel, int del_id){
+        System.out.println("[ DELIVERY ] [ ON_COMPLETED ] by "+slave.drone.getId()+" @ "+del_id);
         channel.shutdown();
     }
 
@@ -44,10 +46,7 @@ public class Deliver { /// MASTER DRONE
         DeliveryService.DeliveryRequest request = DeliveryImpl
                 .createDeliveryRequest(delivery.getId(), delivery.getOrigin(), delivery.getDestination());
 
-        System.out.println("-----------------------------");
-        System.out.println( "[ DELIVERY ] @ "+delivery.getId());
-        System.out.println("[ CONNECTION ] creating channel with drone id "+courier.drone.getId());
-        System.out.println("-----------------------------");
+        System.out.println( "[ DELIVERY ] [ ASSIGNED ] id "+courier.getId()+" @ "+delivery.getId());
 
         //todo if courier.dorne.getId() == Peer.ME.getId()
         // create a thread that simulate the delivery
@@ -74,7 +73,7 @@ public class Deliver { /// MASTER DRONE
 
             @Override
             public void onCompleted() {
-                Deliver.onCompleted(courier, channel);
+                Deliver.onCompleted(courier, channel, delivery.getId());
             }
         });
     }

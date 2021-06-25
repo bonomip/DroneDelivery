@@ -1,4 +1,6 @@
-package GRPC.drone.data;
+package GRPC.drone.data.stat;
+
+import java.util.ArrayList;
 
 public class GlobalStat {
 
@@ -36,5 +38,14 @@ public class GlobalStat {
         this.battery = avg_btry;
     }
 
-
+    @Override
+    public String toString() {
+        return "GlobalStat{" +
+                "time=" + time +
+                ", deliveries=" + deliveries +
+                ", metres=" + metres +
+                ", pm10=" + pm10 +
+                ", battery=" + battery +
+                '}';
+    }
 }

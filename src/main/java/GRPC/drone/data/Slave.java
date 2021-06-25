@@ -1,25 +1,35 @@
 package GRPC.drone.data;
 
-import GRPC.drone.server.DeliveryImpl;
+import GRPC.drone.data.stat.DeliveryStat;
 import REST.beans.drone.Drone;
+import SENSOR.Measurement;
 import drone.grpc.deliveryservice.DeliveryService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Slave {
 
     public Drone drone;
     private boolean delivering;
+
     private int[] position;
     private int battery;
-    public ArrayList<LocalStats> stats;
+    private int n_deliveries;
 
-    public Slave(Drone drone, int[] position){
+    public ArrayList<DeliveryStat> d_stats;
+
+    public Slave(Drone drone, int[] position, int battery){
         this.drone = drone;
+
         this.delivering = false;
-        this.stats = new ArrayList<>();
+
         this.position = position;
+        this.battery = battery;
+        this.n_deliveries = 0;
+
+        this.d_stats = new ArrayList<>();
     }
 
     public synchronized boolean isDelivering(){
@@ -43,15 +53,20 @@ public class Slave {
     }
 
     public synchronized void onDeliveryTerminated(DeliveryService.DeliveryResponse value){
-        LocalStats s = new LocalStats();
-        this.delivering = false;
-        s.setBattery(value.getBatteryLevel());
-        s.addDelivery();
-        s.setPosition(new int[] { value.getXPosition(), value.getYPosition() } );
-        s.addMeters(value.getMetersDone());
-        s.setPm10_avg(DeliveryImpl.unpackPm10(value));
-        s.setTime(value.getDeliveryTime());
-        this.battery = value.getBatteryLevel();
+            this.d_stats.add(new DeliveryStat(value));
+
+            this.position = this.d_stats.get(this.d_stats.size()-1).getPosition();
+            this.battery = this.d_stats.get(this.d_stats.size()-1).getBattery();
+            this.n_deliveries = this.d_stats.size();
+            this.delivering = false;
+
+    }
+
+
+    public synchronized ArrayList<DeliveryStat> getSlaveDeliveryStats(){
+        ArrayList<DeliveryStat> tmp = new ArrayList<>(this.d_stats);
+        this.d_stats.clear();
+        return tmp;
     }
 
     @Override

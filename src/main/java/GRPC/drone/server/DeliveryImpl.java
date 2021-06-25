@@ -17,7 +17,7 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
             DeliveryService.DeliveryRequest request,
             StreamObserver<DeliveryService.DeliveryResponse> responseObserver) {
 
-        System.out.println("[ DELIVERY ] assigned to drone id "+Peer.ME.getId()+" @ "+request.getId());
+        System.out.println("[ DELIVERY ] [ RECEIVED ] @ "+request.getId());
 
         try {
             Thread.sleep(5000);
@@ -28,23 +28,23 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
         int[] position = new int[] {request.getXDestination(), request.getYDestination()};
         int[] origin = new int[] {request.getXOrigin(), request.getYOrigin()};
         int meters = (int) ( ( Deliver.distance(origin, position) * 1000 ) +
-                ( Deliver.distance( Peer.MY_STATS.getPosition(), origin ) ) );
+                ( Deliver.distance( Peer.MY_POSITION, origin ) ) );
         int id = request.getId();
         long time = System.currentTimeMillis();
 
         List<Measurement> pm10 = Peer.SENSOR_BUFFER.readAllAndClean();
 
-        Peer.MY_STATS.useBattery(10);
-        Peer.MY_STATS.addDelivery();
-        Peer.MY_STATS.addMeters(meters);
-        Peer.MY_STATS.setPosition(position);
+        Peer.MY_BATTERY -= 10;
+        Peer.MY_DELIVERIES += 1;
+        Peer.MY_METRES += meters;
+        Peer.MY_POSITION = position;
 
         DeliveryService.DeliveryResponse response =
-                createDeliveryResponse(id, time, position, meters, Peer.MY_STATS.getBattery(), pm10);
+                createDeliveryResponse(id, time, position, meters, Peer.MY_BATTERY, pm10);
 
-        System.out.println("[ DELIVERY ] done by drone id "+Peer.ME.getId()+" @ "+id);
+        System.out.println("[ DELIVERY ] [ DONE ] @ "+id);
 
-        if(Peer.MY_STATS.getBattery() < 15)
+        if(Peer.MY_BATTERY < 15)
             synchronized (Peer.EXIT_LOCK) {
                 Peer.EXIT = true;
                 Peer.EXIT_LOCK.notify();

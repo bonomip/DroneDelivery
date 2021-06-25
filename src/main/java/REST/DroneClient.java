@@ -1,13 +1,12 @@
 package REST;
 
-import GRPC.drone.data.GlobalStat;
+import GRPC.drone.data.stat.GlobalStat;
 import REST.beans.drone.Drone;
 import REST.beans.response.AddDroneResponse;
 import com.sun.jersey.api.client.Client;
 import REST.utils.Request;
 import REST.utils.Uri;
 
-import java.sql.Time;
 import java.util.HashMap;
 
 public class DroneClient {
@@ -20,6 +19,9 @@ public class DroneClient {
     }
 
     public void sendInfo(GlobalStat stat){
+
+        System.out.println(stat.toString());
+
         //todo
     }
 

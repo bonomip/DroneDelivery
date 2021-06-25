@@ -1,6 +1,6 @@
 package MQTT;
 
-import GRPC.drone.threads.TMaster;
+import GRPC.drone.threads.TBMaster;
 import MQTT.message.Delivery;
 import org.eclipse.paho.client.mqttv3.*;
 
@@ -68,8 +68,8 @@ public class DeliverySubscriber {
                     System.out.println("[ MQTT ] recived delivery @ "+ receivedMessage.getId());
                     addDelivery(receivedMessage);
 
-                    synchronized (TMaster.DELIVERY_LOCK){
-                        TMaster.DELIVERY_LOCK.notify();
+                    synchronized (TBMaster.DELIVERY_LOCK){
+                        TBMaster.DELIVERY_LOCK.notify();
                     }
                 }
 

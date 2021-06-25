@@ -2,6 +2,9 @@ package GRPC.drone.data;
 
 import GRPC.drone.Peer;
 import GRPC.drone.client.Deliver;
+import GRPC.drone.data.stat.DeliveryStat;
+import GRPC.drone.data.stat.GlobalStat;
+import SENSOR.Measurement;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -92,16 +95,38 @@ public class SlaveList {
                 result.add(i);
             }
         }
-
         return result;
     }
 
     public synchronized GlobalStat getGlobalStatistic(){
-        //todo
-        return null;
+
+        ArrayList<DeliveryStat> tmp = new ArrayList<>();
+
+        double d = 0.0;
+        int p_c = 0;
+        double p = 0.0;
+        int m = 0;
+        double b = 0.0;
+
+        for(Slave s : list) {
+            tmp = s.getSlaveDeliveryStats();
+
+            d += tmp.size();
+
+            for(DeliveryStat ds : tmp){
+                p_c += ds.getPm10().size();
+                p += ds.getPm10().stream().mapToDouble(Measurement::getValue).sum();
+            }
+
+            m += tmp.stream().mapToInt(DeliveryStat::getMetres).sum();
+
+            b += s.getBattery();
+        }
+
+        return new GlobalStat(d/list.size(), m/list.size(), p/p_c, b/list.size());
     }
 
-    public void print() {
+    public synchronized void print() {
         for(Slave s : Peer.MY_SLAVES.list)
             System.out.println(s.toString());
     }
