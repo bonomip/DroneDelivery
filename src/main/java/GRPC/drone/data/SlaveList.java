@@ -3,7 +3,7 @@ package GRPC.drone.data;
 import GRPC.drone.Peer;
 import GRPC.drone.client.Deliver;
 import GRPC.drone.data.stat.DeliveryStat;
-import GRPC.drone.data.stat.GlobalStat;
+import REST.beans.statistic.Statistic;
 import SENSOR.Measurement;
 
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public class SlaveList {
         return result;
     }
 
-    public synchronized GlobalStat getGlobalStatistic(){
+    public synchronized Statistic getGlobalStatistic(){
 
         ArrayList<DeliveryStat> tmp = new ArrayList<>();
 
@@ -112,7 +112,7 @@ public class SlaveList {
             tmp = s.getSlaveDeliveryStats();
 
             d += tmp.size();
-
+            
             for(DeliveryStat ds : tmp){
                 p_c += ds.getPm10().size();
                 p += ds.getPm10().stream().mapToDouble(Measurement::getValue).sum();
@@ -125,7 +125,7 @@ public class SlaveList {
 
         if(d == 0.0) return null;
 
-        return new GlobalStat(d/list.size(), m/list.size(), p/p_c, b/list.size());
+        return new Statistic(d/list.size(), m/list.size(), p/p_c, b/list.size());
     }
 
     public synchronized void print() {
