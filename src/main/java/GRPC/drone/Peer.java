@@ -69,17 +69,19 @@ public class Peer {
         BTHREAD.quit();
         SENSOR.stopMeGently();
         try {
-            SENSOR.join();
-            System.out.println("\t\t[ QUIT ] [ MID ] assign pending deliveries");
             BTHREAD.join();
+            SENSOR.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        System.out.println("\t\t[ QUIT ] [ MID ] block incoming grpc");
+        System.out.println("\t\t[ QUIT ] block incoming grpc");
         GRPC_SERVER.shutdown();
 
-        System.out.println("\t\t[ QUIT ] [ MID ] remove drone from network");
+        System.out.println("\t\t[ QUIT ] send global stats to server");
+        REST_CLIENT.sendInfo(MY_SLAVES.getGlobalStatistic());
+
+        System.out.println("\t\t[ QUIT ] remove drone from network");
         REST_CLIENT.removeDroneFromNetwork(ME);
 
         System.out.println("\t\t[ QUIT ] [ FINISH ] id "+ ME.getId());

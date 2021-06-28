@@ -41,6 +41,7 @@ public class DeliverySubscriber {
 
     public void closeConnection() throws MqttException {
         CLIENT.disconnect();
+        System.out.println("[ MQTT ] [ CLOSE ]");
     }
 
     public DeliverySubscriber(){

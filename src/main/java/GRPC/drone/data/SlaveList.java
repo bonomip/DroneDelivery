@@ -25,7 +25,7 @@ public class SlaveList {
 
     public synchronized Slave getDroneWithId(int id) {
         for(Slave s : this.list){
-            if(s.drone.getId() == id)
+            if(s.getId() == id)
                 return s;
         }
         return null;
@@ -36,18 +36,18 @@ public class SlaveList {
     }
 
     public synchronized void removeIdFromList(int slave_id){
-        this.list.removeIf(s -> s.drone.getId() == slave_id);
+        this.list.removeIf(s -> s.getId() == slave_id);
     }
 
     public synchronized boolean isIdInList(int slave_id){
-        return this.list.stream().anyMatch(s -> s.drone.getId() == slave_id);
+        return this.list.stream().anyMatch(s -> s.getId() == slave_id);
     }
 
     public synchronized List<Integer> getSlaveNotInDelivery(){
         List<Integer> result = new LinkedList<>();
         for(Slave s : this.list)
             if(!s.isDelivering())
-                result.add(s.drone.getId());
+                result.add(s.getId());
         return result;
     }
 

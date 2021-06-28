@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Slave {
 
-    public Drone drone;
+    private Drone drone;
     private boolean delivering;
 
     private int[] position;
@@ -35,6 +35,10 @@ public class Slave {
     public synchronized boolean isDelivering(){
         return this.delivering;
     }
+
+    public String getIp(){ return this.drone.getIp(); }
+
+    public int getPort(){ return this.drone.getPort(); }
 
     public int getId(){
         return this.drone.getId();
@@ -61,7 +65,6 @@ public class Slave {
             this.delivering = false;
 
     }
-
 
     public synchronized ArrayList<DeliveryStat> getSlaveDeliveryStats(){
         ArrayList<DeliveryStat> tmp = new ArrayList<>(this.d_stats);

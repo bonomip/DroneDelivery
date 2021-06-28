@@ -53,20 +53,29 @@ public class TBMaster extends Behaviour {
         }
 
         try {
+            System.out.println("\t\t[ QUIT ] disconnect from mqtt");
             this.deliverySubscriber.closeConnection();
         } catch (MqttException e) {
             e.printStackTrace();
         }
 
-        if(this.areDeliveriesPending())
-        {
+        while(this.areDeliveriesPending() && Peer.MY_SLAVES.size() > 0){
+            System.out.println("\t\t[ QUIT ] assign pending deliveries");
             Delivery delivery = this.deliverySubscriber.HeadDelivery();
             delivery.setOnProcessing(true);
             Deliver.assignDelivery(this.deliverySubscriber, delivery);
         }
 
-        //todo send global stats to
-
+        synchronized (Deliver.DELIVERY_COUNTER_LOCK){
+            while(Deliver.ON_GOING_DELIVERY != 0) {
+                System.out.println("\t\t[ QUIT ] wait for deliveries to end");
+                try {
+                    Deliver.DELIVERY_COUNTER_LOCK.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override

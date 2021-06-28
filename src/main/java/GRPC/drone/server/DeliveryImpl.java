@@ -17,7 +17,7 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
             DeliveryService.DeliveryRequest request,
             StreamObserver<DeliveryService.DeliveryResponse> responseObserver) {
 
-        System.out.println("[ DELIVERY ] "+request.getId()+" [ RECEIVED ]");
+        System.out.println("\t\t\t[ DELIVERY ] "+request.getId()+" [ RECEIVED ]");
 
         try {
             Thread.sleep(5000);
@@ -42,7 +42,7 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
         DeliveryService.DeliveryResponse response =
                 createDeliveryResponse(id, time, position, meters, Peer.MY_BATTERY, pm10);
 
-        System.out.println("[ DELIVERY ] "+id+" [ DONE ]");
+        System.out.println("\t\t\t[ DELIVERY ] "+id+" [ DONE ]");
 
         if(Peer.MY_BATTERY < 15)
             synchronized (Peer.EXIT_LOCK) {
