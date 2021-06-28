@@ -19,7 +19,7 @@ public class Statistics {
         Statistics s = new Statistics();
 
         for(int i = 0; i < n; i++)
-            s.add(new Statistic("debug", i));
+            s.add(new Statistic());
 
         return s;
     }
