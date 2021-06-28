@@ -30,10 +30,10 @@ public class TBMaster extends Behaviour {
     @Override
     public void run() {
 
-        /*Runnable sendInfo = () -> Peer.REST_CLIENT.sendInfo(Peer.MY_SLAVES.getGlobalStatistic());
+        Runnable sendInfo = () -> Peer.REST_CLIENT.sendInfo(Peer.MY_SLAVES.getGlobalStatistic());
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(sendInfo, 0, 10, TimeUnit.SECONDS);
-        */
+
         while(!this.exit) {
             if(this.areDeliveriesPending())
             {

@@ -20,7 +20,10 @@ public class DroneClient {
 
     public void sendInfo(GlobalStat stat){
 
+        System.out.println("[SENDING INFO]");
         System.out.println(stat.toString());
+
+        if(stat == null) return;
 
         //todo
     }

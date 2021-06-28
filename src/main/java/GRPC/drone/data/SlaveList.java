@@ -123,6 +123,8 @@ public class SlaveList {
             b += s.getBattery();
         }
 
+        if(d == 0.0) return null;
+
         return new GlobalStat(d/list.size(), m/list.size(), p/p_c, b/list.size());
     }
 
