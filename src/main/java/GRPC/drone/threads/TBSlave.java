@@ -17,7 +17,6 @@ public class TBSlave extends Behaviour {
             try {
                 HeartBeat.beat(Peer.MASTER.getIp(), Peer.MASTER.getPort());
             } catch (InterruptedException e) {
-                System.out.println("[ ELECTION ] [ START2 ]");
             }
 
             try {
