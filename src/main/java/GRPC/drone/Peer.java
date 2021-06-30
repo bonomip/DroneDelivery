@@ -31,18 +31,9 @@ public class Peer {
         MASTER = master;
     }
 
-    public static Drone getMasterDrone(){
-        return MASTER;
-    }
-
     public static boolean isMaster(){
         return MASTER.getId() == ME.getId();
     }
-
-
-    /*
-      String time = new Timestamp(System.currentTimeMillis()).toString();
-     */
 
     public static Drone MASTER;
     public static Drone ME;
@@ -101,9 +92,7 @@ public class Peer {
         return DeliveryImpl.createDeliveryResponse(id, time, destination, meters, MY_BATTERY, pm10);
     }
 
-    public static void exit(){
-        System.out.println("\t\t[ QUIT ] [ START ] id "+ ME.getId());
-
+    private static void quitThreads(){
         BTHREAD.quit();
         SENSOR.stopMeGently();
         try {
@@ -112,17 +101,31 @@ public class Peer {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
-        System.out.println("\t\t[ QUIT ] block incoming grpc");
-        GRPC_SERVER.shutdown();
+    public static void exit(){
+        System.out.println("\t\t[ QUIT ] [ START ] id "+ ME.getId());
 
-        System.out.println("\t\t[ QUIT ] send global stats to server");
-        REST_CLIENT.sendInfo(MY_SLAVES.getGlobalStatistic());
+        if(isMaster()) {
+            quitThreads();
+
+            System.out.println("\t\t[ QUIT ] block incoming grpc");
+            GRPC_SERVER.shutdown();
+
+            System.out.println("\t\t[ QUIT ] send global stats to server");
+            REST_CLIENT.sendInfo(MY_SLAVES.getGlobalStatistic());
+        } else {
+
+            System.out.println("\t\t[ QUIT ] block incoming grpc");
+            GRPC_SERVER.shutdown();
+
+            quitThreads();
+        }
 
         System.out.println("\t\t[ QUIT ] remove drone from network");
         REST_CLIENT.removeDroneFromNetwork(ME);
 
-        System.out.println("\t\t[ QUIT ] [ FINISH ] id "+ ME.getId());
+        System.out.println("\t\t[ QUIT ] [ FINISH ] id " + ME.getId());
 
         System.exit(0);
     }
@@ -165,7 +168,7 @@ public class Peer {
         int id = (int)(Math.random()*100);
         String ip = "localhost";
         int port = (int)(Math.random()*2000);   //in this case, we are using the same ip for all the drones,
-                                                //so all the ports trought all the application need to be different
+                                                //so all the ports through all the application need to be different
 
         REST_CLIENT = serverRestRegistrationWithDataUnmarshalling(id, ip, port);
 

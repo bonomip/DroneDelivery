@@ -1,9 +1,12 @@
 package GRPC.drone.threads;
 
 import GRPC.drone.Peer;
+import GRPC.drone.client.Deliver;
+import GRPC.drone.server.DeliveryImpl;
 import REST.beans.drone.Drone;
 
 public class TBSlave extends Behaviour {
+
     @Override
     public void run() {
 
@@ -16,7 +19,16 @@ public class TBSlave extends Behaviour {
             }
         }
 
-        //exit procedures
+        synchronized (DeliveryImpl.DELIVERY_LOCK){
+            while(DeliveryImpl.DELIVERING) {
+                System.out.println("\t\t[ QUIT ] wait for deliveries to end");
+                try {
+                    DeliveryImpl.DELIVERY_LOCK.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override

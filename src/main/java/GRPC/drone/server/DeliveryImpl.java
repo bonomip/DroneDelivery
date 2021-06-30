@@ -12,16 +12,29 @@ import java.util.List;
 
 
 public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
+
+    public static boolean DELIVERING = false;
+    public static final Object DELIVERY_LOCK = new Object();
+
     @Override
     public void assign(
             DeliveryService.DeliveryRequest request,
             StreamObserver<DeliveryService.DeliveryResponse> responseObserver) {
+
+        synchronized (DELIVERY_LOCK) {
+            DELIVERING = true;
+        }
 
         int[] origin = new int[] {request.getXOrigin(), request.getYOrigin()};
         int[] destination = new int[] {request.getXDestination(), request.getYDestination()};
 
         responseObserver.onNext(Peer.executeDelivery(request.getId(), origin, destination));
         responseObserver.onCompleted();
+
+        synchronized (DELIVERY_LOCK) {
+            DELIVERING = false;
+            DELIVERY_LOCK.notify();
+        }
     }
 
     public static List<Measurement> unpackPm10(DeliveryService.DeliveryResponse value){

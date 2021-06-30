@@ -11,12 +11,11 @@ public class TInput extends Thread {
     public void run() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+        Peer.BTHREAD.printStatus();
+
         //noinspection InfiniteLoopStatement
         while (true) {
-            Peer.BTHREAD.printStatus();
-
             String in = "quit";
-
             try {
                 in = br.readLine();
             } catch (IOException e) {
@@ -25,9 +24,14 @@ public class TInput extends Thread {
 
             if (in.equals("quit"))
                 synchronized (Peer.EXIT_LOCK) {
+                    if(Peer.isMaster())
+                        Peer.MY_SLAVES.removeIdFromList(Peer.ME.getId());
                     Peer.EXIT = true;
                     Peer.EXIT_LOCK.notify();
                 }
+            else{
+                Peer.BTHREAD.printStatus();
+            }
         }
     }
 }

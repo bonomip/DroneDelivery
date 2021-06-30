@@ -37,7 +37,6 @@ public class DroneClient {
         if(stat == null) return;
 
         System.out.println("[SENDING INFO]");
-        System.out.println(stat.toString());
 
         setSmartCityInfo(client, stat);
     }
