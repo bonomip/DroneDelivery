@@ -9,9 +9,8 @@ GRPC/drone/data/FirendList.java
  GRPC.drone.data.FirendList$1
 GRPC/drone/Peer.java
  GRPC.drone.Peer
-MQTT/DeliverySubscriber.java
- MQTT.DeliverySubscriber
- MQTT.DeliverySubscriber$1
+REST/beans/statistic/Statistics.java
+ REST.beans.statistic.Statistics
 SENSOR/PM10Simulator.java
  SENSOR.PM10Simulator
 GRPC/drone/server/GreeterImpl.java
@@ -26,8 +25,8 @@ MQTT/test/Sub.java
  MQTT.test.Sub$1
 SENSOR/Buffer.java
  SENSOR.Buffer
-REST/services/MGMTDrones.java
- REST.services.MGMTDrones
+REST/AdminClient.java
+ REST.AdminClient
 SENSOR/Simulator.java
  SENSOR.Simulator
 GRPC/drone/threads/TBMaster.java
@@ -36,8 +35,10 @@ GRPC/test/MultipleDrones.java
  GRPC.test.MultipleDrones
 GRPC/drone/data/Slave.java
  GRPC.drone.data.Slave
-GRPC/drone/threads/TBSlave.java
- GRPC.drone.threads.TBSlave
+REST/beans/SmartCity.java
+ REST.beans.SmartCity
+REST/utils/DataFormatter.java
+ REST.utils.DataFormatter
 GRPC/drone/threads/TInput.java
  GRPC.drone.threads.TInput
 drone/grpc/deliveryservice/DeliverGrpc.java
@@ -116,17 +117,16 @@ SENSOR/Measurement.java
  SENSOR.Measurement
 MQTT/Dronazon.java
  MQTT.Dronazon
-REST/AdminServer.java
- REST.AdminServer
-GRPC/drone/server/DeliveryImpl.java
- GRPC.drone.server.DeliveryImpl
-REST/utils/DataFormatter.java
- REST.utils.DataFormatter
-REST/AdminClient.java
- REST.AdminClient
 REST/test/ClientTest.java
  REST.test.ClientTest
-REST/beans/statistic/Statistics.java
- REST.beans.statistic.Statistics
-REST/beans/SmartCity.java
- REST.beans.SmartCity
+GRPC/drone/server/DeliveryImpl.java
+ GRPC.drone.server.DeliveryImpl
+GRPC/drone/threads/TBSlave.java
+ GRPC.drone.threads.TBSlave
+MQTT/DeliverySubscriber.java
+ MQTT.DeliverySubscriber
+ MQTT.DeliverySubscriber$1
+REST/AdminServer.java
+ REST.AdminServer
+REST/services/MGMTDrones.java
+ REST.services.MGMTDrones
