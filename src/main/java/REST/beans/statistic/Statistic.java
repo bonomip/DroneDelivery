@@ -9,19 +9,19 @@ public class Statistic {
         return time;
     }
 
-    public double getDeliveries() {
+    public float getDeliveries() {
         return deliveries;
     }
 
-    public int getMetres() {
+    public long getMetres() {
         return metres;
     }
 
-    public double getPm10() {
+    public float getPm10() {
         return pm10;
     }
 
-    public double getBattery() {
+    public float getBattery() {
         return battery;
     }
 
@@ -29,31 +29,31 @@ public class Statistic {
         this.time = time;
     }
 
-    public void setDeliveries(double deliveries) {
+    public void setDeliveries(float deliveries) {
         this.deliveries = deliveries;
     }
 
-    public void setMetres(int metres) {
+    public void setMetres(long metres) {
         this.metres = metres;
     }
 
-    public void setPm10(double pm10) {
+    public void setPm10(float pm10) {
         this.pm10 = pm10;
     }
 
-    public void setBattery(double battery) {
+    public void setBattery(float battery) {
         this.battery = battery;
     }
 
     private long time;
-    private double deliveries;
-    private int metres;
-    private double pm10;
-    private double battery;
+    private float deliveries;
+    private long metres;
+    private float pm10;
+    private float battery;
 
     public Statistic(){}
 
-    public Statistic(double avg_del, int avg_meters, double avg_pm10, double avg_btry){
+    public Statistic(float avg_del, long avg_meters, float avg_pm10, float avg_btry){
         this.time = System.currentTimeMillis();
         this.deliveries = avg_del;
         this.metres = avg_meters;

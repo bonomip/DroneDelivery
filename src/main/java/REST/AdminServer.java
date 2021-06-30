@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class AdminServer {
 
+    public static long START_TIME = System.currentTimeMillis();
+
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServerFactory
                 .create(Uri.AdminServer.SERVER_URL);

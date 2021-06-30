@@ -16,7 +16,7 @@ public class DeliveryStat  {
         return battery;
     }
 
-    public int getMetres() {
+    public long getMetres() {
         return metres;
     }
 
@@ -30,7 +30,7 @@ public class DeliveryStat  {
 
     private final int[] position;
     private final int battery;
-    private final int metres;
+    private final long metres;
     private final long time;
     private List<Measurement> pm10;
 

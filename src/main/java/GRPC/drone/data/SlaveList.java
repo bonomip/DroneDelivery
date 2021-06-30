@@ -102,28 +102,28 @@ public class SlaveList {
 
         ArrayList<DeliveryStat> tmp = new ArrayList<>();
 
-        double d = 0.0;
+        float d = 0f;
         int p_c = 0;
-        double p = 0.0;
+        float p = 0f;
         int m = 0;
-        double b = 0.0;
+        float b = 0f;
 
         for(Slave s : list) {
             tmp = s.getSlaveDeliveryStats();
 
             d += tmp.size();
-            
+
             for(DeliveryStat ds : tmp){
                 p_c += ds.getPm10().size();
                 p += ds.getPm10().stream().mapToDouble(Measurement::getValue).sum();
             }
 
-            m += tmp.stream().mapToInt(DeliveryStat::getMetres).sum();
+            m += tmp.stream().mapToLong(DeliveryStat::getMetres).sum();
 
             b += s.getBattery();
         }
 
-        if(d == 0.0) return null;
+        if(d == 0f) return null;
 
         return new Statistic(d/list.size(), m/list.size(), p/p_c, b/list.size());
     }

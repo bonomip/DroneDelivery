@@ -35,7 +35,6 @@ public class MGMTInfo {
     @Path(Uri.AdminServer.InfoService.AVG_KM+"{t1}/{t2}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAvgKm(@PathParam("t1") int t1, @PathParam("t2") int t2){
-        //todo this method only return an integer not a float
         return Response.ok(SmartCity.getInstance().getAvgKm(t1, t2)).build();
     }
 

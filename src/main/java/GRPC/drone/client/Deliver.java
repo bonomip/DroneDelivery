@@ -94,8 +94,8 @@ public class Deliver { /// MASTER DRONE
         });
     }
 
-    public static double distance(int[] p1, int[] p2){
-        return Math.sqrt( Math.pow(p2[0]-p1[0] , 2) + Math.pow(p2[1]-p1[1], 2));
+    public static float distance(int[] p1, int[] p2){
+        return (float) Math.sqrt( Math.pow(p2[0]-p1[0] , 2) + Math.pow(p2[1]-p1[1], 2));
     }
 
     private static Slave findCourier(int[] origin){

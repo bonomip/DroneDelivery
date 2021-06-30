@@ -49,7 +49,7 @@ public class Peer {
     public static int[] MY_POSITION;
     public static int MY_BATTERY;
     public static int MY_DELIVERIES;
-    public static int MY_METRES;
+    public static long MY_METRES;
 
     public static Behaviour BTHREAD;
     public static TInput ITHREAD;

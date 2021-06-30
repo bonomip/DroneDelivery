@@ -27,8 +27,9 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
 
         int[] position = new int[] {request.getXDestination(), request.getYDestination()};
         int[] origin = new int[] {request.getXOrigin(), request.getYOrigin()};
-        int meters = (int) ( ( Deliver.distance(origin, position) * 1000 ) +
-                ( Deliver.distance( Peer.MY_POSITION, origin ) ) );
+        long meters =
+                ( (long) Deliver.distance(origin, position) ) * 1000L +
+                        ( (long) Deliver.distance( Peer.MY_POSITION, origin ));
         int id = request.getId();
         long time = System.currentTimeMillis();
 
@@ -75,7 +76,7 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
     }
 
     public static DeliveryService.DeliveryResponse createDeliveryResponse(
-            int id, long timeStamp, int[] position, int meters, int battery, List<Measurement> pm10_list ) {
+            int id, long timeStamp, int[] position, long meters, int battery, List<Measurement> pm10_list ) {
 
         DeliveryService.DeliveryResponse.Builder builder =
                 DeliveryService.DeliveryResponse.newBuilder()
@@ -89,7 +90,7 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
         for(Measurement m : pm10_list){
             builder.addPm10(
                     DeliveryService.Pm10.newBuilder()
-                        .setValue(m.getValue())
+                        .setValue((float) m.getValue())
                         .setId(m.getId())
                         .setType(m.getType())
                         .setTime(m.getTimestamp())
