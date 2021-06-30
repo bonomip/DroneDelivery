@@ -70,7 +70,7 @@ public class Greeter {
         }
 
         for(ManagedChannel channel : channels){
-            channel.awaitTermination(60, TimeUnit.SECONDS);
+            channel.awaitTermination(2, TimeUnit.SECONDS);
         }
     }
 
