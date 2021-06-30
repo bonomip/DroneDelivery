@@ -35,6 +35,7 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
             DELIVERING = false;
             DELIVERY_LOCK.notify();
         }
+
     }
 
     public static List<Measurement> unpackPm10(DeliveryService.DeliveryResponse value){

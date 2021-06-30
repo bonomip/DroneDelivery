@@ -6,6 +6,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 
 import javax.ws.rs.core.MediaType;
+import java.net.ConnectException;
 
 public class RESTRequest {
 
@@ -35,8 +36,8 @@ public class RESTRequest {
 
     public static ClientResponse postRequest(Client client, String url, Drone drone){
         ClientResponse response = client.resource(url)
-                .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class, drone);
+                    .type(MediaType.APPLICATION_JSON)
+                    .post(ClientResponse.class, drone);
 
         if(response.getStatus() != 200)
             throw new RuntimeException("Failed : HTTP error code : "

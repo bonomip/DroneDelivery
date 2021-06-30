@@ -44,7 +44,6 @@ public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
     }
 
     public static GreetService.HelloRequest createHelloRequest(Drone me, int[] myPosition){
-
         return GreetService.HelloRequest.newBuilder()
                 .setId(me.getId())
                 .setIp(me.getIp())

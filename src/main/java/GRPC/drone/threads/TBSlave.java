@@ -2,6 +2,8 @@ package GRPC.drone.threads;
 
 import GRPC.drone.Peer;
 import GRPC.drone.client.Deliver;
+import GRPC.drone.client.Greeter;
+import GRPC.drone.client.HeartBeat;
 import GRPC.drone.server.DeliveryImpl;
 import REST.beans.drone.Drone;
 
@@ -11,9 +13,14 @@ public class TBSlave extends Behaviour {
     public void run() {
 
         while(!this.exit){
+
             try {
-                //todo remove sleep
-                Thread.sleep(50);
+                HeartBeat.beat(Peer.MASTER.getIp(), Peer.MASTER.getPort());
+            } catch (InterruptedException e) {
+            }
+
+            try {
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

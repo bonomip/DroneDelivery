@@ -5,6 +5,7 @@ import GRPC.drone.data.*;
 import GRPC.drone.server.DeliveryImpl;
 import GRPC.drone.server.GreeterImpl;
 import GRPC.drone.client.Greeter;
+import GRPC.drone.server.HeartBeatImpl;
 import GRPC.drone.threads.Behaviour;
 import GRPC.drone.threads.TBMaster;
 import GRPC.drone.threads.TInput;
@@ -140,6 +141,7 @@ public class Peer {
         Server server = ServerBuilder.forPort(ME.getPort())
                 .addService(new GreeterImpl())
                 .addService(new DeliveryImpl())
+                .addService(new HeartBeatImpl())
                 .build();
 
         server.start();
@@ -178,7 +180,7 @@ public class Peer {
 
         Greeter.joinOverlayNetwork(MY_FRIENDS, ME, MY_POSITION);
 
-        if(isMaster()){
+        if(isMaster()) {
             BTHREAD = new TBMaster();
             MY_SLAVES.add(new Slave(ME, MY_POSITION, MY_BATTERY));
         }

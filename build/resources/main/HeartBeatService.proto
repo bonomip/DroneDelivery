@@ -1,0 +1,13 @@
+package drone.grpc.heartbeatservice;
+
+service HeartBeat {
+  rpc pulse(HeartRequest) returns (stream HeartResponse) {}
+}
+
+message HeartRequest {
+  required int32 id = 1;
+}
+
+message HeartResponse {
+  required int32 id = 1;
+}

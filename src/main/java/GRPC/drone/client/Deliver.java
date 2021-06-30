@@ -54,7 +54,7 @@ public class Deliver { /// MASTER DRONE
     }
 
 
-    private static void sendDelivertRequestTo(DeliverySubscriber ds, Slave courier, Delivery delivery) {
+    private static void sendDeliveryRequestTo(DeliverySubscriber ds, Slave courier, Delivery delivery) {
         DeliveryService.DeliveryRequest request = DeliveryImpl
                 .createDeliveryRequest(delivery.getId(), delivery.getOrigin(), delivery.getDestination());
 
@@ -145,7 +145,7 @@ public class Deliver { /// MASTER DRONE
                 }
             } else {
                 courier.setDelivering(true);
-                sendDelivertRequestTo(ds, courier, delivery);
+                sendDeliveryRequestTo(ds, courier, delivery);
             }
 
     }
