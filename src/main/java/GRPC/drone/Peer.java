@@ -5,9 +5,9 @@ import GRPC.drone.server.DeliveryImpl;
 import GRPC.drone.server.GreeterImpl;
 import GRPC.drone.client.Greeter;
 import GRPC.drone.threads.Behaviour;
+import GRPC.drone.threads.TBMaster;
 import GRPC.drone.threads.TInput;
-import GRPC.drone.threads.TMaster;
-import GRPC.drone.threads.TSlave;
+import GRPC.drone.threads.TBSlave;
 import REST.DroneClient;
 import REST.beans.drone.Drone;
 import REST.beans.drone.Drones;
@@ -42,24 +42,30 @@ public class Peer {
 
     public static Drone MASTER;
     public static Drone ME;
+
     public static FirendList MY_FRIENDS;
     public static SlaveList MY_SLAVES = new SlaveList();
 
-    public static LocalStats MY_STATS = new LocalStats();
+    public static int[] MY_POSITION;
+    public static int MY_BATTERY;
+    public static int MY_DELIVERIES;
+    public static long MY_METRES;
 
     public static Behaviour BTHREAD;
     public static TInput ITHREAD;
+
     public static boolean EXIT = false;
     public static final Object EXIT_LOCK = new Object();
+
     public static DroneClient REST_CLIENT;
     public static Server GRPC_SERVER;
+
     public static PM10Simulator SENSOR;
     public static PM10Buffer SENSOR_BUFFER;
 
     public static void exit(){
-        System.out.println("[ INFO ] quitting drone id "+ ME.getId());
-        GRPC_SERVER.shutdown();
-        REST_CLIENT.removeDroneFromNetwork(ME);
+        System.out.println("\t\t[ QUIT ] [ START ] id "+ ME.getId());
+
         BTHREAD.quit();
         SENSOR.stopMeGently();
         try {
@@ -68,6 +74,18 @@ public class Peer {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        System.out.println("\t\t[ QUIT ] block incoming grpc");
+        GRPC_SERVER.shutdown();
+
+        System.out.println("\t\t[ QUIT ] send global stats to server");
+        REST_CLIENT.sendInfo(MY_SLAVES.getGlobalStatistic());
+
+        System.out.println("\t\t[ QUIT ] remove drone from network");
+        REST_CLIENT.removeDroneFromNetwork(ME);
+
+        System.out.println("\t\t[ QUIT ] [ FINISH ] id "+ ME.getId());
+
         System.exit(0);
     }
 
@@ -95,7 +113,8 @@ public class Peer {
 
         ME = (Drone) data.get("drone");
 
-        MY_STATS.setPosition((int[]) data.get("position"));
+        MY_POSITION = (int[]) data.get("position");
+        MY_BATTERY = 100;
 
         MY_FRIENDS = new FirendList(((Drones) data.get("drones")).getList());
         MY_FRIENDS.removeWithId(ME.getId()); //remove myself from the list of the drone in the network
@@ -116,14 +135,14 @@ public class Peer {
 
         setUpSensor();
 
-        Greeter.joinOverlayNetwork(MY_FRIENDS, ME, MY_STATS.getPosition());
+        Greeter.joinOverlayNetwork(MY_FRIENDS, ME, MY_POSITION);
 
-        MY_SLAVES.add(new Slave(ME, MY_STATS.getPosition()));
-
-        if(isMaster())
-            BTHREAD = new TMaster();
+        if(isMaster()){
+            BTHREAD = new TBMaster();
+            MY_SLAVES.add(new Slave(ME, MY_POSITION, MY_BATTERY));
+        }
         else
-            BTHREAD = new TSlave();
+            BTHREAD = new TBSlave();
 
         BTHREAD.start();
 

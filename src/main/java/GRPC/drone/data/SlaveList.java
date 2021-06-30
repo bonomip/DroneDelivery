@@ -2,6 +2,9 @@ package GRPC.drone.data;
 
 import GRPC.drone.Peer;
 import GRPC.drone.client.Deliver;
+import GRPC.drone.data.stat.DeliveryStat;
+import REST.beans.statistic.Statistic;
+import SENSOR.Measurement;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,7 +25,7 @@ public class SlaveList {
 
     public synchronized Slave getDroneWithId(int id) {
         for(Slave s : this.list){
-            if(s.drone.getId() == id)
+            if(s.getId() == id)
                 return s;
         }
         return null;
@@ -33,18 +36,18 @@ public class SlaveList {
     }
 
     public synchronized void removeIdFromList(int slave_id){
-        this.list.removeIf(s -> s.drone.getId() == slave_id);
+        this.list.removeIf(s -> s.getId() == slave_id);
     }
 
     public synchronized boolean isIdInList(int slave_id){
-        return this.list.stream().anyMatch(s -> s.drone.getId() == slave_id);
+        return this.list.stream().anyMatch(s -> s.getId() == slave_id);
     }
 
     public synchronized List<Integer> getSlaveNotInDelivery(){
         List<Integer> result = new LinkedList<>();
         for(Slave s : this.list)
             if(!s.isDelivering())
-                result.add(s.drone.getId());
+                result.add(s.getId());
         return result;
     }
 
@@ -92,16 +95,40 @@ public class SlaveList {
                 result.add(i);
             }
         }
-
         return result;
     }
 
-    public synchronized GlobalStat getGlobalStatistic(){
-        //todo
-        return null;
+    public synchronized Statistic getGlobalStatistic(){
+
+        ArrayList<DeliveryStat> tmp = new ArrayList<>();
+
+        float d = 0f;
+        int p_c = 0;
+        float p = 0f;
+        int m = 0;
+        float b = 0f;
+
+        for(Slave s : list) {
+            tmp = s.getSlaveDeliveryStats();
+
+            d += tmp.size();
+
+            for(DeliveryStat ds : tmp){
+                p_c += ds.getPm10().size();
+                p += ds.getPm10().stream().mapToDouble(Measurement::getValue).sum();
+            }
+
+            m += tmp.stream().mapToLong(DeliveryStat::getMetres).sum();
+
+            b += s.getBattery();
+        }
+
+        if(d == 0f) return null;
+
+        return new Statistic(d/list.size(), m/list.size(), p/p_c, b/list.size());
     }
 
-    public void print() {
+    public synchronized void print() {
         for(Slave s : Peer.MY_SLAVES.list)
             System.out.println(s.toString());
     }

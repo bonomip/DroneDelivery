@@ -953,15 +953,15 @@ public final class DeliveryService {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required double value = 1;</code>
+     * <code>required float value = 1;</code>
      * @return Whether the value field is set.
      */
     boolean hasValue();
     /**
-     * <code>required double value = 1;</code>
+     * <code>required float value = 1;</code>
      * @return The value.
      */
-    double getValue();
+    float getValue();
 
     /**
      * <code>required int64 time = 2;</code>
@@ -1056,9 +1056,9 @@ public final class DeliveryService {
             case 0:
               done = true;
               break;
-            case 9: {
+            case 13: {
               bitField0_ |= 0x00000001;
-              value_ = input.readDouble();
+              value_ = input.readFloat();
               break;
             }
             case 16: {
@@ -1112,19 +1112,19 @@ public final class DeliveryService {
 
     private int bitField0_;
     public static final int VALUE_FIELD_NUMBER = 1;
-    private double value_;
+    private float value_;
     /**
-     * <code>required double value = 1;</code>
+     * <code>required float value = 1;</code>
      * @return Whether the value field is set.
      */
     public boolean hasValue() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>required double value = 1;</code>
+     * <code>required float value = 1;</code>
      * @return The value.
      */
-    public double getValue() {
+    public float getValue() {
       return value_;
     }
 
@@ -1266,7 +1266,7 @@ public final class DeliveryService {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeDouble(1, value_);
+        output.writeFloat(1, value_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt64(2, time_);
@@ -1288,7 +1288,7 @@ public final class DeliveryService {
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(1, value_);
+          .computeFloatSize(1, value_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1317,8 +1317,8 @@ public final class DeliveryService {
 
       if (hasValue() != other.hasValue()) return false;
       if (hasValue()) {
-        if (java.lang.Double.doubleToLongBits(getValue())
-            != java.lang.Double.doubleToLongBits(
+        if (java.lang.Float.floatToIntBits(getValue())
+            != java.lang.Float.floatToIntBits(
                 other.getValue())) return false;
       }
       if (hasTime() != other.hasTime()) return false;
@@ -1349,8 +1349,8 @@ public final class DeliveryService {
       hash = (19 * hash) + getDescriptor().hashCode();
       if (hasValue()) {
         hash = (37 * hash) + VALUE_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            java.lang.Double.doubleToLongBits(getValue()));
+        hash = (53 * hash) + java.lang.Float.floatToIntBits(
+            getValue());
       }
       if (hasTime()) {
         hash = (37 * hash) + TIME_FIELD_NUMBER;
@@ -1498,7 +1498,7 @@ public final class DeliveryService {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        value_ = 0D;
+        value_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000001);
         time_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1657,39 +1657,39 @@ public final class DeliveryService {
       }
       private int bitField0_;
 
-      private double value_ ;
+      private float value_ ;
       /**
-       * <code>required double value = 1;</code>
+       * <code>required float value = 1;</code>
        * @return Whether the value field is set.
        */
       public boolean hasValue() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>required double value = 1;</code>
+       * <code>required float value = 1;</code>
        * @return The value.
        */
-      public double getValue() {
+      public float getValue() {
         return value_;
       }
       /**
-       * <code>required double value = 1;</code>
+       * <code>required float value = 1;</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(double value) {
+      public Builder setValue(float value) {
         bitField0_ |= 0x00000001;
         value_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required double value = 1;</code>
+       * <code>required float value = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0D;
+        value_ = 0F;
         onChanged();
         return this;
       }
@@ -1989,15 +1989,15 @@ public final class DeliveryService {
     int getYPosition();
 
     /**
-     * <code>required int32 meters_done = 4;</code>
+     * <code>required int64 meters_done = 4;</code>
      * @return Whether the metersDone field is set.
      */
     boolean hasMetersDone();
     /**
-     * <code>required int32 meters_done = 4;</code>
+     * <code>required int64 meters_done = 4;</code>
      * @return The metersDone.
      */
-    int getMetersDone();
+    long getMetersDone();
 
     /**
      * <code>required int32 battery_level = 5;</code>
@@ -2109,7 +2109,7 @@ public final class DeliveryService {
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              metersDone_ = input.readInt32();
+              metersDone_ = input.readInt64();
               break;
             }
             case 40: {
@@ -2219,19 +2219,19 @@ public final class DeliveryService {
     }
 
     public static final int METERS_DONE_FIELD_NUMBER = 4;
-    private int metersDone_;
+    private long metersDone_;
     /**
-     * <code>required int32 meters_done = 4;</code>
+     * <code>required int64 meters_done = 4;</code>
      * @return Whether the metersDone field is set.
      */
     public boolean hasMetersDone() {
       return ((bitField0_ & 0x00000008) != 0);
     }
     /**
-     * <code>required int32 meters_done = 4;</code>
+     * <code>required int64 meters_done = 4;</code>
      * @return The metersDone.
      */
-    public int getMetersDone() {
+    public long getMetersDone() {
       return metersDone_;
     }
 
@@ -2358,7 +2358,7 @@ public final class DeliveryService {
         output.writeInt32(3, yPosition_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
-        output.writeInt32(4, metersDone_);
+        output.writeInt64(4, metersDone_);
       }
       if (((bitField0_ & 0x00000010) != 0)) {
         output.writeInt32(5, batteryLevel_);
@@ -2392,7 +2392,7 @@ public final class DeliveryService {
       }
       if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, metersDone_);
+          .computeInt64Size(4, metersDone_);
       }
       if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -2479,7 +2479,8 @@ public final class DeliveryService {
       }
       if (hasMetersDone()) {
         hash = (37 * hash) + METERS_DONE_FIELD_NUMBER;
-        hash = (53 * hash) + getMetersDone();
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getMetersDone());
       }
       if (hasBatteryLevel()) {
         hash = (37 * hash) + BATTERY_LEVEL_FIELD_NUMBER;
@@ -2633,7 +2634,7 @@ public final class DeliveryService {
         bitField0_ = (bitField0_ & ~0x00000002);
         yPosition_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        metersDone_ = 0;
+        metersDone_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
         batteryLevel_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -2963,39 +2964,39 @@ public final class DeliveryService {
         return this;
       }
 
-      private int metersDone_ ;
+      private long metersDone_ ;
       /**
-       * <code>required int32 meters_done = 4;</code>
+       * <code>required int64 meters_done = 4;</code>
        * @return Whether the metersDone field is set.
        */
       public boolean hasMetersDone() {
         return ((bitField0_ & 0x00000008) != 0);
       }
       /**
-       * <code>required int32 meters_done = 4;</code>
+       * <code>required int64 meters_done = 4;</code>
        * @return The metersDone.
        */
-      public int getMetersDone() {
+      public long getMetersDone() {
         return metersDone_;
       }
       /**
-       * <code>required int32 meters_done = 4;</code>
+       * <code>required int64 meters_done = 4;</code>
        * @param value The metersDone to set.
        * @return This builder for chaining.
        */
-      public Builder setMetersDone(int value) {
+      public Builder setMetersDone(long value) {
         bitField0_ |= 0x00000008;
         metersDone_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 meters_done = 4;</code>
+       * <code>required int64 meters_done = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearMetersDone() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        metersDone_ = 0;
+        metersDone_ = 0L;
         onChanged();
         return this;
       }
@@ -3394,11 +3395,11 @@ public final class DeliveryService {
       "veryservice\"o\n\017DeliveryRequest\022\020\n\010x_orig" +
       "in\030\001 \002(\005\022\020\n\010y_origin\030\002 \002(\005\022\025\n\rx_destinat" +
       "ion\030\003 \002(\005\022\025\n\ry_destination\030\004 \002(\005\022\n\n\002id\030\005" +
-      " \002(\005\"=\n\004Pm10\022\r\n\005value\030\001 \002(\001\022\014\n\004time\030\002 \002(" +
+      " \002(\005\"=\n\004Pm10\022\r\n\005value\030\001 \002(\002\022\014\n\004time\030\002 \002(" +
       "\003\022\n\n\002id\030\003 \002(\t\022\014\n\004type\030\004 \002(\t\"\271\001\n\020Delivery" +
       "Response\022\025\n\rdelivery_time\030\001 \002(\003\022\022\n\nx_pos" +
       "ition\030\002 \002(\005\022\022\n\ny_position\030\003 \002(\005\022\023\n\013meter" +
-      "s_done\030\004 \002(\005\022\025\n\rbattery_level\030\005 \002(\005\022.\n\004p" +
+      "s_done\030\004 \002(\003\022\025\n\rbattery_level\030\005 \002(\005\022.\n\004p" +
       "m10\030\006 \003(\0132 .drone.grpc.deliveryservice.P" +
       "m10\022\n\n\002id\030\007 \002(\0052r\n\007Deliver\022g\n\006Assign\022+.d" +
       "rone.grpc.deliveryservice.DeliveryReques" +

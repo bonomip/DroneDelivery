@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Drones {
 
-    private ArrayList<Drone> drones;
+    private final ArrayList<Drone> drones;
 
     public Drones(){
         this.drones = new ArrayList<>();

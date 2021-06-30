@@ -15,28 +15,42 @@ import java.util.*;
 
 public class Deliver { /// MASTER DRONE
 
+    public static int ON_GOING_DELIVERY = 0;
+    public static final Object DELIVERY_COUNTER_LOCK = new Object();
+
     private static void onNext(DeliverySubscriber ds, Slave slave, Delivery delivery, DeliveryService.DeliveryResponse value){
-        //todo get stats and save it in ad hoc structure
-        System.out.println("[ RESPONSE ] delivery done by drone id "
-                + slave.drone.getId()+" @ "+delivery.getId());
-
-        slave.onDeliveryTerminated(value);
-
         ds.popDelivery(delivery);
-
+        if(value.getBatteryLevel() < 15)
+                Peer.MY_SLAVES.removeIdFromList(slave.getId());
+        slave.onDeliveryTerminated(value);
     }
 
     private static void onError(Slave slave, Delivery delivery){
-        System.out.println("[ ERROR ] delivery with drone id "+ slave.drone.getId()+ " @ "+delivery.getId());
+        System.out.println("\t[ DELIVERY ] "+delivery.getId()+" [ ERROR ] by "+ slave.getId());
         slave.setDelivering(false);
-        Peer.MY_SLAVES.removeIdFromList(slave.drone.getId());
-        Peer.MY_FRIENDS.removeWithId(slave.drone.getId());
+
+        Peer.MY_SLAVES.removeIdFromList(slave.getId());
+
+        if(slave.getId() != Peer.ME.getId())
+            Peer.MY_FRIENDS.removeWithId(slave.getId());
+
         delivery.setOnProcessing(false);
+
+        synchronized (DELIVERY_COUNTER_LOCK){
+            ON_GOING_DELIVERY--;
+            DELIVERY_COUNTER_LOCK.notify();
+        }
     }
 
-    private static void onCompleted(Slave slave, ManagedChannel channel){
-        //System.out.println("[ CONNECTION ] end connection with drone id "+slave.drone.getId());
+    private static void onCompleted(Slave slave, ManagedChannel channel, int del_id){
+        System.out.println("\t[ DELIVERY ] "+del_id+" [ COMPLETED ] by "+slave.getId());
+
         channel.shutdown();
+
+        synchronized (DELIVERY_COUNTER_LOCK){
+            ON_GOING_DELIVERY--;
+            DELIVERY_COUNTER_LOCK.notify();
+        }
     }
 
 
@@ -44,10 +58,7 @@ public class Deliver { /// MASTER DRONE
         DeliveryService.DeliveryRequest request = DeliveryImpl
                 .createDeliveryRequest(delivery.getId(), delivery.getOrigin(), delivery.getDestination());
 
-        System.out.println("-----------------------------");
-        System.out.println( "[ DELIVERY ] @ "+delivery.getId());
-        System.out.println("[ CONNECTION ] creating channel with drone id "+courier.drone.getId());
-        System.out.println("-----------------------------");
+        System.out.println( "\t[ DELIVERY ] "+delivery.getId()+" [ ASSIGNED ] to "+courier.getId());
 
         //todo if courier.dorne.getId() == Peer.ME.getId()
         // create a thread that simulate the delivery
@@ -55,11 +66,15 @@ public class Deliver { /// MASTER DRONE
 
 
         final ManagedChannel channel = ManagedChannelBuilder
-                .forTarget(courier.drone.getIp() + ":" + courier.drone.getPort())
+                .forTarget(courier.getIp() + ":" + courier.getPort())
                 .usePlaintext()
                 .build();
 
         DeliverGrpc.DeliverStub stub = DeliverGrpc.newStub(channel);
+
+        synchronized (DELIVERY_COUNTER_LOCK){
+            ON_GOING_DELIVERY++;
+        }
 
         stub.assign(request, new StreamObserver<DeliveryService.DeliveryResponse>() {
             @Override
@@ -74,13 +89,13 @@ public class Deliver { /// MASTER DRONE
 
             @Override
             public void onCompleted() {
-                Deliver.onCompleted(courier, channel);
+                Deliver.onCompleted(courier, channel, delivery.getId());
             }
         });
     }
 
-    public static double distance(int[] p1, int[] p2){
-        return Math.sqrt( Math.pow(p2[0]-p1[0] , 2) + Math.pow(p2[1]-p1[1], 2));
+    public static float distance(int[] p1, int[] p2){
+        return (float) Math.sqrt( Math.pow(p2[0]-p1[0] , 2) + Math.pow(p2[1]-p1[1], 2));
     }
 
     private static Slave findCourier(int[] origin){

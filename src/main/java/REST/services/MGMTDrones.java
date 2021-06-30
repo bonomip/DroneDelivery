@@ -31,12 +31,10 @@ public class MGMTDrones {
     }
 
     @POST
-    @Path("/master")
+    @Path(Uri.AdminServer.DroneService.MASTER)
     @Produces({"application/json, application/xml"})
-    public Response setSmartCityInfo(Statistic info){
-        //put the info in ad hoc data structure
-        ////it's going to be used for further processing operations
-        //todo
+    public Response setSmartCityInfo(Statistic stat){
+        SmartCity.getInstance().addStatistic(stat);
         return Response.ok().build();
     }
 

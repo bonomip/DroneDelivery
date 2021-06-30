@@ -24,7 +24,7 @@ public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
                 System.out.println("Trying to add drone id "+drone.getId()+" \n\t" +
                         "but drone is already listed as slave");
             else
-                Peer.MY_SLAVES.add(new Slave(drone, getPostionFromHelloRequest(request)));
+                Peer.MY_SLAVES.add(new Slave(drone, getPostionFromHelloRequest(request), 100));
         }
 
         responseObserver.onNext(response);

@@ -38,6 +38,8 @@ public class Uri {
 
             public static final String DRONE_SERVICE = "drones";
 
+            public static final String MASTER = "/master";
+
             public static String postDrone(){
                 return SERVER_URL+DRONE_SERVICE;
             }
@@ -45,6 +47,8 @@ public class Uri {
             public static String deleteDrone(){
                 return SERVER_URL+DRONE_SERVICE;
             }
+
+            public static String postInfo() { return SERVER_URL+DRONE_SERVICE+MASTER; }
 
         }
 

@@ -4,10 +4,10 @@ import REST.beans.drone.Drone;
 import REST.beans.drone.Drones;
 import REST.beans.statistic.Statistics;
 import REST.beans.response.AddDroneResponse;
+import REST.utils.RESTRequest;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import REST.utils.Request;
 import REST.utils.Uri;
 
 import javax.ws.rs.core.MediaType;
@@ -41,32 +41,32 @@ public class ClientTest {
     }
 
     public static String getAvgKm(Client client, int t1, int t2){
-        return Request.getRequest(client,Uri.AdminServer.InfoService.getAvgKm(t1, t2), MediaType.APPLICATION_JSON)
+        return RESTRequest.getRequest(client,Uri.AdminServer.InfoService.getAvgKm(t1, t2), MediaType.APPLICATION_JSON)
                 .getEntity(String.class);
     }
 
     public static String getAvgDeliveries(Client client, int t1, int t2){
-        return Request.getRequest(client, Uri.AdminServer.InfoService.getAvgDel(t1,t2), MediaType.APPLICATION_JSON)
+        return RESTRequest.getRequest(client, Uri.AdminServer.InfoService.getAvgDel(t1,t2), MediaType.APPLICATION_JSON)
                 .getEntity(String.class);
     }
 
     public static Drones getDroneList(Client client){
-        return Request.getRequest(client, Uri.AdminServer.InfoService.getDrones(), MediaType.APPLICATION_JSON)
+        return RESTRequest.getRequest(client, Uri.AdminServer.InfoService.getDrones(), MediaType.APPLICATION_JSON)
                 .getEntity(Drones.class);
     }
 
     public static Statistics getLastStats(Client client, int n){
-        return Request.getRequest(client, Uri.AdminServer.InfoService.getLastStats(n), MediaType.APPLICATION_JSON)
+        return RESTRequest.getRequest(client, Uri.AdminServer.InfoService.getLastStats(n), MediaType.APPLICATION_JSON)
                 .getEntity(Statistics.class);
     }
 
     public static AddDroneResponse postDrone(Client client, Drone drone){
-        return Request.postRequest(client, Uri.AdminServer.DroneService.postDrone(), drone )
+        return RESTRequest.postRequest(client, Uri.AdminServer.DroneService.postDrone(), drone )
                 .getEntity(AddDroneResponse.class);
     }
 
     public static void removeDrone(Client client, Drone drone){
-        Request.deleteRequest(client, Uri.AdminServer.DroneService.postDrone(), drone);
+        RESTRequest.deleteRequest(client, Uri.AdminServer.DroneService.postDrone(), drone);
     }
 
     // ADD AND REMOVE DRONES

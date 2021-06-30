@@ -39,13 +39,11 @@ public class SmartCity {
     }
 
     public float getAvgKm(int t1, int t2){
-        //todo
-        return ((float)(t1+t2))/2;
+        return this.stats.getAvgKm(t1,t2);
     }
 
     public float getAvgDeliveries(int t1, int t2){
-        //todo
-        return ((float)(t1+t2))/2;
+        return  this.stats.getAvgDeliveries(t1,t2);
     }
 
     public synchronized Drones getDroneList(){
@@ -53,8 +51,6 @@ public class SmartCity {
     }
 
     public synchronized AddDroneResponse addDrone(Drone drone) {
-
-        //the constructor passes the object as a completly different copy
         if(this.drones.add(drone))
             return new AddDroneResponse(new Drones(this.drones), RNDMPOS());
         return null;
@@ -65,7 +61,6 @@ public class SmartCity {
     }
 
     private static int[] RNDMPOS(){
-        //todo
         return new int[] {(int)(Math.random()*10), (int)(Math.random()*10)};
     }
 
