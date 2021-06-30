@@ -1,5 +1,6 @@
 package GRPC.drone;
 
+import GRPC.drone.client.Deliver;
 import GRPC.drone.data.*;
 import GRPC.drone.server.DeliveryImpl;
 import GRPC.drone.server.GreeterImpl;
@@ -12,12 +13,15 @@ import REST.DroneClient;
 import REST.beans.drone.Drone;
 import REST.beans.drone.Drones;
 
+import SENSOR.Measurement;
 import SENSOR.PM10Buffer;
 import SENSOR.PM10Simulator;
+import drone.grpc.deliveryservice.DeliveryService;
 import io.grpc.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 public class Peer {
 
@@ -62,6 +66,40 @@ public class Peer {
 
     public static PM10Simulator SENSOR;
     public static PM10Buffer SENSOR_BUFFER;
+
+    public static DeliveryService.DeliveryResponse executeDelivery(int id, int[] origin, int[] destination){
+
+        System.out.println("\t\t\t[ DELIVERY ] "+id+" [ RECEIVED ]");
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        long meters =
+                ( (long) Deliver.distance(origin, destination) ) * 1000L +
+                        ( (long) Deliver.distance( Peer.MY_POSITION, origin ));
+
+        long time = System.currentTimeMillis();
+
+        List<Measurement> pm10 = SENSOR_BUFFER.readAllAndClean();
+
+        MY_BATTERY -= 10;
+        MY_DELIVERIES += 1;
+        MY_METRES += meters;
+        MY_POSITION = destination;
+
+        System.out.println("\t\t\t[ DELIVERY ] "+id+" [ DONE ]");
+
+        if(MY_BATTERY < 15)
+            synchronized (EXIT_LOCK) {
+                EXIT = true;
+                EXIT_LOCK.notify();
+            }
+
+        return DeliveryImpl.createDeliveryResponse(id, time, destination, meters, MY_BATTERY, pm10);
+    }
 
     public static void exit(){
         System.out.println("\t\t[ QUIT ] [ START ] id "+ ME.getId());

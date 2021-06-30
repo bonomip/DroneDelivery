@@ -17,41 +17,10 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
             DeliveryService.DeliveryRequest request,
             StreamObserver<DeliveryService.DeliveryResponse> responseObserver) {
 
-        System.out.println("\t\t\t[ DELIVERY ] "+request.getId()+" [ RECEIVED ]");
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        int[] position = new int[] {request.getXDestination(), request.getYDestination()};
         int[] origin = new int[] {request.getXOrigin(), request.getYOrigin()};
-        long meters =
-                ( (long) Deliver.distance(origin, position) ) * 1000L +
-                        ( (long) Deliver.distance( Peer.MY_POSITION, origin ));
-        int id = request.getId();
-        long time = System.currentTimeMillis();
+        int[] destination = new int[] {request.getXDestination(), request.getYDestination()};
 
-        List<Measurement> pm10 = Peer.SENSOR_BUFFER.readAllAndClean();
-
-        Peer.MY_BATTERY -= 10;
-        Peer.MY_DELIVERIES += 1;
-        Peer.MY_METRES += meters;
-        Peer.MY_POSITION = position;
-
-        DeliveryService.DeliveryResponse response =
-                createDeliveryResponse(id, time, position, meters, Peer.MY_BATTERY, pm10);
-
-        System.out.println("\t\t\t[ DELIVERY ] "+id+" [ DONE ]");
-
-        if(Peer.MY_BATTERY < 15)
-            synchronized (Peer.EXIT_LOCK) {
-                Peer.EXIT = true;
-                Peer.EXIT_LOCK.notify();
-            }
-
-        responseObserver.onNext(response);
+        responseObserver.onNext(Peer.executeDelivery(request.getId(), origin, destination));
         responseObserver.onCompleted();
     }
 
