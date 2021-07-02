@@ -24,8 +24,8 @@ public class TInput extends Thread {
 
             if (in.equals("quit"))
                 synchronized (Peer.EXIT_LOCK) {
-                    if(Peer.isMaster())
-                        Peer.MY_SLAVES.removeIdFromList(Peer.ME.getId());
+                    if(Peer.DATA.isMasterDrone())
+                        Peer.MY_SLAVES.removeIdFromList(Peer.DATA.getMe().getId());
                     Peer.EXIT = true;
                     Peer.EXIT_LOCK.notify();
                 }

@@ -27,29 +27,29 @@ public final class HeartBeatGrpc {
   public static final String SERVICE_NAME = "drone.grpc.heartbeatservice.HeartBeat";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<drone.grpc.heartbeatservice.HeartBeatService.HeartRequest,
-      drone.grpc.heartbeatservice.HeartBeatService.HeartResponse> getPulseMethod;
+  private static volatile io.grpc.MethodDescriptor<com.google.protobuf.Empty,
+      com.google.protobuf.Empty> getPulseMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "pulse",
-      requestType = drone.grpc.heartbeatservice.HeartBeatService.HeartRequest.class,
-      responseType = drone.grpc.heartbeatservice.HeartBeatService.HeartResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-  public static io.grpc.MethodDescriptor<drone.grpc.heartbeatservice.HeartBeatService.HeartRequest,
-      drone.grpc.heartbeatservice.HeartBeatService.HeartResponse> getPulseMethod() {
-    io.grpc.MethodDescriptor<drone.grpc.heartbeatservice.HeartBeatService.HeartRequest, drone.grpc.heartbeatservice.HeartBeatService.HeartResponse> getPulseMethod;
+      requestType = com.google.protobuf.Empty.class,
+      responseType = com.google.protobuf.Empty.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.google.protobuf.Empty,
+      com.google.protobuf.Empty> getPulseMethod() {
+    io.grpc.MethodDescriptor<com.google.protobuf.Empty, com.google.protobuf.Empty> getPulseMethod;
     if ((getPulseMethod = HeartBeatGrpc.getPulseMethod) == null) {
       synchronized (HeartBeatGrpc.class) {
         if ((getPulseMethod = HeartBeatGrpc.getPulseMethod) == null) {
           HeartBeatGrpc.getPulseMethod = getPulseMethod =
-              io.grpc.MethodDescriptor.<drone.grpc.heartbeatservice.HeartBeatService.HeartRequest, drone.grpc.heartbeatservice.HeartBeatService.HeartResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              io.grpc.MethodDescriptor.<com.google.protobuf.Empty, com.google.protobuf.Empty>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "pulse"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  drone.grpc.heartbeatservice.HeartBeatService.HeartRequest.getDefaultInstance()))
+                  com.google.protobuf.Empty.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  drone.grpc.heartbeatservice.HeartBeatService.HeartResponse.getDefaultInstance()))
+                  com.google.protobuf.Empty.getDefaultInstance()))
               .setSchemaDescriptor(new HeartBeatMethodDescriptorSupplier("pulse"))
               .build();
         }
@@ -87,8 +87,8 @@ public final class HeartBeatGrpc {
 
     /**
      */
-    public void pulse(drone.grpc.heartbeatservice.HeartBeatService.HeartRequest request,
-        io.grpc.stub.StreamObserver<drone.grpc.heartbeatservice.HeartBeatService.HeartResponse> responseObserver) {
+    public void pulse(com.google.protobuf.Empty request,
+        io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
       asyncUnimplementedUnaryCall(getPulseMethod(), responseObserver);
     }
 
@@ -96,10 +96,10 @@ public final class HeartBeatGrpc {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
             getPulseMethod(),
-            asyncServerStreamingCall(
+            asyncUnaryCall(
               new MethodHandlers<
-                drone.grpc.heartbeatservice.HeartBeatService.HeartRequest,
-                drone.grpc.heartbeatservice.HeartBeatService.HeartResponse>(
+                com.google.protobuf.Empty,
+                com.google.protobuf.Empty>(
                   this, METHODID_PULSE)))
           .build();
     }
@@ -125,9 +125,9 @@ public final class HeartBeatGrpc {
 
     /**
      */
-    public void pulse(drone.grpc.heartbeatservice.HeartBeatService.HeartRequest request,
-        io.grpc.stub.StreamObserver<drone.grpc.heartbeatservice.HeartBeatService.HeartResponse> responseObserver) {
-      asyncServerStreamingCall(
+    public void pulse(com.google.protobuf.Empty request,
+        io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
+      asyncUnaryCall(
           getChannel().newCall(getPulseMethod(), getCallOptions()), request, responseObserver);
     }
   }
@@ -152,9 +152,8 @@ public final class HeartBeatGrpc {
 
     /**
      */
-    public java.util.Iterator<drone.grpc.heartbeatservice.HeartBeatService.HeartResponse> pulse(
-        drone.grpc.heartbeatservice.HeartBeatService.HeartRequest request) {
-      return blockingServerStreamingCall(
+    public com.google.protobuf.Empty pulse(com.google.protobuf.Empty request) {
+      return blockingUnaryCall(
           getChannel(), getPulseMethod(), getCallOptions(), request);
     }
   }
@@ -175,6 +174,14 @@ public final class HeartBeatGrpc {
     protected HeartBeatFutureStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new HeartBeatFutureStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.google.protobuf.Empty> pulse(
+        com.google.protobuf.Empty request) {
+      return futureUnaryCall(
+          getChannel().newCall(getPulseMethod(), getCallOptions()), request);
     }
   }
 
@@ -198,8 +205,8 @@ public final class HeartBeatGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_PULSE:
-          serviceImpl.pulse((drone.grpc.heartbeatservice.HeartBeatService.HeartRequest) request,
-              (io.grpc.stub.StreamObserver<drone.grpc.heartbeatservice.HeartBeatService.HeartResponse>) responseObserver);
+          serviceImpl.pulse((com.google.protobuf.Empty) request,
+              (io.grpc.stub.StreamObserver<com.google.protobuf.Empty>) responseObserver);
           break;
         default:
           throw new AssertionError();

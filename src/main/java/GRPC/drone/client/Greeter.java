@@ -21,7 +21,7 @@ public class Greeter {
                 +value.getId()+" says master is id "
                 +value.getMasterId());
 
-        Peer.setMasterDrone(GreeterImpl.getMasterDroneFromHelloResponse(value));
+        Peer.DATA.setMasterDrone(GreeterImpl.getMasterDroneFromHelloResponse(value));
     }
 
     private static void onError(ManagedChannel channel, FirendList friends, int drone_id){
@@ -77,7 +77,7 @@ public class Greeter {
     public static void joinOverlayNetwork(FirendList friends, Drone me, int[] myPosition) throws InterruptedException, IOException {
         if (friends.size() == 0) // if i'm the first drone in the network
         {
-            Peer.setMasterDrone(me);
+            Peer.DATA.setMasterDrone(me);
         }
         else
         {
@@ -86,7 +86,7 @@ public class Greeter {
                                                         // are going to be removed from
                                                         // friend list
             if(friends.size() == 0) //if all my friend were unreachable
-                Peer.setMasterDrone(me); //im the only drone in the network.
+                Peer.DATA.setMasterDrone(me); //im the only drone in the network.
         }
     }
 

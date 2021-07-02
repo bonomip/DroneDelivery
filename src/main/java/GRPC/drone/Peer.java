@@ -28,24 +28,10 @@ public class Peer {
 
     ///--------------------- actual fields
 
-    public static void setMasterDrone(Drone master){
-        MASTER = master;
-    }
-
-    public static boolean isMaster(){
-        return MASTER.getId() == ME.getId();
-    }
-
-    public static Drone MASTER;
-    public static Drone ME;
+    public static Data DATA = new Data();
 
     public static FirendList MY_FRIENDS;
     public static SlaveList MY_SLAVES = new SlaveList();
-
-    public static int[] MY_POSITION;
-    public static int MY_BATTERY;
-    public static int MY_DELIVERIES;
-    public static long MY_METRES;
 
     public static Behaviour BTHREAD;
     public static TInput ITHREAD;
@@ -71,26 +57,26 @@ public class Peer {
 
         long meters =
                 ( (long) Deliver.distance(origin, destination) ) * 1000L +
-                        ( (long) Deliver.distance( Peer.MY_POSITION, origin ));
+                        ( (long) Deliver.distance( DATA.getPosition(), origin ));
 
         long time = System.currentTimeMillis();
 
         List<Measurement> pm10 = SENSOR_BUFFER.readAllAndClean();
 
-        MY_BATTERY -= 10;
-        MY_DELIVERIES += 1;
-        MY_METRES += meters;
-        MY_POSITION = destination;
+        DATA.setBattery(DATA.getBattery() - 10);
+        DATA.setDeliveries( DATA.getDeliveries() + 1 );
+        DATA.setMetres(DATA.getMetres() + meters);
+        DATA.setPosition(destination);
 
         System.out.println("\t\t\t[ DELIVERY ] "+id+" [ DONE ]");
 
-        if(MY_BATTERY < 15)
+        if(DATA.getBattery() < 15)
             synchronized (EXIT_LOCK) {
                 EXIT = true;
                 EXIT_LOCK.notify();
             }
 
-        return DeliveryImpl.createDeliveryResponse(id, time, destination, meters, MY_BATTERY, pm10);
+        return DeliveryImpl.createDeliveryResponse(id, time, destination, meters, DATA.getBattery(), pm10);
     }
 
     private static void quitThreads(){
@@ -105,9 +91,9 @@ public class Peer {
     }
 
     public static void exit(){
-        System.out.println("\t\t[ QUIT ] [ START ] id "+ ME.getId());
+        System.out.println("\t\t[ QUIT ] [ START ] id "+ DATA.getMe().getId());
 
-        if(isMaster()) {
+        if(DATA.isMasterDrone()) {
             quitThreads();
 
             System.out.println("\t\t[ QUIT ] block incoming grpc");
@@ -124,9 +110,9 @@ public class Peer {
         }
 
         System.out.println("\t\t[ QUIT ] remove drone from network");
-        REST_CLIENT.removeDroneFromNetwork(ME);
+        REST_CLIENT.removeDroneFromNetwork(DATA.getMe());
 
-        System.out.println("\t\t[ QUIT ] [ FINISH ] id " + ME.getId());
+        System.out.println("\t\t[ QUIT ] [ FINISH ] id " + DATA.getMe().getId());
 
         System.exit(0);
     }
@@ -138,7 +124,7 @@ public class Peer {
     }
 
     private static Server startGrpcServer() throws IOException {
-        Server server = ServerBuilder.forPort(ME.getPort())
+        Server server = ServerBuilder.forPort(DATA.getMe().getPort())
                 .addService(new GreeterImpl())
                 .addService(new DeliveryImpl())
                 .addService(new HeartBeatImpl())
@@ -154,13 +140,13 @@ public class Peer {
 
         HashMap<String, Object> data = client.addDroneToNetwork(id, ip, port);
 
-        ME = (Drone) data.get("drone");
+        DATA.setMe((Drone) data.get("drone"));
 
-        MY_POSITION = (int[]) data.get("position");
-        MY_BATTERY = 100;
+        DATA.setPosition((int[]) data.get("position"));
+        DATA.setBattery(100);
 
         MY_FRIENDS = new FirendList(((Drones) data.get("drones")).getList());
-        MY_FRIENDS.removeWithId(ME.getId()); //remove myself from the list of the drone in the network
+        MY_FRIENDS.removeWithId(DATA.getMe().getId()); //remove myself from the list of the drone in the network
 
         return client;
     }
@@ -178,11 +164,11 @@ public class Peer {
 
         setUpSensor();
 
-        Greeter.joinOverlayNetwork(MY_FRIENDS, ME, MY_POSITION);
+        Greeter.joinOverlayNetwork(MY_FRIENDS, DATA.getMe(), DATA.getPosition());
 
-        if(isMaster()) {
+        if(DATA.isMasterDrone()) {
             BTHREAD = new TBMaster();
-            MY_SLAVES.add(new Slave(ME, MY_POSITION, MY_BATTERY));
+            MY_SLAVES.add(new Slave(DATA.getMe(), DATA.getPosition(), DATA.getBattery()));
         }
         else
             BTHREAD = new TBSlave();
@@ -200,4 +186,19 @@ public class Peer {
             exit();
         }
     }
+
+    public static void transitionToMasterDrone() {
+        System.out.println("[ELECTION] I'M THE NEW MASTER");
+
+        //todo
+
+        /*
+        synchronized (ElectionImpl.LOCK){
+                   ElectionImpl.ELECTIOn = false;
+                        ElectionImpl.LOCK.wait();
+                }
+         */
+    }
+
+
 }

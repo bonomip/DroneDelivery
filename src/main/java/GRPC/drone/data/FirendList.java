@@ -2,7 +2,9 @@ package GRPC.drone.data;
 
 import GRPC.drone.Peer;
 import REST.beans.drone.Drone;
+import com.sun.istack.NotNull;
 
+import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -14,7 +16,7 @@ import java.util.Iterator;
 public class FirendList implements  Iterable<Drone> {
 
     @Override
-    public Iterator<Drone> iterator() {
+    public synchronized Iterator<Drone> iterator() {
         return new Iterator<Drone>() {
 
             private int currentIndex = 0;
@@ -32,11 +34,7 @@ public class FirendList implements  Iterable<Drone> {
     }
 
     //This array will store all elements added to list
-    private ArrayList<Drone> elements;
-
-    public FirendList(){
-        elements = new ArrayList<>();
-    }
+    private final ArrayList<Drone> elements;
 
     public FirendList(ArrayList<Drone> list){
         this.elements = new ArrayList<>(list);
@@ -74,7 +72,13 @@ public class FirendList implements  Iterable<Drone> {
     }
 
     public synchronized Drone getSuccessor(int id){
-        return getMod(getIndexFromId(id)+1);
+        if(this.elements.size() == 0)
+            throw new IllegalAccessError("Trying to get successor but Friend list is empty");
+
+        for(Drone d : this.elements)
+            if(d.getId() > id) return d;
+
+        return this.elements.get(0);
     }
 
     public synchronized Drone getPredecessor(int id){
@@ -87,6 +91,11 @@ public class FirendList implements  Iterable<Drone> {
                     " \n\t but id is not present");
 
         this.elements.removeIf(d -> d.getId() == id);
+    }
+
+    //used to retrieve master drone by Election methods
+    public synchronized Drone getFromId(int id){
+        return this.get(this.getIndexFromId(id));
     }
 
     //Get method

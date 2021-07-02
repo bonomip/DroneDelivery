@@ -5,22 +5,28 @@ import GRPC.drone.client.Deliver;
 import GRPC.drone.client.Greeter;
 import GRPC.drone.client.HeartBeat;
 import GRPC.drone.server.DeliveryImpl;
+import GRPC.drone.server.ElectionImpl;
 import REST.beans.drone.Drone;
 
 public class TBSlave extends Behaviour {
-
     @Override
     public void run() {
 
         while(!this.exit){
-
             try {
-                HeartBeat.beat(Peer.MASTER.getIp(), Peer.MASTER.getPort());
+
+                synchronized (ElectionImpl.LOCK){
+                    if(ElectionImpl.ELECTION)
+                        ElectionImpl.LOCK.wait();
+                }
+
+                HeartBeat.beat(Peer.DATA.getMaster().getIp(), Peer.DATA.getMaster().getPort());
             } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -40,9 +46,9 @@ public class TBSlave extends Behaviour {
 
     @Override
     public void printStatus(){
-        System.out.println("---- I'M A SLAVE "+ Peer.ME.getId());
+        System.out.println("---- I'M A SLAVE "+ Peer.DATA.getMe().getId());
         System.out.println("-------- MY MASTER IS:");
-        System.out.println(Peer.MASTER.toString());
+        System.out.println(Peer.DATA.getMaster().toString());
         super.printStatus();
     }
 }

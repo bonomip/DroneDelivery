@@ -12,13 +12,13 @@ public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
     @Override
     public void greeting(GreetService.HelloRequest request, StreamObserver<GreetService.HelloResponse> responseObserver) {
 
-        GreetService.HelloResponse response = createHelloResponse(Peer.ME, Peer.MASTER);
+        GreetService.HelloResponse response = createHelloResponse(Peer.DATA.getMe(), Peer.DATA.getMaster());
 
         Drone drone = getDroneFromHelloRequest(request);
 
         Peer.MY_FRIENDS.add(drone);
 
-        if(Peer.isMaster())
+        if(Peer.DATA.isMasterDrone())
         {
             if(Peer.MY_SLAVES.isIdInList(drone.getId()))
                 System.out.println("Trying to add drone id "+drone.getId()+" \n\t" +

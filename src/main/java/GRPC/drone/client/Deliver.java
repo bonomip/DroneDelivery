@@ -3,7 +3,7 @@ package GRPC.drone.client;
 import GRPC.drone.Peer;
 import GRPC.drone.data.Slave;
 import GRPC.drone.server.DeliveryImpl;
-import MQTT.DeliverySubscriber;
+import MQTT.subscriber.DeliverySubscriber;
 import MQTT.message.Delivery;
 import drone.grpc.deliveryservice.DeliverGrpc;
 import drone.grpc.deliveryservice.DeliveryService;
@@ -31,7 +31,7 @@ public class Deliver { /// MASTER DRONE
 
         Peer.MY_SLAVES.removeIdFromList(slave.getId());
 
-        if(slave.getId() != Peer.ME.getId())
+        if(slave.getId() != Peer.DATA.getMe().getId())
             Peer.MY_FRIENDS.removeWithId(slave.getId());
 
         delivery.setOnProcessing(false);

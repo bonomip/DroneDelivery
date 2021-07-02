@@ -15,8 +15,8 @@ public abstract class Behaviour extends Thread{
         System.out.println("-------- MY FRIENDS ARE:");
         Peer.MY_FRIENDS.print();
         System.out.println("---- STAT");
-        System.out.println("Deliveries: "+Peer.MY_DELIVERIES);
-        System.out.println("Metres: "+Peer.MY_METRES);
-        System.out.println("Battery: "+Peer.MY_BATTERY);
+        System.out.println("Deliveries: "+Peer.DATA.getDeliveries());
+        System.out.println("Metres: "+Peer.DATA.getMetres());
+        System.out.println("Battery: "+Peer.DATA.getBattery());
     };
 }
