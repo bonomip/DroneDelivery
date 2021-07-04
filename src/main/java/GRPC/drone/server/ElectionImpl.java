@@ -2,7 +2,6 @@ package GRPC.drone.server;
 
 import GRPC.drone.Peer;
 import GRPC.drone.client.Election;
-import GRPC.drone.threads.TBSlave;
 import com.google.protobuf.Empty;
 import drone.grpc.electionservice.ElectionGrpc;
 import drone.grpc.electionservice.ElectionService;
@@ -10,9 +9,10 @@ import io.grpc.stub.StreamObserver;
 
 public class ElectionImpl extends ElectionGrpc.ElectionImplBase {
 
+    public static final Object FINISH = new Object();
+
     public static final Object LOCK = new Object();
-    public static boolean PARTICIPANT = false;
-    public static boolean ELECTION = false;
+    public static boolean STOP = false;
 
     @Override
     public void election(ElectionService.ElectionRequest request, StreamObserver<Empty> responseObserver) {
@@ -21,60 +21,72 @@ public class ElectionImpl extends ElectionGrpc.ElectionImplBase {
         int other_id = request.getId();
         int other_battery = request.getBattery();
 
-        System.out.println("[ELECTION] Me b: " + my_battery + " id: " + my_id +
-                " | Other b: " + other_battery + " id: " + other_id);
+        if(!request.getShout()) {
+            System.out.println("[ELECTION] [RECEIVED]Me id: " + my_id + " battery: " + my_battery +
+                    " | Other id: " + other_id + " id: " + other_battery);
 
-        if(other_battery > my_battery || (other_battery == my_battery && other_id > my_id))
-            try{ Election.forwardElection(request); }
-            catch (InterruptedException e){ e.printStackTrace(); }
+            //todo move all login into Election class
 
-        if(other_battery < my_battery || ( other_battery == my_battery && other_id < my_id ) && !PARTICIPANT )
-            try { Election.forwardElection(getElectionRequest(my_id, my_battery)); }
-            catch (InterruptedException e) { e.printStackTrace(); }
+            if (other_battery > my_battery || (other_battery == my_battery && other_id > my_id))
+                new Thread(() -> {
+                    try {
+                        Election.forwardElection(request);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
 
-        if(other_id == my_id)
-            try{ Election.forwardShout(getShoutRequest(my_id)); }
-            catch (InterruptedException e ) { e.printStackTrace(); }
+            if ((other_battery < my_battery || (other_battery == my_battery && other_id < my_id)) && !Election.PARTICIPANT)
+                new Thread(() -> {
+                    try {
+                        Election.forwardElection(getElectionRequest(my_id, my_battery, false));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
 
-        responseObserver.onNext(null);
-        responseObserver.onCompleted();
-    }
+            if (other_id == my_id)
+                new Thread(() -> {
+                    try {
+                        Election.forwardElection(getElectionRequest(my_id, my_battery, true));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
 
-    @Override
-    public void shout(ElectionService.ShoutRequest request, StreamObserver<Empty> responseObserver) {
-        int master_id = request.getId();
-        int my_id = Peer.DATA.getMe().getId();
+        } else { //election is over
 
-        System.out.println("[ELECTION] [SHOUT] master id: "+ master_id+" | my id: " + my_id);
-
-        if(master_id == my_id)
-            Peer.transitionToMasterDrone();
-        else {
-            Peer.DATA.setMasterDrone(Peer.MY_FRIENDS.getFromId(master_id));
-            synchronized (LOCK){
-                ELECTION = false;
-                LOCK.notify();
+            if(other_id == my_id) {
+                Peer.transitionToMasterDrone(request);
             }
-            try {
-                Election.forwardShout(request);
+            else {
+                System.out.println("[ELECTION] [SHOUT] MASTER IS "+ other_id);
+                Peer.DATA.setMasterDrone(Peer.MY_FRIENDS.getFromId(other_id));
+                new Thread(() -> {
+                    try {
+                        Election.forwardElection(request);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
             }
-            catch (InterruptedException e ) {
-                e.printStackTrace();
+
+            synchronized (FINISH){
+                Election.PARTICIPANT = false;
+                FINISH.notify();
             }
+
         }
 
         responseObserver.onNext(null);
         responseObserver.onCompleted();
     }
 
-    public static ElectionService.ElectionRequest getElectionRequest(int id, int battery){
+    public static ElectionService.ElectionRequest getElectionRequest(int id, int battery, boolean isShout){
         return ElectionService.ElectionRequest.newBuilder()
                 .setBattery(battery)
                 .setId(id)
+                .setShout(isShout)
                 .build();
-    }
-
-    public static ElectionService.ShoutRequest getShoutRequest(int id){
-        return ElectionService.ShoutRequest.newBuilder().setId(id).build();
     }
 }

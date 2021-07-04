@@ -7,15 +7,10 @@ drone/grpc/electionservice/ElectionService.java
  drone.grpc.electionservice.ElectionService$ElectionRequest$1
  drone.grpc.electionservice.ElectionService$ElectionRequest$Builder
  drone.grpc.electionservice.ElectionService$ElectionRequestOrBuilder
- drone.grpc.electionservice.ElectionService$ShoutRequest
- drone.grpc.electionservice.ElectionService$ShoutRequest$1
- drone.grpc.electionservice.ElectionService$ShoutRequest$Builder
- drone.grpc.electionservice.ElectionService$ShoutRequestOrBuilder
-GRPC/drone/Peer.java
- GRPC.drone.Peer
-GRPC/drone/client/HeartBeat.java
- GRPC.drone.client.HeartBeat
- GRPC.drone.client.HeartBeat$1
+SENSOR/Measurement.java
+ SENSOR.Measurement
+REST/utils/RESTRequest.java
+ REST.utils.RESTRequest
 MQTT/test/Sub.java
  MQTT.test.Sub
  MQTT.test.Sub$1
@@ -23,8 +18,8 @@ REST/AdminClient.java
  REST.AdminClient
 GRPC/drone/threads/TBMaster.java
  GRPC.drone.threads.TBMaster
-GRPC/drone/server/ElectionImpl.java
- GRPC.drone.server.ElectionImpl
+REST/services/MGMTDrones.java
+ REST.services.MGMTDrones
 GRPC/test/MultipleDrones.java
  GRPC.test.MultipleDrones
 REST/utils/DataFormatter.java
@@ -118,10 +113,8 @@ SENSOR/Buffer.java
  SENSOR.Buffer
 SENSOR/Simulator.java
  SENSOR.Simulator
-GRPC/drone/client/Election.java
- GRPC.drone.client.Election
- GRPC.drone.client.Election$1
- GRPC.drone.client.Election$2
+MQTT/message/Delivery.java
+ MQTT.message.Delivery
 GRPC/drone/data/Slave.java
  GRPC.drone.data.Slave
 REST/beans/SmartCity.java
@@ -168,13 +161,15 @@ drone/grpc/deliveryservice/DeliveryService.java
  drone.grpc.deliveryservice.DeliveryService$Pm10$1
  drone.grpc.deliveryservice.DeliveryService$Pm10$Builder
  drone.grpc.deliveryservice.DeliveryService$Pm10OrBuilder
-REST/utils/RESTRequest.java
- REST.utils.RESTRequest
-MQTT/message/Delivery.java
- MQTT.message.Delivery
-SENSOR/Measurement.java
- SENSOR.Measurement
+GRPC/drone/server/ElectionImpl.java
+ GRPC.drone.server.ElectionImpl
+GRPC/drone/client/Election.java
+ GRPC.drone.client.Election
+ GRPC.drone.client.Election$1
+GRPC/drone/Peer.java
+ GRPC.drone.Peer
 GRPC/drone/threads/TBSlave.java
  GRPC.drone.threads.TBSlave
-REST/services/MGMTDrones.java
- REST.services.MGMTDrones
+GRPC/drone/client/HeartBeat.java
+ GRPC.drone.client.HeartBeat
+ GRPC.drone.client.HeartBeat$1

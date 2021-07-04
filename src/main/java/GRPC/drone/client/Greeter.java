@@ -17,11 +17,14 @@ import java.util.concurrent.TimeUnit;
 public class Greeter {
 
     private static void onNext(GreetService.HelloResponse value){
-        System.out.println("[ RESPONSE ] drone id "
-                +value.getId()+" says master is id "
-                +value.getMasterId());
+        if(value.hasMasterId()){
+            System.out.println("[ RESPONSE ] drone id "
+                    +value.getId()+" says master is id "
+                    +value.getMasterId());
 
-        Peer.DATA.setMasterDrone(GreeterImpl.getMasterDroneFromHelloResponse(value));
+            Peer.DATA.setMasterDrone(GreeterImpl.getMasterDroneFromHelloResponse(value));
+        } else
+            System.out.println("[ RESPONSE ] from drone id");
     }
 
     private static void onError(ManagedChannel channel, FirendList friends, int drone_id){
@@ -71,6 +74,12 @@ public class Greeter {
 
         for(ManagedChannel channel : channels){
             channel.awaitTermination(2, TimeUnit.SECONDS);
+        }
+
+        if(Peer.DATA.getMaster() == null){
+            //todo
+            //if after greetings i dont have a master
+            //start an election
         }
     }
 

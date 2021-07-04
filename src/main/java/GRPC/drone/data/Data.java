@@ -61,7 +61,7 @@ public class Data {
     }
 
     public synchronized boolean isMasterDrone(){
-        return this.master.getId() == this.me.getId();
+        return this.master != null && this.master.getId() == this.me.getId();
     }
 
     public synchronized void setMasterDrone(Drone master){

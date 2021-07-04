@@ -3,6 +3,7 @@ package GRPC.drone;
 import GRPC.drone.client.Deliver;
 import GRPC.drone.data.*;
 import GRPC.drone.server.DeliveryImpl;
+import GRPC.drone.server.ElectionImpl;
 import GRPC.drone.server.GreeterImpl;
 import GRPC.drone.client.Greeter;
 import GRPC.drone.server.HeartBeatImpl;
@@ -18,6 +19,7 @@ import SENSOR.Measurement;
 import SENSOR.PM10Buffer;
 import SENSOR.PM10Simulator;
 import drone.grpc.deliveryservice.DeliveryService;
+import drone.grpc.electionservice.ElectionService;
 import io.grpc.*;
 
 import java.io.IOException;
@@ -128,6 +130,7 @@ public class Peer {
                 .addService(new GreeterImpl())
                 .addService(new DeliveryImpl())
                 .addService(new HeartBeatImpl())
+                .addService(new ElectionImpl())
                 .build();
 
         server.start();
@@ -141,7 +144,6 @@ public class Peer {
         HashMap<String, Object> data = client.addDroneToNetwork(id, ip, port);
 
         DATA.setMe((Drone) data.get("drone"));
-
         DATA.setPosition((int[]) data.get("position"));
         DATA.setBattery(100);
 
@@ -187,17 +189,15 @@ public class Peer {
         }
     }
 
-    public static void transitionToMasterDrone() {
+    public static void transitionToMasterDrone(ElectionService.ElectionRequest request) {
         System.out.println("[ELECTION] I'M THE NEW MASTER");
-
-        //todo
-
-        /*
-        synchronized (ElectionImpl.LOCK){
-                   ElectionImpl.ELECTIOn = false;
-                        ElectionImpl.LOCK.wait();
-                }
-         */
+        Peer.DATA.setMasterDrone(Peer.DATA.getMe());
+        Peer.MY_SLAVES = new SlaveList();
+        Peer.MY_SLAVES.add(new Slave(DATA.getMe(), DATA.getPosition(), DATA.getBattery()));
+        Peer.MY_SLAVES.populateFromShout(request);
+        BTHREAD.quit();
+        BTHREAD = new TBMaster();
+        BTHREAD.start();
     }
 
 

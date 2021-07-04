@@ -14,99 +14,86 @@ import java.util.concurrent.TimeUnit;
 
 public class Election {
 
-    static boolean FOUND_SUCCESSOR = false;
+    private static final Object LOCK = new Object(); //lock used to wait for election response
+
+    private static final Object SUCCESSOR_LOCK = new Object();
+    private static boolean SUCCESSOR_ON = false;
+
+    public static boolean PARTICIPANT = false;
 
     public static void startElection(int battery, int id) throws InterruptedException {
-
-        synchronized (ElectionImpl.LOCK){
-            if(ElectionImpl.PARTICIPANT) return;
+        synchronized (ElectionImpl.FINISH){
+                if(PARTICIPANT)
+                    return;
         }
 
-        ElectionService.ElectionRequest request = ElectionImpl.getElectionRequest(id, battery);
-
-        forwardElection(request);
+        if(Peer.MY_FRIENDS.size() == 0)
+            Peer.transitionToMasterDrone(null);
+        else
+            forwardElection(ElectionImpl.getElectionRequest(id, battery, false));
 }
 
-public static void forwardElection(ElectionService.ElectionRequest request) throws InterruptedException {
-    synchronized (ElectionImpl.LOCK){
-        ElectionImpl.PARTICIPANT = true;
+    public synchronized static void forwardElection(ElectionService.ElectionRequest request) throws InterruptedException {
+        //todo if im going to forward to id 4 a election message with id 4 and the node 4 is offline
+        //i restart the election
+
+        if(!request.getShout())
+            synchronized (ElectionImpl.FINISH) {
+                PARTICIPANT = true;
+            }
+
+        do {
+
+            if (Peer.MY_FRIENDS.size() == 0 && !Peer.DATA.isMasterDrone()) {
+                Peer.transitionToMasterDrone(null);
+                SUCCESSOR_ON = false;
+                synchronized (ElectionImpl.FINISH){
+                    PARTICIPANT = false;
+                    ElectionImpl.FINISH.notify();
+                }
+                return;
+            }
+
+            Drone friend = Peer.MY_FRIENDS.getSuccessor(Peer.DATA.getMe().getId());
+
+            final ManagedChannel channel = ManagedChannelBuilder
+                    .forTarget(friend.getIp() + ":" + friend.getPort()).usePlaintext().build();
+
+            ElectionGrpc.ElectionStub stub = ElectionGrpc.newStub(channel);
+
+            if(request.getShout())
+                System.out.println("IS A SHOUt");
+            System.out.println("[ELECTION] [SEND] " + request.getId() + " to " + friend.getId());
+
+            stub.election(request, new StreamObserver<Empty>() {
+                @Override
+                public void onNext(Empty value) {
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                    System.out.println("[ELECTION] successor is offline " + friend.getId());
+
+                    Peer.MY_FRIENDS.removeWithId(friend.getId());
+
+                    SUCCESSOR_ON = false;
+
+                    channel.shutdown();
+                }
+
+                @Override
+                public void onCompleted() {
+                    System.out.println("[ELECTION] send correctly to " + friend.getId());
+                    SUCCESSOR_ON = true;
+
+                    channel.shutdown();
+                }
+            });
+
+            channel.awaitTermination(10, TimeUnit.SECONDS);
+
+        } while(!SUCCESSOR_ON);
+
+        SUCCESSOR_ON = false;
     }
-
-    do {
-
-        if(Peer.MY_FRIENDS.size() == 0) {
-            Peer.transitionToMasterDrone();
-            synchronized (ElectionImpl.LOCK){
-                ElectionImpl.PARTICIPANT = false;
-            }
-            return;
-        }
-
-        Drone friend = Peer.MY_FRIENDS.getSuccessor(Peer.DATA.getMe().getId());
-
-        final ManagedChannel channel = ManagedChannelBuilder
-                .forTarget(friend.getIp() + ":" + friend.getPort()).usePlaintext().build();
-
-        ElectionGrpc.ElectionStub stub = ElectionGrpc.newStub(channel);
-
-        stub.election(request, new StreamObserver<Empty>() {
-            @Override
-            public void onNext(Empty value) {
-                FOUND_SUCCESSOR = true;
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                System.out.println("[ELECTION] successor is offline " + friend.getId());
-                Peer.MY_FRIENDS.removeWithId(friend.getId());
-            }
-
-            @Override
-            public void onCompleted() {
-                channel.shutdown();
-            }
-        });
-
-        channel.awaitTermination(2, TimeUnit.SECONDS);
-
-    } while(!FOUND_SUCCESSOR);
-}
-
-public static void forwardShout(ElectionService.ShoutRequest request) throws InterruptedException {
-    synchronized (ElectionImpl.LOCK){
-        ElectionImpl.PARTICIPANT = true;
-    }
-
-    do {
-        Drone friend = Peer.MY_FRIENDS.getSuccessor(Peer.DATA.getMe().getId());
-
-        ManagedChannel channel = ManagedChannelBuilder
-                .forTarget(friend.getIp() + ":" + friend.getPort()).usePlaintext().build();
-
-        ElectionGrpc.ElectionStub stub = ElectionGrpc.newStub(channel);
-
-        stub.shout(request, new StreamObserver<Empty>() {
-            @Override
-            public void onNext(Empty value) {
-
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                //if friend is offline
-                //remove it from friend list
-                Peer.MY_FRIENDS.removeWithId(friend.getId());
-            }
-
-            @Override
-            public void onCompleted() {
-                FOUND_SUCCESSOR = true;
-            }
-        });
-
-        channel.awaitTermination(1, TimeUnit.SECONDS);
-
-    } while(!FOUND_SUCCESSOR);
-}
-
 }

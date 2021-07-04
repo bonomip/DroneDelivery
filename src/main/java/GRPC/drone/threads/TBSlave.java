@@ -2,6 +2,7 @@ package GRPC.drone.threads;
 
 import GRPC.drone.Peer;
 import GRPC.drone.client.Deliver;
+import GRPC.drone.client.Election;
 import GRPC.drone.client.Greeter;
 import GRPC.drone.client.HeartBeat;
 import GRPC.drone.server.DeliveryImpl;
@@ -14,13 +15,15 @@ public class TBSlave extends Behaviour {
 
         while(!this.exit){
             try {
-
-                synchronized (ElectionImpl.LOCK){
-                    if(ElectionImpl.ELECTION)
-                        ElectionImpl.LOCK.wait();
+                synchronized (ElectionImpl.FINISH){
+                    while(Election.PARTICIPANT) {
+                        System.out.println("WAIT TO ELECTION TO FINISH");
+                        ElectionImpl.FINISH.wait();
+                        System.out.println("[ELECTION] FINISH ");
+                    }
                 }
-
-                HeartBeat.beat(Peer.DATA.getMaster().getIp(), Peer.DATA.getMaster().getPort());
+                if(Peer.DATA.getMaster() != null || !Peer.DATA.isMasterDrone())
+                    HeartBeat.beat(Peer.DATA.getMaster().getIp(), Peer.DATA.getMaster().getPort());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

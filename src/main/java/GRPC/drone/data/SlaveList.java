@@ -5,6 +5,7 @@ import GRPC.drone.client.Deliver;
 import GRPC.drone.data.stat.DeliveryStat;
 import REST.beans.statistic.Statistic;
 import SENSOR.Measurement;
+import drone.grpc.electionservice.ElectionService;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -29,6 +30,11 @@ public class SlaveList {
                 return s;
         }
         return null;
+    }
+
+    public synchronized void populateFromShout(ElectionService.ElectionRequest request){
+        //todo
+        if(request == null) return;
     }
 
     public synchronized int size(){

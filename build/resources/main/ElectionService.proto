@@ -3,14 +3,10 @@ import "google/protobuf/empty.proto";
 
 service Election{
   rpc Election(ElectionRequest) returns (google.protobuf.Empty){}
-  rpc Shout(ShoutRequest) returns (google.protobuf.Empty){}
 }
 
 message ElectionRequest{
   required int32 battery = 1;
   required int32 id = 2;
-}
-
-message ShoutRequest{
-  required int32 id = 1;
+  required bool shout = 3;
 }

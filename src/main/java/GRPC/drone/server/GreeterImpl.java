@@ -12,7 +12,15 @@ public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
     @Override
     public void greeting(GreetService.HelloRequest request, StreamObserver<GreetService.HelloResponse> responseObserver) {
 
-        GreetService.HelloResponse response = createHelloResponse(Peer.DATA.getMe(), Peer.DATA.getMaster());
+        GreetService.HelloResponse response;
+
+        if(Peer.DATA.getMaster() == null){
+            response = createHelloResponse(Peer.DATA.getMe());
+        } else {
+            response = createHelloResponse(Peer.DATA.getMe(), Peer.DATA.getMaster());
+        }
+
+
 
         Drone drone = getDroneFromHelloRequest(request);
 
@@ -59,6 +67,12 @@ public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
                 .setMasterId(master.getId())
                 .setMasterIp(master.getIp())
                 .setMasterPort(master.getPort())
+                .build();
+    }
+
+    private static GreetService.HelloResponse createHelloResponse(Drone me){
+        return GreetService.HelloResponse.newBuilder()
+                .setId(me.getId())
                 .build();
     }
 }

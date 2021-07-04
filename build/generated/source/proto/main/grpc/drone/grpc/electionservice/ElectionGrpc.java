@@ -58,37 +58,6 @@ public final class ElectionGrpc {
     return getElectionMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<drone.grpc.electionservice.ElectionService.ShoutRequest,
-      com.google.protobuf.Empty> getShoutMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "Shout",
-      requestType = drone.grpc.electionservice.ElectionService.ShoutRequest.class,
-      responseType = com.google.protobuf.Empty.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<drone.grpc.electionservice.ElectionService.ShoutRequest,
-      com.google.protobuf.Empty> getShoutMethod() {
-    io.grpc.MethodDescriptor<drone.grpc.electionservice.ElectionService.ShoutRequest, com.google.protobuf.Empty> getShoutMethod;
-    if ((getShoutMethod = ElectionGrpc.getShoutMethod) == null) {
-      synchronized (ElectionGrpc.class) {
-        if ((getShoutMethod = ElectionGrpc.getShoutMethod) == null) {
-          ElectionGrpc.getShoutMethod = getShoutMethod =
-              io.grpc.MethodDescriptor.<drone.grpc.electionservice.ElectionService.ShoutRequest, com.google.protobuf.Empty>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Shout"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  drone.grpc.electionservice.ElectionService.ShoutRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.google.protobuf.Empty.getDefaultInstance()))
-              .setSchemaDescriptor(new ElectionMethodDescriptorSupplier("Shout"))
-              .build();
-        }
-      }
-    }
-    return getShoutMethod;
-  }
-
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -123,13 +92,6 @@ public final class ElectionGrpc {
       asyncUnimplementedUnaryCall(getElectionMethod(), responseObserver);
     }
 
-    /**
-     */
-    public void shout(drone.grpc.electionservice.ElectionService.ShoutRequest request,
-        io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
-      asyncUnimplementedUnaryCall(getShoutMethod(), responseObserver);
-    }
-
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -139,13 +101,6 @@ public final class ElectionGrpc {
                 drone.grpc.electionservice.ElectionService.ElectionRequest,
                 com.google.protobuf.Empty>(
                   this, METHODID_ELECTION)))
-          .addMethod(
-            getShoutMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                drone.grpc.electionservice.ElectionService.ShoutRequest,
-                com.google.protobuf.Empty>(
-                  this, METHODID_SHOUT)))
           .build();
     }
   }
@@ -175,14 +130,6 @@ public final class ElectionGrpc {
       asyncUnaryCall(
           getChannel().newCall(getElectionMethod(), getCallOptions()), request, responseObserver);
     }
-
-    /**
-     */
-    public void shout(drone.grpc.electionservice.ElectionService.ShoutRequest request,
-        io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getShoutMethod(), getCallOptions()), request, responseObserver);
-    }
   }
 
   /**
@@ -208,13 +155,6 @@ public final class ElectionGrpc {
     public com.google.protobuf.Empty election(drone.grpc.electionservice.ElectionService.ElectionRequest request) {
       return blockingUnaryCall(
           getChannel(), getElectionMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public com.google.protobuf.Empty shout(drone.grpc.electionservice.ElectionService.ShoutRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getShoutMethod(), getCallOptions(), request);
     }
   }
 
@@ -243,18 +183,9 @@ public final class ElectionGrpc {
       return futureUnaryCall(
           getChannel().newCall(getElectionMethod(), getCallOptions()), request);
     }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<com.google.protobuf.Empty> shout(
-        drone.grpc.electionservice.ElectionService.ShoutRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getShoutMethod(), getCallOptions()), request);
-    }
   }
 
   private static final int METHODID_ELECTION = 0;
-  private static final int METHODID_SHOUT = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -275,10 +206,6 @@ public final class ElectionGrpc {
       switch (methodId) {
         case METHODID_ELECTION:
           serviceImpl.election((drone.grpc.electionservice.ElectionService.ElectionRequest) request,
-              (io.grpc.stub.StreamObserver<com.google.protobuf.Empty>) responseObserver);
-          break;
-        case METHODID_SHOUT:
-          serviceImpl.shout((drone.grpc.electionservice.ElectionService.ShoutRequest) request,
               (io.grpc.stub.StreamObserver<com.google.protobuf.Empty>) responseObserver);
           break;
         default:
@@ -343,7 +270,6 @@ public final class ElectionGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new ElectionFileDescriptorSupplier())
               .addMethod(getElectionMethod())
-              .addMethod(getShoutMethod())
               .build();
         }
       }

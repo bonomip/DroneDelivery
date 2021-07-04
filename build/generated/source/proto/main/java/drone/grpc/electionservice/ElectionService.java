@@ -39,6 +39,17 @@ public final class ElectionService {
      * @return The id.
      */
     int getId();
+
+    /**
+     * <code>required bool shout = 3;</code>
+     * @return Whether the shout field is set.
+     */
+    boolean hasShout();
+    /**
+     * <code>required bool shout = 3;</code>
+     * @return The shout.
+     */
+    boolean getShout();
   }
   /**
    * Protobuf type {@code drone.grpc.electionservice.ElectionRequest}
@@ -94,6 +105,11 @@ public final class ElectionService {
             case 16: {
               bitField0_ |= 0x00000002;
               id_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              shout_ = input.readBool();
               break;
             }
             default: {
@@ -163,6 +179,23 @@ public final class ElectionService {
       return id_;
     }
 
+    public static final int SHOUT_FIELD_NUMBER = 3;
+    private boolean shout_;
+    /**
+     * <code>required bool shout = 3;</code>
+     * @return Whether the shout field is set.
+     */
+    public boolean hasShout() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>required bool shout = 3;</code>
+     * @return The shout.
+     */
+    public boolean getShout() {
+      return shout_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -178,6 +211,10 @@ public final class ElectionService {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasShout()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -190,6 +227,9 @@ public final class ElectionService {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(2, id_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeBool(3, shout_);
       }
       unknownFields.writeTo(output);
     }
@@ -207,6 +247,10 @@ public final class ElectionService {
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, id_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, shout_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -233,6 +277,11 @@ public final class ElectionService {
         if (getId()
             != other.getId()) return false;
       }
+      if (hasShout() != other.hasShout()) return false;
+      if (hasShout()) {
+        if (getShout()
+            != other.getShout()) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -251,6 +300,11 @@ public final class ElectionService {
       if (hasId()) {
         hash = (37 * hash) + ID_FIELD_NUMBER;
         hash = (53 * hash) + getId();
+      }
+      if (hasShout()) {
+        hash = (37 * hash) + SHOUT_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getShout());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -389,6 +443,8 @@ public final class ElectionService {
         bitField0_ = (bitField0_ & ~0x00000001);
         id_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        shout_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -424,6 +480,10 @@ public final class ElectionService {
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.id_ = id_;
           to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.shout_ = shout_;
+          to_bitField0_ |= 0x00000004;
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -480,6 +540,9 @@ public final class ElectionService {
         if (other.hasId()) {
           setId(other.getId());
         }
+        if (other.hasShout()) {
+          setShout(other.getShout());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -491,6 +554,9 @@ public final class ElectionService {
           return false;
         }
         if (!hasId()) {
+          return false;
+        }
+        if (!hasShout()) {
           return false;
         }
         return true;
@@ -589,6 +655,43 @@ public final class ElectionService {
         onChanged();
         return this;
       }
+
+      private boolean shout_ ;
+      /**
+       * <code>required bool shout = 3;</code>
+       * @return Whether the shout field is set.
+       */
+      public boolean hasShout() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>required bool shout = 3;</code>
+       * @return The shout.
+       */
+      public boolean getShout() {
+        return shout_;
+      }
+      /**
+       * <code>required bool shout = 3;</code>
+       * @param value The shout to set.
+       * @return This builder for chaining.
+       */
+      public Builder setShout(boolean value) {
+        bitField0_ |= 0x00000004;
+        shout_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool shout = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearShout() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        shout_ = false;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -642,542 +745,11 @@ public final class ElectionService {
 
   }
 
-  public interface ShoutRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:drone.grpc.electionservice.ShoutRequest)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>required int32 id = 1;</code>
-     * @return Whether the id field is set.
-     */
-    boolean hasId();
-    /**
-     * <code>required int32 id = 1;</code>
-     * @return The id.
-     */
-    int getId();
-  }
-  /**
-   * Protobuf type {@code drone.grpc.electionservice.ShoutRequest}
-   */
-  public  static final class ShoutRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:drone.grpc.electionservice.ShoutRequest)
-      ShoutRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use ShoutRequest.newBuilder() to construct.
-    private ShoutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private ShoutRequest() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new ShoutRequest();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ShoutRequest(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              bitField0_ |= 0x00000001;
-              id_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return drone.grpc.electionservice.ElectionService.internal_static_drone_grpc_electionservice_ShoutRequest_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return drone.grpc.electionservice.ElectionService.internal_static_drone_grpc_electionservice_ShoutRequest_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              drone.grpc.electionservice.ElectionService.ShoutRequest.class, drone.grpc.electionservice.ElectionService.ShoutRequest.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
-    /**
-     * <code>required int32 id = 1;</code>
-     * @return Whether the id field is set.
-     */
-    public boolean hasId() {
-      return ((bitField0_ & 0x00000001) != 0);
-    }
-    /**
-     * <code>required int32 id = 1;</code>
-     * @return The id.
-     */
-    public int getId() {
-      return id_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      if (!hasId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeInt32(1, id_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, id_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof drone.grpc.electionservice.ElectionService.ShoutRequest)) {
-        return super.equals(obj);
-      }
-      drone.grpc.electionservice.ElectionService.ShoutRequest other = (drone.grpc.electionservice.ElectionService.ShoutRequest) obj;
-
-      if (hasId() != other.hasId()) return false;
-      if (hasId()) {
-        if (getId()
-            != other.getId()) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasId()) {
-        hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + getId();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(drone.grpc.electionservice.ElectionService.ShoutRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code drone.grpc.electionservice.ShoutRequest}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:drone.grpc.electionservice.ShoutRequest)
-        drone.grpc.electionservice.ElectionService.ShoutRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return drone.grpc.electionservice.ElectionService.internal_static_drone_grpc_electionservice_ShoutRequest_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return drone.grpc.electionservice.ElectionService.internal_static_drone_grpc_electionservice_ShoutRequest_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                drone.grpc.electionservice.ElectionService.ShoutRequest.class, drone.grpc.electionservice.ElectionService.ShoutRequest.Builder.class);
-      }
-
-      // Construct using drone.grpc.electionservice.ElectionService.ShoutRequest.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        id_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return drone.grpc.electionservice.ElectionService.internal_static_drone_grpc_electionservice_ShoutRequest_descriptor;
-      }
-
-      @java.lang.Override
-      public drone.grpc.electionservice.ElectionService.ShoutRequest getDefaultInstanceForType() {
-        return drone.grpc.electionservice.ElectionService.ShoutRequest.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public drone.grpc.electionservice.ElectionService.ShoutRequest build() {
-        drone.grpc.electionservice.ElectionService.ShoutRequest result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public drone.grpc.electionservice.ElectionService.ShoutRequest buildPartial() {
-        drone.grpc.electionservice.ElectionService.ShoutRequest result = new drone.grpc.electionservice.ElectionService.ShoutRequest(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.id_ = id_;
-          to_bitField0_ |= 0x00000001;
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof drone.grpc.electionservice.ElectionService.ShoutRequest) {
-          return mergeFrom((drone.grpc.electionservice.ElectionService.ShoutRequest)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(drone.grpc.electionservice.ElectionService.ShoutRequest other) {
-        if (other == drone.grpc.electionservice.ElectionService.ShoutRequest.getDefaultInstance()) return this;
-        if (other.hasId()) {
-          setId(other.getId());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        if (!hasId()) {
-          return false;
-        }
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        drone.grpc.electionservice.ElectionService.ShoutRequest parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (drone.grpc.electionservice.ElectionService.ShoutRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private int id_ ;
-      /**
-       * <code>required int32 id = 1;</code>
-       * @return Whether the id field is set.
-       */
-      public boolean hasId() {
-        return ((bitField0_ & 0x00000001) != 0);
-      }
-      /**
-       * <code>required int32 id = 1;</code>
-       * @return The id.
-       */
-      public int getId() {
-        return id_;
-      }
-      /**
-       * <code>required int32 id = 1;</code>
-       * @param value The id to set.
-       * @return This builder for chaining.
-       */
-      public Builder setId(int value) {
-        bitField0_ |= 0x00000001;
-        id_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 id = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:drone.grpc.electionservice.ShoutRequest)
-    }
-
-    // @@protoc_insertion_point(class_scope:drone.grpc.electionservice.ShoutRequest)
-    private static final drone.grpc.electionservice.ElectionService.ShoutRequest DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new drone.grpc.electionservice.ElectionService.ShoutRequest();
-    }
-
-    public static drone.grpc.electionservice.ElectionService.ShoutRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<ShoutRequest>
-        PARSER = new com.google.protobuf.AbstractParser<ShoutRequest>() {
-      @java.lang.Override
-      public ShoutRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ShoutRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<ShoutRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ShoutRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public drone.grpc.electionservice.ElectionService.ShoutRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_drone_grpc_electionservice_ElectionRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_drone_grpc_electionservice_ElectionRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_drone_grpc_electionservice_ShoutRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_drone_grpc_electionservice_ShoutRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1189,13 +761,10 @@ public final class ElectionService {
     java.lang.String[] descriptorData = {
       "\n\025ElectionService.proto\022\032drone.grpc.elec" +
       "tionservice\032\033google/protobuf/empty.proto" +
-      "\".\n\017ElectionRequest\022\017\n\007battery\030\001 \002(\005\022\n\n\002" +
-      "id\030\002 \002(\005\"\032\n\014ShoutRequest\022\n\n\002id\030\001 \002(\0052\252\001\n" +
-      "\010Election\022Q\n\010Election\022+.drone.grpc.elect" +
-      "ionservice.ElectionRequest\032\026.google.prot" +
-      "obuf.Empty\"\000\022K\n\005Shout\022(.drone.grpc.elect" +
-      "ionservice.ShoutRequest\032\026.google.protobu" +
-      "f.Empty\"\000"
+      "\"=\n\017ElectionRequest\022\017\n\007battery\030\001 \002(\005\022\n\n\002" +
+      "id\030\002 \002(\005\022\r\n\005shout\030\003 \002(\0102]\n\010Election\022Q\n\010E" +
+      "lection\022+.drone.grpc.electionservice.Ele" +
+      "ctionRequest\032\026.google.protobuf.Empty\"\000"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1207,13 +776,7 @@ public final class ElectionService {
     internal_static_drone_grpc_electionservice_ElectionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_drone_grpc_electionservice_ElectionRequest_descriptor,
-        new java.lang.String[] { "Battery", "Id", });
-    internal_static_drone_grpc_electionservice_ShoutRequest_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_drone_grpc_electionservice_ShoutRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_drone_grpc_electionservice_ShoutRequest_descriptor,
-        new java.lang.String[] { "Id", });
+        new java.lang.String[] { "Battery", "Id", "Shout", });
     com.google.protobuf.EmptyProto.getDescriptor();
   }
 
