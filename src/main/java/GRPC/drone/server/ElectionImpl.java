@@ -16,9 +16,6 @@ public class ElectionImpl extends ElectionGrpc.ElectionImplBase {
 
     public static final Object FINISH = new Object();
 
-    public static final Object LOCK = new Object();
-    public static boolean STOP = false;
-
     @Override
     public void election(ElectionService.ElectionRequest request, StreamObserver<Empty> responseObserver) {
         int my_id = Peer.DATA.getMe().getId();

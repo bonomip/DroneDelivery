@@ -49,8 +49,6 @@ public class Peer {
 
     public static DeliveryService.DeliveryResponse executeDelivery(int id, int[] origin, int[] destination){
 
-        System.out.println("\t\t\t[ DELIVERY ] "+id+" [ RECEIVED ]");
-
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -69,8 +67,6 @@ public class Peer {
         DATA.setDeliveries( DATA.getDeliveries() + 1 );
         DATA.setMetres(DATA.getMetres() + meters);
         DATA.setPosition(destination);
-
-        System.out.println("\t\t\t[ DELIVERY ] "+id+" [ DONE ]");
 
         if(DATA.getBattery() < 15)
             synchronized (EXIT_LOCK) {
