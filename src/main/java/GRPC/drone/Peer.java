@@ -191,9 +191,13 @@ public class Peer {
 
     public static void transitionToMasterDrone(List<Slave> list) {
         System.out.println("[ELECTION] I'M THE NEW MASTER");
-        Peer.DATA.setMasterDrone(Peer.DATA.getMe());
-        Peer.MY_SLAVES = new SlaveList(list);
+        Peer.MY_SLAVES.addAll(list);
         BTHREAD.quit();
+        try {
+            BTHREAD.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         BTHREAD = new TBMaster();
         BTHREAD.start();
     }

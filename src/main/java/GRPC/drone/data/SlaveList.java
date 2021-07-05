@@ -20,12 +20,12 @@ public class SlaveList {
         list = new ArrayList<>();
     }
 
-    public SlaveList(List<Slave> list){
-        this.list = new ArrayList<>(list);
-    }
-
     public synchronized void add(Slave s){
         this.list.add(s);
+    }
+
+    public synchronized void addAll(List<Slave> list){
+        this.list.addAll(list);
     }
 
     public synchronized Slave getDroneWithId(int id) {

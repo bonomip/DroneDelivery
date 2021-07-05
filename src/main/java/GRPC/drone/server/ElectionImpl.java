@@ -27,6 +27,8 @@ public class ElectionImpl extends ElectionGrpc.ElectionImplBase {
         int other_battery = request.getBattery();
 
         if(!request.getShout()) {
+            Peer.DATA.setMasterDrone(null);
+
             System.out.println("[ELECTION] [RECEIVED]Me id: " + my_id + " battery: " + my_battery +
                     " | Other id: " + other_id + " id: " + other_battery);
 
@@ -48,7 +50,8 @@ public class ElectionImpl extends ElectionGrpc.ElectionImplBase {
                     }
                 }).start();
 
-            if (other_id == my_id)
+            if (other_id == my_id) {
+                Peer.DATA.setMasterDrone(Peer.DATA.getMe());
                 new Thread(() -> {
                     try {
                         Election.forwardElection(getShoutRequest(my_id, my_battery));
@@ -56,7 +59,7 @@ public class ElectionImpl extends ElectionGrpc.ElectionImplBase {
                         e.printStackTrace();
                     }
                 }).start();
-
+            }
         } else { //election is over
 
             System.out.println("[ELECTION] [SHOUT] [RECEIVED] Me id: " + my_id + " battery: " + my_battery +
