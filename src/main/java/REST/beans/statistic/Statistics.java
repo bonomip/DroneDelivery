@@ -27,9 +27,18 @@ public class Statistics {
         return new Statistics(this.stats.subList(this.stats.size()-n, this.stats.size()));
     }
 
+    public long getStartTime(){
+        if(this.stats.size() > 0){
+            return this.stats.get(0).getTime();
+        } else {
+            return AdminServer.START_TIME;
+        }
+    }
+
     public float getAvgKm(int t1, int t2) {
-        long lt1 = AdminServer.START_TIME + (t1 * 60000L);
-        long lt2 = AdminServer.START_TIME + (t2 * 60000L);
+
+        long lt1 = getStartTime() + ((long)t1 * 60000L);
+        long lt2 = getStartTime() + ((long)t2 * 60000L);
 
         float c = 0f;
         long m = 0;
@@ -42,6 +51,8 @@ public class Statistics {
             }
         }
 
+
+
         if(c == 0)
             return 0.0f;
 
@@ -49,11 +60,11 @@ public class Statistics {
     }
 
     public float getAvgDeliveries(int t1, int t2) {
-        long lt1 = AdminServer.START_TIME + (t1 * 60000L);
-        long lt2 = AdminServer.START_TIME + (t2 * 60000L);
+        long lt1 = getStartTime() + ((long)t1 * 60000L);
+        long lt2 = getStartTime() + ((long)t2 * 60000L);
 
         float c = 0f;
-        int d = 0;
+        float d = 0;
         for(Statistic s : this.stats){
             if(s.getTime() > lt2) break;
             if(s.getTime() >= lt1) {

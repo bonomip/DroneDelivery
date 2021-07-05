@@ -75,10 +75,14 @@ public class AdminClient {
                         Statistics stat_list = getLastStats(client, n);
                         System.out.println("TIME\t\t\t\t\tDELIVERIES\tMETRES\tPM10\tBATTERY");
                         for(Statistic s : stat_list.getList()){
+                            StringBuilder metres = new StringBuilder(Long.toString(s.getMetres()));
+                            while(metres.length() < 4)
+                                metres.append(" ");
+
                             System.out.println(
                                     DataFormatter.out(s.getTime())+"\t"+
                                     String.format("%.02f", s.getDeliveries())+"\t\t"+
-                                    s.getMetres()+"\t"+
+                                    metres.toString()+"\t"+
                                     String.format("%.02f", s.getPm10() )+"\t"+
                                     String.format("%.02f", s.getBattery())
                             );
@@ -91,9 +95,9 @@ public class AdminClient {
                     if(tokens.length == 3 && isIntervalInt(tokens[1], tokens[2])) {
                         int t1 = Integer.parseInt(tokens[1]);
                         int t2 = Integer.parseInt(tokens[2]);
-                        String r = getAvgDeliveries(client, t1, t2);
+                        float r = Float.parseFloat(getAvgDeliveries(client, t1, t2));
                         System.out.println("------- AVG DELIVERIES -------");
-                        System.out.println("\tBetween minutes "+t1+" and "+t2+" ==> "+r);
+                        System.out.println("\tBetween minutes "+t1+" and "+t2+" ==> "+String.format("%.02f", r));
                     } else {
                         System.out.println(" Bad format! Usage << del [INTEGER] [INTEGER]>>");
                     }
@@ -102,9 +106,9 @@ public class AdminClient {
                     if(tokens.length == 3 && isIntervalInt(tokens[1], tokens[2])) {
                         int t1 = Integer.parseInt(tokens[1]);
                         int t2 = Integer.parseInt(tokens[2]);
-                        String r = getAvgKm(client, t1, t2);
+                        float r = Float.parseFloat(getAvgKm(client, t1, t2));
                         System.out.println("------- AVG KILOMETRES -------");
-                        System.out.println("\tBetween minutes "+t1+" and "+t2+" ==> "+r);
+                        System.out.println("\tBetween minutes "+t1+" and "+t2+" ==> "+String.format("%.02f", r));
                     } else {
                         System.out.println(" Bad format! Usage << km [INTEGER] [INTEGER]>>");
                     }

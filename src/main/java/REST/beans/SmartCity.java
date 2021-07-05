@@ -14,8 +14,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SmartCity {
 
-    private Drones drones;
-    private Statistics stats;
+    private final Drones drones;
+    private final Statistics stats;
 
     private static SmartCity instance;
 
