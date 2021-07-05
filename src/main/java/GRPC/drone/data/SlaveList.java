@@ -20,6 +20,10 @@ public class SlaveList {
         list = new ArrayList<>();
     }
 
+    public SlaveList(List<Slave> list){
+        this.list = new ArrayList<>(list);
+    }
+
     public synchronized void add(Slave s){
         this.list.add(s);
     }
@@ -30,11 +34,6 @@ public class SlaveList {
                 return s;
         }
         return null;
-    }
-
-    public synchronized void populateFromShout(ElectionService.ElectionRequest request){
-        //todo
-        if(request == null) return;
     }
 
     public synchronized int size(){

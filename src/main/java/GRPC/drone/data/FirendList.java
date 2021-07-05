@@ -120,7 +120,7 @@ public class FirendList implements  Iterable<Drone> {
         return this.elements.toString();
     }
 
-    public synchronized boolean containsId(int id) {//todo can be optimized with divide et impera
+    public synchronized boolean containsId(int id) {
         for(Drone d : this.elements)
             if(d.getId() == id)
                 return true;

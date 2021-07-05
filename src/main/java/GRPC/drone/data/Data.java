@@ -40,7 +40,9 @@ public class Data {
     }
 
     public synchronized int getRelativeBattery(){
-        //todo if on delivery return this.battery -10
+        //i'm never on delivery becaouse the master
+        //will wait for all deliveries to end before quitting
+        //so the election will start when all the drone are idling
         return this.battery;
     }
 

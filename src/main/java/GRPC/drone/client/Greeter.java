@@ -77,9 +77,7 @@ public class Greeter {
         }
 
         if(Peer.DATA.getMaster() == null){
-            //todo
-            //if after greetings i dont have a master
-            //start an election
+            //todo if after greetings i dont have a master start an election
         }
     }
 

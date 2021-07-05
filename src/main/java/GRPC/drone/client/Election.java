@@ -1,6 +1,7 @@
 package GRPC.drone.client;
 
 import GRPC.drone.Peer;
+import GRPC.drone.data.Slave;
 import GRPC.drone.server.ElectionImpl;
 import REST.beans.drone.Drone;
 import com.google.protobuf.Empty;
@@ -10,6 +11,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 public class Election {
@@ -30,22 +33,22 @@ public class Election {
         if(Peer.MY_FRIENDS.size() == 0)
             Peer.transitionToMasterDrone(null);
         else
-            forwardElection(ElectionImpl.getElectionRequest(id, battery, false));
+            forwardElection(ElectionImpl.getElectionRequest(id, battery));
 }
 
     public synchronized static void forwardElection(ElectionService.ElectionRequest request) throws InterruptedException {
         //todo if im going to forward to id 4 a election message with id 4 and the node 4 is offline
         //i restart the election
 
-        if(!request.getShout())
-            synchronized (ElectionImpl.FINISH) {
-                PARTICIPANT = true;
-            }
+        synchronized (ElectionImpl.FINISH) {
+            PARTICIPANT = !request.getShout();
+        }
 
         do {
 
             if (Peer.MY_FRIENDS.size() == 0 && !Peer.DATA.isMasterDrone()) {
-                Peer.transitionToMasterDrone(null);
+                Peer.transitionToMasterDrone(Collections.singletonList(
+                        new Slave(Peer.DATA.getMe(), Peer.DATA.getPosition(), Peer.DATA.getRelativeBattery())));
                 SUCCESSOR_ON = false;
                 synchronized (ElectionImpl.FINISH){
                     PARTICIPANT = false;
@@ -61,9 +64,11 @@ public class Election {
 
             ElectionGrpc.ElectionStub stub = ElectionGrpc.newStub(channel);
 
+            String debug = "";
             if(request.getShout())
-                System.out.println("IS A SHOUt");
-            System.out.println("[ELECTION] [SEND] " + request.getId() + " to " + friend.getId());
+                debug = " [SHOUT] ";
+
+            System.out.println("[ELECTION]"+debug+"[SEND] " + request.getId() + " to " + friend.getId());
 
             stub.election(request, new StreamObserver<Empty>() {
                 @Override
