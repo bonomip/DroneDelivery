@@ -1,115 +1,18 @@
-REST/beans/statistic/Statistic.java
- REST.beans.statistic.Statistic
-GRPC/drone/data/stat/DeliveryStat.java
- GRPC.drone.data.stat.DeliveryStat
 REST/beans/drone/Drones.java
  REST.beans.drone.Drones
-GRPC/drone/data/FirendList.java
- GRPC.drone.data.FirendList
- GRPC.drone.data.FirendList$1
-REST/DroneClient.java
- REST.DroneClient
-REST/beans/statistic/Statistics.java
- REST.beans.statistic.Statistics
-SENSOR/PM10Simulator.java
- SENSOR.PM10Simulator
-GRPC/drone/server/GreeterImpl.java
- GRPC.drone.server.GreeterImpl
-REST/utils/Uri.java
- REST.utils.Uri
- REST.utils.Uri$AdminServer
- REST.utils.Uri$AdminServer$DroneService
- REST.utils.Uri$AdminServer$InfoService
-GRPC/drone/client/HeartBeat.java
- GRPC.drone.client.HeartBeat
- GRPC.drone.client.HeartBeat$1
-MQTT/test/Sub.java
- MQTT.test.Sub
- MQTT.test.Sub$1
-SENSOR/Buffer.java
- SENSOR.Buffer
-REST/services/MGMTDrones.java
- REST.services.MGMTDrones
-SENSOR/Simulator.java
- SENSOR.Simulator
-GRPC/drone/threads/TBMaster.java
- GRPC.drone.threads.TBMaster
-GRPC/test/MultipleDrones.java
- GRPC.test.MultipleDrones
-GRPC/drone/data/Slave.java
- GRPC.drone.data.Slave
-REST/beans/SmartCity.java
- REST.beans.SmartCity
-REST/utils/DataFormatter.java
- REST.utils.DataFormatter
-GRPC/drone/threads/TInput.java
- GRPC.drone.threads.TInput
-drone/grpc/deliveryservice/DeliverGrpc.java
- drone.grpc.deliveryservice.DeliverGrpc
- drone.grpc.deliveryservice.DeliverGrpc$1
- drone.grpc.deliveryservice.DeliverGrpc$DeliverBaseDescriptorSupplier
- drone.grpc.deliveryservice.DeliverGrpc$DeliverBlockingStub
- drone.grpc.deliveryservice.DeliverGrpc$DeliverFileDescriptorSupplier
- drone.grpc.deliveryservice.DeliverGrpc$DeliverFutureStub
- drone.grpc.deliveryservice.DeliverGrpc$DeliverImplBase
- drone.grpc.deliveryservice.DeliverGrpc$DeliverMethodDescriptorSupplier
- drone.grpc.deliveryservice.DeliverGrpc$DeliverStub
- drone.grpc.deliveryservice.DeliverGrpc$MethodHandlers
-GRPC/drone/data/SlaveList.java
- GRPC.drone.data.SlaveList
-drone/grpc/heartbeatservice/HeartBeatGrpc.java
- drone.grpc.heartbeatservice.HeartBeatGrpc
- drone.grpc.heartbeatservice.HeartBeatGrpc$1
- drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatBaseDescriptorSupplier
- drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatBlockingStub
- drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatFileDescriptorSupplier
- drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatFutureStub
- drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatImplBase
- drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatMethodDescriptorSupplier
- drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatStub
- drone.grpc.heartbeatservice.HeartBeatGrpc$MethodHandlers
-REST/beans/response/AddDroneResponse.java
- REST.beans.response.AddDroneResponse
-GRPC/drone/client/Deliver.java
- GRPC.drone.client.Deliver
- GRPC.drone.client.Deliver$1
-drone/grpc/heartbeatservice/HeartBeatService.java
- drone.grpc.heartbeatservice.HeartBeatService
- drone.grpc.heartbeatservice.HeartBeatService$1
- drone.grpc.heartbeatservice.HeartBeatService$HeartRequest
- drone.grpc.heartbeatservice.HeartBeatService$HeartRequest$1
- drone.grpc.heartbeatservice.HeartBeatService$HeartRequest$Builder
- drone.grpc.heartbeatservice.HeartBeatService$HeartRequestOrBuilder
- drone.grpc.heartbeatservice.HeartBeatService$HeartResponse
- drone.grpc.heartbeatservice.HeartBeatService$HeartResponse$1
- drone.grpc.heartbeatservice.HeartBeatService$HeartResponse$Builder
- drone.grpc.heartbeatservice.HeartBeatService$HeartResponseOrBuilder
-SENSOR/PM10Buffer.java
- SENSOR.PM10Buffer
-GRPC/drone/client/Greeter.java
- GRPC.drone.client.Greeter
- GRPC.drone.client.Greeter$1
-REST/beans/drone/Drone.java
- REST.beans.drone.Drone
-REST/services/MGMTInfo.java
- REST.services.MGMTInfo
-drone/grpc/greeterservice/GreeterGrpc.java
- drone.grpc.greeterservice.GreeterGrpc
- drone.grpc.greeterservice.GreeterGrpc$1
- drone.grpc.greeterservice.GreeterGrpc$GreeterBaseDescriptorSupplier
- drone.grpc.greeterservice.GreeterGrpc$GreeterBlockingStub
- drone.grpc.greeterservice.GreeterGrpc$GreeterFileDescriptorSupplier
- drone.grpc.greeterservice.GreeterGrpc$GreeterFutureStub
- drone.grpc.greeterservice.GreeterGrpc$GreeterImplBase
- drone.grpc.greeterservice.GreeterGrpc$GreeterMethodDescriptorSupplier
- drone.grpc.greeterservice.GreeterGrpc$GreeterStub
- drone.grpc.greeterservice.GreeterGrpc$MethodHandlers
-GRPC/drone/server/HeartBeatImpl.java
- GRPC.drone.server.HeartBeatImpl
-GRPC/drone/threads/Behaviour.java
- GRPC.drone.threads.Behaviour
-REST/test/ClientTest.java
- REST.test.ClientTest
+drone/grpc/electionservice/ElectionService.java
+ drone.grpc.electionservice.ElectionService
+ drone.grpc.electionservice.ElectionService$1
+ drone.grpc.electionservice.ElectionService$ElectionRequest
+ drone.grpc.electionservice.ElectionService$ElectionRequest$1
+ drone.grpc.electionservice.ElectionService$ElectionRequest$Builder
+ drone.grpc.electionservice.ElectionService$ElectionRequestOrBuilder
+ drone.grpc.electionservice.ElectionService$SlaveInfo
+ drone.grpc.electionservice.ElectionService$SlaveInfo$1
+ drone.grpc.electionservice.ElectionService$SlaveInfo$Builder
+ drone.grpc.electionservice.ElectionService$SlaveInfoOrBuilder
+SENSOR/Measurement.java
+ SENSOR.Measurement
 drone/grpc/deliveryservice/DeliveryService.java
  drone.grpc.deliveryservice.DeliveryService
  drone.grpc.deliveryservice.DeliveryService$1
@@ -125,6 +28,73 @@ drone/grpc/deliveryservice/DeliveryService.java
  drone.grpc.deliveryservice.DeliveryService$Pm10$1
  drone.grpc.deliveryservice.DeliveryService$Pm10$Builder
  drone.grpc.deliveryservice.DeliveryService$Pm10OrBuilder
+MQTT/test/Sub.java
+ MQTT.test.Sub
+ MQTT.test.Sub$1
+REST/AdminClient.java
+ REST.AdminClient
+GRPC/drone/data/Data.java
+ GRPC.drone.data.Data
+drone/grpc/greeterservice/GreeterGrpc.java
+ drone.grpc.greeterservice.GreeterGrpc
+ drone.grpc.greeterservice.GreeterGrpc$1
+ drone.grpc.greeterservice.GreeterGrpc$GreeterBaseDescriptorSupplier
+ drone.grpc.greeterservice.GreeterGrpc$GreeterBlockingStub
+ drone.grpc.greeterservice.GreeterGrpc$GreeterFileDescriptorSupplier
+ drone.grpc.greeterservice.GreeterGrpc$GreeterFutureStub
+ drone.grpc.greeterservice.GreeterGrpc$GreeterImplBase
+ drone.grpc.greeterservice.GreeterGrpc$GreeterMethodDescriptorSupplier
+ drone.grpc.greeterservice.GreeterGrpc$GreeterStub
+ drone.grpc.greeterservice.GreeterGrpc$MethodHandlers
+GRPC/test/MultipleDrones.java
+ GRPC.test.MultipleDrones
+REST/utils/DataFormatter.java
+ REST.utils.DataFormatter
+REST/beans/SmartCity.java
+ REST.beans.SmartCity
+drone/grpc/deliveryservice/DeliverGrpc.java
+ drone.grpc.deliveryservice.DeliverGrpc
+ drone.grpc.deliveryservice.DeliverGrpc$1
+ drone.grpc.deliveryservice.DeliverGrpc$DeliverBaseDescriptorSupplier
+ drone.grpc.deliveryservice.DeliverGrpc$DeliverBlockingStub
+ drone.grpc.deliveryservice.DeliverGrpc$DeliverFileDescriptorSupplier
+ drone.grpc.deliveryservice.DeliverGrpc$DeliverFutureStub
+ drone.grpc.deliveryservice.DeliverGrpc$DeliverImplBase
+ drone.grpc.deliveryservice.DeliverGrpc$DeliverMethodDescriptorSupplier
+ drone.grpc.deliveryservice.DeliverGrpc$DeliverStub
+ drone.grpc.deliveryservice.DeliverGrpc$MethodHandlers
+drone/grpc/heartbeatservice/HeartBeatGrpc.java
+ drone.grpc.heartbeatservice.HeartBeatGrpc
+ drone.grpc.heartbeatservice.HeartBeatGrpc$1
+ drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatBaseDescriptorSupplier
+ drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatBlockingStub
+ drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatFileDescriptorSupplier
+ drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatFutureStub
+ drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatImplBase
+ drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatMethodDescriptorSupplier
+ drone.grpc.heartbeatservice.HeartBeatGrpc$HeartBeatStub
+ drone.grpc.heartbeatservice.HeartBeatGrpc$MethodHandlers
+drone/grpc/heartbeatservice/HeartBeatService.java
+ drone.grpc.heartbeatservice.HeartBeatService
+SENSOR/PM10Buffer.java
+ SENSOR.PM10Buffer
+REST/services/MGMTInfo.java
+ REST.services.MGMTInfo
+GRPC/drone/server/HeartBeatImpl.java
+ GRPC.drone.server.HeartBeatImpl
+REST/utils/RESTRequest.java
+ REST.utils.RESTRequest
+drone/grpc/electionservice/ElectionGrpc.java
+ drone.grpc.electionservice.ElectionGrpc
+ drone.grpc.electionservice.ElectionGrpc$1
+ drone.grpc.electionservice.ElectionGrpc$ElectionBaseDescriptorSupplier
+ drone.grpc.electionservice.ElectionGrpc$ElectionBlockingStub
+ drone.grpc.electionservice.ElectionGrpc$ElectionFileDescriptorSupplier
+ drone.grpc.electionservice.ElectionGrpc$ElectionFutureStub
+ drone.grpc.electionservice.ElectionGrpc$ElectionImplBase
+ drone.grpc.electionservice.ElectionGrpc$ElectionMethodDescriptorSupplier
+ drone.grpc.electionservice.ElectionGrpc$ElectionStub
+ drone.grpc.electionservice.ElectionGrpc$MethodHandlers
 drone/grpc/greeterservice/GreetService.java
  drone.grpc.greeterservice.GreetService
  drone.grpc.greeterservice.GreetService$1
@@ -136,24 +106,77 @@ drone/grpc/greeterservice/GreetService.java
  drone.grpc.greeterservice.GreetService$HelloResponse$1
  drone.grpc.greeterservice.GreetService$HelloResponse$Builder
  drone.grpc.greeterservice.GreetService$HelloResponseOrBuilder
-REST/AdminServer.java
- REST.AdminServer
-MQTT/message/Delivery.java
- MQTT.message.Delivery
-SENSOR/Measurement.java
- SENSOR.Measurement
 MQTT/Dronazon.java
  MQTT.Dronazon
-MQTT/DeliverySubscriber.java
- MQTT.DeliverySubscriber
- MQTT.DeliverySubscriber$1
-GRPC/drone/server/DeliveryImpl.java
- GRPC.drone.server.DeliveryImpl
-REST/AdminClient.java
- REST.AdminClient
-REST/utils/RESTRequest.java
- REST.utils.RESTRequest
+REST/test/ClientTest.java
+ REST.test.ClientTest
+REST/services/MGMTDrones.java
+ REST.services.MGMTDrones
+REST/AdminServer.java
+ REST.AdminServer
+GRPC/drone/data/stat/DeliveryStat.java
+ GRPC.drone.data.stat.DeliveryStat
+REST/beans/statistic/Statistic.java
+ REST.beans.statistic.Statistic
+REST/beans/response/AddDroneResponse.java
+ REST.beans.response.AddDroneResponse
+REST/beans/statistic/Statistics.java
+ REST.beans.statistic.Statistics
+SENSOR/PM10Simulator.java
+ SENSOR.PM10Simulator
+GRPC/drone/test/TestSynchAwait.java
+ GRPC.drone.test.TestSynchAwait
+ GRPC.drone.test.TestSynchAwait$1
+MQTT/message/Delivery.java
+ MQTT.message.Delivery
+REST/utils/Uri.java
+ REST.utils.Uri
+ REST.utils.Uri$AdminServer
+ REST.utils.Uri$AdminServer$DroneService
+ REST.utils.Uri$AdminServer$InfoService
+REST/DroneClient.java
+ REST.DroneClient
+SENSOR/Buffer.java
+ SENSOR.Buffer
+SENSOR/Simulator.java
+ SENSOR.Simulator
+REST/beans/drone/Drone.java
+ REST.beans.drone.Drone
+GRPC/drone/data/Slave.java
+ GRPC.drone.data.Slave
+GRPC/drone/client/Greeter.java
+ GRPC.drone.client.Greeter
+ GRPC.drone.client.Greeter$1
+GRPC/drone/data/FirendList.java
+ GRPC.drone.data.FirendList
+ GRPC.drone.data.FirendList$1
 GRPC/drone/Peer.java
  GRPC.drone.Peer
+GRPC/drone/server/GreeterImpl.java
+ GRPC.drone.server.GreeterImpl
+GRPC/drone/threads/Behaviour.java
+ GRPC.drone.threads.Behaviour
+GRPC/drone/client/HeartBeat.java
+ GRPC.drone.client.HeartBeat
+ GRPC.drone.client.HeartBeat$1
+MQTT/subscriber/DeliverySubscriber.java
+ MQTT.subscriber.DeliverySubscriber
+ MQTT.subscriber.DeliverySubscriber$1
+GRPC/drone/threads/TBMaster.java
+ GRPC.drone.threads.TBMaster
+GRPC/drone/server/ElectionImpl.java
+ GRPC.drone.server.ElectionImpl
+GRPC/drone/client/Election.java
+ GRPC.drone.client.Election
+ GRPC.drone.client.Election$1
+GRPC/drone/server/DeliveryImpl.java
+ GRPC.drone.server.DeliveryImpl
+GRPC/drone/threads/TInput.java
+ GRPC.drone.threads.TInput
 GRPC/drone/threads/TBSlave.java
  GRPC.drone.threads.TBSlave
+GRPC/drone/data/SlaveList.java
+ GRPC.drone.data.SlaveList
+GRPC/drone/client/Deliver.java
+ GRPC.drone.client.Deliver
+ GRPC.drone.client.Deliver$1

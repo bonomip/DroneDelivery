@@ -2,29 +2,50 @@ package GRPC.drone.threads;
 
 import GRPC.drone.Peer;
 import GRPC.drone.client.Deliver;
+import GRPC.drone.client.Election;
 import GRPC.drone.client.Greeter;
 import GRPC.drone.client.HeartBeat;
 import GRPC.drone.server.DeliveryImpl;
+import GRPC.drone.server.ElectionImpl;
 import REST.beans.drone.Drone;
 
-public class TBSlave extends Behaviour {
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+public class TBSlave extends Behaviour {
     @Override
     public void run() {
 
-        while(!this.exit){
+        Runnable showInfo = () -> Peer.BTHREAD.printStatus();
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(showInfo, 10, 10, TimeUnit.SECONDS);
 
+
+        while(!this.exit){
             try {
-                HeartBeat.beat(Peer.MASTER.getIp(), Peer.MASTER.getPort());
+                synchronized (Election.FINISH){
+                    while(Election.PARTICIPANT) {
+                        System.out.println("WAIT TO ELECTION TO FINISH");
+                        Election.FINISH.wait();
+                        System.out.println("[ELECTION] FINISH ");
+                    }
+                }
+
+                if(Peer.DATA.getMaster() != null || !Peer.DATA.isMasterDrone())
+                        HeartBeat.beat(Peer.DATA.getMaster().getIp(), Peer.DATA.getMaster().getPort());
             } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
+        executor.shutdown();
 
         synchronized (DeliveryImpl.DELIVERY_LOCK){
             while(DeliveryImpl.DELIVERING) {
@@ -36,13 +57,16 @@ public class TBSlave extends Behaviour {
                 }
             }
         }
+
+        System.out.println("[SLAVE THREAD FINISHED]");
     }
 
     @Override
     public void printStatus(){
-        System.out.println("---- I'M A SLAVE "+ Peer.ME.getId());
+        System.out.println("\n------------------------");
+        System.out.println("---- I'M A SLAVE "+ Peer.DATA.getMe().getId());
         System.out.println("-------- MY MASTER IS:");
-        System.out.println(Peer.MASTER.toString());
+        System.out.println(Peer.DATA.getMaster().toString());
         super.printStatus();
     }
 }

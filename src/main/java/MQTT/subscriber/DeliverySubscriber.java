@@ -1,4 +1,4 @@
-package MQTT;
+package MQTT.subscriber;
 
 import GRPC.drone.threads.TBMaster;
 import MQTT.message.Delivery;

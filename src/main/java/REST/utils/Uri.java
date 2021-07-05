@@ -52,7 +52,6 @@ public class Uri {
 
         }
 
-        //todo shortcut for each method for services
     }
 
 

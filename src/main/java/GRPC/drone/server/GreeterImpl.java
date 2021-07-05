@@ -9,23 +9,30 @@ import io.grpc.stub.StreamObserver;
 
 public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
 
+    public static final Object LOCK = new Object();
+
     @Override
     public void greeting(GreetService.HelloRequest request, StreamObserver<GreetService.HelloResponse> responseObserver) {
 
-        GreetService.HelloResponse response = createHelloResponse(Peer.ME, Peer.MASTER);
+        GreetService.HelloResponse response;
+
+        if(Peer.DATA.getMaster() == null){
+            response = createHelloResponse(Peer.DATA.getMe());
+        } else {
+            response = createHelloResponse(Peer.DATA.getMe(), Peer.DATA.getMaster());
+        }
 
         Drone drone = getDroneFromHelloRequest(request);
 
         Peer.MY_FRIENDS.add(drone);
 
-        if(Peer.isMaster())
-        {
-            if(Peer.MY_SLAVES.isIdInList(drone.getId()))
-                System.out.println("Trying to add drone id "+drone.getId()+" \n\t" +
-                        "but drone is already listed as slave");
-            else
-                Peer.MY_SLAVES.add(new Slave(drone, getPostionFromHelloRequest(request), 100));
-        }
+            if (Peer.DATA.isMasterDrone()) {
+                if (Peer.MY_SLAVES.isIdInList(drone.getId()))
+                    System.out.println("Trying to add drone id " + drone.getId() + " \n\t" +
+                            "but drone is already listed as slave");
+                else
+                    Peer.MY_SLAVES.add(new Slave(drone, getPostionFromHelloRequest(request), 100));
+            }
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -59,6 +66,12 @@ public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
                 .setMasterId(master.getId())
                 .setMasterIp(master.getIp())
                 .setMasterPort(master.getPort())
+                .build();
+    }
+
+    private static GreetService.HelloResponse createHelloResponse(Drone me){
+        return GreetService.HelloResponse.newBuilder()
+                .setId(me.getId())
                 .build();
     }
 }

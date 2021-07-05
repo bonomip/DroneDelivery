@@ -5,6 +5,7 @@ import GRPC.drone.client.Deliver;
 import GRPC.drone.data.stat.DeliveryStat;
 import REST.beans.statistic.Statistic;
 import SENSOR.Measurement;
+import drone.grpc.electionservice.ElectionService;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -21,6 +22,10 @@ public class SlaveList {
 
     public synchronized void add(Slave s){
         this.list.add(s);
+    }
+
+    public synchronized void addAll(List<Slave> list){
+        this.list.addAll(list);
     }
 
     public synchronized Slave getDroneWithId(int id) {

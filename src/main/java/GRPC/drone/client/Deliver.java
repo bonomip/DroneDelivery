@@ -3,7 +3,7 @@ package GRPC.drone.client;
 import GRPC.drone.Peer;
 import GRPC.drone.data.Slave;
 import GRPC.drone.server.DeliveryImpl;
-import MQTT.DeliverySubscriber;
+import MQTT.subscriber.DeliverySubscriber;
 import MQTT.message.Delivery;
 import drone.grpc.deliveryservice.DeliverGrpc;
 import drone.grpc.deliveryservice.DeliveryService;
@@ -15,6 +15,7 @@ import java.util.*;
 
 public class Deliver { /// MASTER DRONE
 
+    public static final Object LOCK = new Object();
     public static int ON_GOING_DELIVERY = 0;
     public static final Object DELIVERY_COUNTER_LOCK = new Object();
 
@@ -25,13 +26,12 @@ public class Deliver { /// MASTER DRONE
         slave.onDeliveryTerminated(value);
     }
 
-    private static void onError(Slave slave, Delivery delivery){
+    private static void onError(ManagedChannel channel, Slave slave, Delivery delivery){
         System.out.println("\t[ DELIVERY ] "+delivery.getId()+" [ ERROR ] by "+ slave.getId());
-        slave.setDelivering(false);
 
         Peer.MY_SLAVES.removeIdFromList(slave.getId());
 
-        if(slave.getId() != Peer.ME.getId())
+        if(slave.getId() != Peer.DATA.getMe().getId())
             Peer.MY_FRIENDS.removeWithId(slave.getId());
 
         delivery.setOnProcessing(false);
@@ -40,6 +40,12 @@ public class Deliver { /// MASTER DRONE
             ON_GOING_DELIVERY--;
             DELIVERY_COUNTER_LOCK.notify();
         }
+
+        synchronized (LOCK){
+            LOCK.notify();
+        }
+
+        channel.shutdown();
     }
 
     private static void onCompleted(Slave slave, ManagedChannel channel, int del_id){
@@ -51,6 +57,10 @@ public class Deliver { /// MASTER DRONE
             ON_GOING_DELIVERY--;
             DELIVERY_COUNTER_LOCK.notify();
         }
+
+        synchronized (LOCK){
+            LOCK.notify();
+        }
     }
 
 
@@ -59,11 +69,6 @@ public class Deliver { /// MASTER DRONE
                 .createDeliveryRequest(delivery.getId(), delivery.getOrigin(), delivery.getDestination());
 
         System.out.println( "\t[ DELIVERY ] "+delivery.getId()+" [ ASSIGNED ] to "+courier.getId());
-
-        //todo if courier.dorne.getId() == Peer.ME.getId()
-        // create a thread that simulate the delivery
-        // without sending messages and creating channel
-
 
         final ManagedChannel channel = ManagedChannelBuilder
                 .forTarget(courier.getIp() + ":" + courier.getPort())
@@ -84,7 +89,7 @@ public class Deliver { /// MASTER DRONE
 
             @Override
             public void onError(Throwable t) {
-                Deliver.onError(courier, delivery);
+                Deliver.onError(channel, courier, delivery);
             }
 
             @Override
@@ -125,30 +130,21 @@ public class Deliver { /// MASTER DRONE
         return Peer.MY_SLAVES.getDroneWithId(courier_ids.get(0));
     }
 
-    public synchronized static void assignDelivery(DeliverySubscriber ds, Delivery delivery){
-            Slave courier = findCourier(delivery.getOrigin());
+    public synchronized static void assignDelivery(DeliverySubscriber ds, Delivery delivery) {
+        Slave courier = findCourier(delivery.getOrigin());
+        delivery.setOnProcessing(true);
 
-            if(courier == null) {
-                //todo if no courier are available
-                // wait for a slave to finish a delivery
-                    // can be done using a boolean, when no courier are found set b = false;
-                    // when a courier finish the delivery set b = true;
-                // wait for my_slave.size() > 0
-                    // this is bettere because takes in consideration when no slaves are in list
-                    // best approach would be to use the two tech togheter
-                System.out.println("[ INFO ] no courier found @ "+delivery.getId());
-                delivery.setOnProcessing(false);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                courier.setDelivering(true);
-                sendDeliveryRequestTo(ds, courier, delivery);
+        if(courier == null){
+            System.out.println("[ INFO ] no courier available yet @ " + delivery.getId());
+            delivery.setOnProcessing(false);
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
+        } else {
+            courier.setDelivering(true);
+            sendDeliveryRequestTo(ds, courier, delivery);
+        }
     }
-
-
 }

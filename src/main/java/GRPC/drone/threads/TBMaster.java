@@ -1,11 +1,9 @@
 package GRPC.drone.threads;
 
 import GRPC.drone.Peer;
-import GRPC.drone.data.Slave;
 import GRPC.drone.client.Deliver;
-import MQTT.DeliverySubscriber;
+import MQTT.subscriber.DeliverySubscriber;
 import MQTT.message.Delivery;
-import REST.beans.drone.Drone;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.util.concurrent.Executors;
@@ -18,7 +16,6 @@ public class TBMaster extends Behaviour {
 
     DeliverySubscriber deliverySubscriber;
 
-    //remember : if im master im also encarged with slaves duties
     public TBMaster(){
         this.deliverySubscriber = new DeliverySubscriber();
     }
@@ -34,11 +31,14 @@ public class TBMaster extends Behaviour {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(sendInfo, 5, 10, TimeUnit.SECONDS);
 
+        Runnable showInfo = this::printStatus;
+        ScheduledExecutorService executor2 = Executors.newScheduledThreadPool(1);
+        executor2.scheduleAtFixedRate(showInfo, 10, 10, TimeUnit.SECONDS);
+
         while(!this.exit) {
             if(this.areDeliveriesPending())
             {
                 Delivery delivery = this.deliverySubscriber.HeadDelivery();
-                delivery.setOnProcessing(true);
                 Deliver.assignDelivery(this.deliverySubscriber, delivery);
             } else
             {
@@ -76,11 +76,15 @@ public class TBMaster extends Behaviour {
                 }
             }
         }
+
+        executor.shutdown();
+        executor2.shutdown();
     }
 
     @Override
     public void printStatus() {
-        System.out.println("---- I'M THE MASTER "+Peer.ME.getId());
+        System.out.println("\n------------------------");
+        System.out.println("---- I'M THE MASTER "+Peer.DATA.getMe().getId());
         System.out.println("-------- MY SLAVES ARE:");
         Peer.MY_SLAVES.print();
         super.printStatus();

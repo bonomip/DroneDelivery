@@ -1,13 +1,6 @@
 package drone.grpc.heartbeatservice;
+import "google/protobuf/empty.proto";
 
 service HeartBeat {
-  rpc pulse(HeartRequest) returns (stream HeartResponse) {}
-}
-
-message HeartRequest {
-  required int32 id = 1;
-}
-
-message HeartResponse {
-  required int32 id = 1;
+  rpc pulse(google.protobuf.Empty) returns (google.protobuf.Empty) {}
 }

@@ -28,8 +28,12 @@ public class DeliveryImpl extends DeliverGrpc.DeliverImplBase {
         int[] origin = new int[] {request.getXOrigin(), request.getYOrigin()};
         int[] destination = new int[] {request.getXDestination(), request.getYDestination()};
 
+        System.out.println("\t\t\t[ DELIVERY ] "+request.getId()+" [ RECEIVED ]");
+
         responseObserver.onNext(Peer.executeDelivery(request.getId(), origin, destination));
         responseObserver.onCompleted();
+
+        System.out.println("\t\t\t[ DELIVERY ] "+request.getId()+" [ DONE ]");
 
         synchronized (DELIVERY_LOCK) {
             DELIVERING = false;

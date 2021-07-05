@@ -1,0 +1,20 @@
+package drone.grpc.electionservice;
+import "google/protobuf/empty.proto";
+
+service Election{
+  rpc Election(ElectionRequest) returns (google.protobuf.Empty){}
+}
+
+message SlaveInfo {
+  required int32 id = 1;
+  required int32 position_x = 2;
+  required int32 position_y = 3;
+  required int32 battery = 4;
+}
+
+message ElectionRequest{
+  required int32 battery = 1;
+  required int32 id = 2;
+  required bool shout = 3;
+  repeated SlaveInfo slaves = 4;
+}

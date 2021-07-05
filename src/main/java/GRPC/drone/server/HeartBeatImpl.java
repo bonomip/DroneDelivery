@@ -9,7 +9,6 @@ import io.grpc.stub.StreamObserver;
 public class HeartBeatImpl extends HeartBeatGrpc.HeartBeatImplBase {
 
     //MASTER DRONE
-
     @Override
     public void pulse(Empty request, StreamObserver<Empty> responseObserver) {
         responseObserver.onNext(null);
