@@ -131,24 +131,20 @@ public class Deliver { /// MASTER DRONE
     }
 
     public synchronized static void assignDelivery(DeliverySubscriber ds, Delivery delivery) {
+        Slave courier = findCourier(delivery.getOrigin());
+        delivery.setOnProcessing(true);
 
-        Slave courier;
-
-        synchronized (LOCK) {
-            courier = findCourier(delivery.getOrigin());
-            while (courier == null) {
-                System.out.println("[ INFO ] no courier found @ " + delivery.getId());
-                try {
-                    LOCK.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("[ INFO ] notified of a delivery end");
-                courier = findCourier(delivery.getOrigin());
+        if(courier == null){
+            System.out.println("[ INFO ] no courier available yet @ " + delivery.getId());
+            delivery.setOnProcessing(false);
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+        } else {
+            courier.setDelivering(true);
+            sendDeliveryRequestTo(ds, courier, delivery);
         }
-
-        courier.setDelivering(true);
-        sendDeliveryRequestTo(ds, courier, delivery);
     }
 }

@@ -15,22 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 public class HeartBeat {
 
-    private static void onError(Throwable t){
-        if(Election.PARTICIPANT) {
-            System.out.println("[ ELECTION ] [ ALREADY STARTED ]");
-            return;
-        }
-
-        System.out.println("MASTER IS DOWN");
-        System.out.println("[ ELECTION ] [ START ]");
-
-        Peer.DATA.setMasterDrone(null);
-
-        try {
-            Election.startElection(Peer.DATA.getRelativeBattery(), Peer.DATA.getMe().getId());
-        }catch (InterruptedException e) { e.printStackTrace();}
-    }
-
     public static void beat(String master_ip, int master_port) throws InterruptedException {
 
         System.out.println("[HEARTBEAT] to " + Peer.DATA.getMaster().getId() );
@@ -46,7 +30,8 @@ public class HeartBeat {
 
             @Override
             public void onError(Throwable t) {
-                HeartBeat.onError(t);
+                System.out.println("MASTER IS DOWN");
+                new Thread(Election::startElection).start();
                 channel.shutdown();
             }
 
@@ -56,7 +41,7 @@ public class HeartBeat {
             }
         });
 
-        channel.awaitTermination(2, TimeUnit.SECONDS);
+        channel.awaitTermination(10, TimeUnit.SECONDS);
     }
 
 }

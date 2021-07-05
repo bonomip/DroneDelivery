@@ -32,6 +32,10 @@ public class Slave {
         this.d_stats = new ArrayList<>();
     }
 
+    public Slave(Data data){
+        this(data.getMe(), data.getPosition(), data.getRelativeBattery());
+    }
+
     public synchronized boolean isDelivering(){
         return this.delivering;
     }

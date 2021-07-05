@@ -1,6 +1,7 @@
 package GRPC.drone;
 
 import GRPC.drone.client.Deliver;
+import GRPC.drone.client.Election;
 import GRPC.drone.data.*;
 import GRPC.drone.server.DeliveryImpl;
 import GRPC.drone.server.ElectionImpl;
@@ -100,7 +101,6 @@ public class Peer {
             System.out.println("\t\t[ QUIT ] send global stats to server");
             REST_CLIENT.sendInfo(MY_SLAVES.getGlobalStatistic());
         } else {
-
             System.out.println("\t\t[ QUIT ] block incoming grpc");
             GRPC_SERVER.shutdown();
 
@@ -164,14 +164,18 @@ public class Peer {
 
         Greeter.joinOverlayNetwork(MY_FRIENDS, DATA.getMe(), DATA.getPosition());
 
-        if(DATA.isMasterDrone()) {
-            BTHREAD = new TBMaster();
-            MY_SLAVES.add(new Slave(DATA.getMe(), DATA.getPosition(), DATA.getBattery()));
-        }
-        else
-            BTHREAD = new TBSlave();
+        if(Peer.DATA.getMaster() == null) //i have friends but no one knows whos the master
+            new Thread(Election::startElection);
+        else {
+            if(Peer.DATA.isMasterDrone()) {
+                Peer.BTHREAD = new TBMaster();
+                MY_SLAVES.add(new Slave(DATA.getMe(), DATA.getPosition(), DATA.getBattery()));
+            }
+            else
+                BTHREAD = new TBSlave();
 
-        BTHREAD.start();
+            BTHREAD.start();
+        }
 
         //thread for handle input from keyboard
         ITHREAD = new TInput();
@@ -187,12 +191,16 @@ public class Peer {
 
     public static void transitionToMasterDrone(List<Slave> list) {
         System.out.println("[ELECTION] I'M THE NEW MASTER");
+        Peer.DATA.setMasterDrone(Peer.DATA.getMe());
         Peer.MY_SLAVES.addAll(list);
-        BTHREAD.quit();
-        try {
-            BTHREAD.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+        if(BTHREAD != null) {
+            BTHREAD.quit();
+            try {
+                BTHREAD.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         BTHREAD = new TBMaster();
         BTHREAD.start();

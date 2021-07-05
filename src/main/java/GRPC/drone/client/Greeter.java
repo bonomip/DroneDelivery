@@ -73,11 +73,7 @@ public class Greeter {
         }
 
         for(ManagedChannel channel : channels){
-            channel.awaitTermination(2, TimeUnit.SECONDS);
-        }
-
-        if(Peer.DATA.getMaster() == null){
-            //todo if after greetings i dont have a master start an election
+            channel.awaitTermination(10, TimeUnit.SECONDS);
         }
     }
 
